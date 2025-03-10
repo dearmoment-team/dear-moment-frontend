@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 import defaultTheme from "tailwindcss/defaultTheme";
+import plugin from "tailwindcss/plugin";
 
 const config: Config = {
   content: [
@@ -11,7 +12,7 @@ const config: Config = {
     container: {
       center: true,
       screens: {
-        sm: "320px", // 모바일
+        sm: "360px", // 모바일
         // md: "768px", // 태블릿
         // lg: "1024px", // 작은 데스크탑
         // xl: "1280px", // 큰 데스크탑
@@ -142,6 +143,27 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(function ({ addUtilities }) {
+      addUtilities({
+        ".scrollbar-hide": {
+          /* IE and Edge */
+          "-ms-overflow-style": "none",
+          /* Firefox */
+          "scrollbar-width": "none",
+          /* Safari and Chrome */
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
+        },
+        ".scrollbar-show": {
+          "scrollbar-width": "thin",
+          "&::-webkit-scrollbar": {
+            display: "block",
+          },
+        },
+      });
+    }),
+  ],
 };
 export default config;
