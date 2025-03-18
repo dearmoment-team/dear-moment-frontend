@@ -17,9 +17,9 @@ const buttonVariants = cva(
           'border border-solid border-gray-70 text-gray-10 hover:border-gray-60 disabled:border-gray-80 disabled:text-gray-50',
       },
       size: {
-        sm: 'p-3 rounded-xs',
-        md: 'p-4 rounded-xs',
-        lg: 'p-5 rounded-sm',
+        sm: 'p-3 rounded-[0.2rem]',
+        md: 'p-4 rounded-[0.2rem]',
+        lg: 'p-5 rounded-[0.4rem]',
       },
       hasIcon: {
         true: 'gap-2',
