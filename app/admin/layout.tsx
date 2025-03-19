@@ -1,10 +1,7 @@
 import React from 'react';
+import { AdminLayoutProps } from './type';
 
-interface IAdminLayout {
-  children: React.ReactNode;
-}
-
-const AdminLayout = ({ children }: IAdminLayout) => {
+const AdminLayout = ({ children }: AdminLayoutProps) => {
   return <main className="w-screen h-screen flex flex-col justify-center items-center">{children}</main>;
 };
 
