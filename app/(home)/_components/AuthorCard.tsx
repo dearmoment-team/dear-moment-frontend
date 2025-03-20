@@ -1,12 +1,14 @@
 'use client';
 
 import { Icon_Calendar, Icon_Cancel_Circle_Filled, Icon_Heart, Icon_Heart_Filled } from '@/assets/icons';
-import { Badge } from '@/components/ui/badge';
+import { AuthorDetail } from '@/mock/authorData';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useAuthorCardController } from '../controllers/AuthorCardController';
 
-export default function AuthorCard({ isFirst = false }: { isFirst?: boolean }) {
+export default function AuthorCard({ author, isFirst = false }: { author: AuthorDetail; isFirst?: boolean }) {
+  const router = useRouter();
   const { isLiked, onClickHeart } = useAuthorCardController();
   const [showNotification, setShowNotification] = useState(false);
 
@@ -24,8 +26,14 @@ export default function AuthorCard({ isFirst = false }: { isFirst?: boolean }) {
     setShowNotification(false);
   };
 
+  // 하트 아이콘 클릭 시 이벤트 버블링 방지
+  const handleHeartClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onClickHeart();
+  };
+
   return (
-    <div className="w-full bg-white rounded-lg">
+    <div className="w-full bg-white rounded-lg cursor-pointer" onClick={() => router.push(`/authors/${author.id}`)}>
       {/* 사진 갤러리 레이아웃 */}
       <div className="flex gap-[0.2rem] h-[13.6rem] relative">
         <div className="text-label1Normal font-semibold text-common-0 bg-red-40 absolute top-0 left-0 z-10 px-[0.8rem] py-[0.55rem]">
@@ -43,25 +51,26 @@ export default function AuthorCard({ isFirst = false }: { isFirst?: boolean }) {
       </div>
 
       {/* 하단 텍스트 정보 */}
-      <div className="mt-4">
+      <div className="mt-[0.8rem]">
         <div className="flex justify-between gap-2">
           <div className="flex items-center gap-[1rem]">
             {/* 작가 프로필 이미지 */}
-            <div className="w-[2.4rem] h-[2.4rem] bg-gray-50 rounded-full" />
-            <h3 className="text-body2Normal font-semibold text-gray-90">글린트그라피</h3>
+            {/* <div className="w-[2.4rem] h-[2.4rem] bg-gray-50 rounded-full" /> */}
+            <h3 className="text-body2Normal font-semibold text-gray-90">{author.name}</h3>
           </div>
 
           {isLiked ? (
-            <Icon_Heart_Filled className="cursor-pointer" onClick={onClickHeart} />
+            <Icon_Heart_Filled className="cursor-pointer" onClick={handleHeartClick} />
           ) : (
-            <Icon_Heart className="cursor-pointer" onClick={onClickHeart} />
+            <Icon_Heart className="cursor-pointer" onClick={handleHeartClick} />
           )}
         </div>
         <div className="flex gap-[0.4rem] mt-[0.5rem]">
           <CategoryLabel label="우아한" />
           <CategoryLabel label="빈티지한" />
         </div>
-        <div className="mt-[0.5rem] flex gap-[0.7rem]">
+        <div className="mt-[0.6rem] flex gap-[0.7rem]">
+          <span className="text-body1Normal font-bold text-red-40">43%</span>
           <span className="text-body1Normal font-semibold text-gray-90">500,000원</span>
           <span className="text-body1Normal font-bold text-gray-90">~</span>
           <span className="text-body1Normal font-semibold text-gray-90">1,400,000원</span>
@@ -89,9 +98,9 @@ export default function AuthorCard({ isFirst = false }: { isFirst?: boolean }) {
 
 const CategoryLabel = ({ label }: { label: string }) => {
   return (
-    <Badge className="bg-red-20 rounded-[0.2rem] text-label2 font-semibold px-[0.8rem] py-[0.45rem] border-none">
+    <div className="bg-red-20 rounded-[0.2rem] text-label2 font-semibold px-[0.8rem] py-[0.45rem] border-none text-gray-80">
       {label}
-    </Badge>
+    </div>
   );
 };
 
