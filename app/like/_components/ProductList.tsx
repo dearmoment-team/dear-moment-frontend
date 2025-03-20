@@ -10,9 +10,6 @@ export default function ProductList() {
         <li>
           <ProductCard />
         </li>
-        <li>
-          <ProductCard />
-        </li>
       </ul>
     </div>
   );
