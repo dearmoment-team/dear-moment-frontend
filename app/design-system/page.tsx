@@ -9,7 +9,7 @@ export default function DesignSystemPage() {
         <div className="container flex h-14 items-center">
           <h1 className="text-lg font-semibold">디자인 시스템 테스트</h1>
         </div>
-        <p>Test Build</p>
+        <p>Test Build2</p>
       </header>
 
       {/* 메인 콘텐츠 */}
