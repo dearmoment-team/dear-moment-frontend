@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import Filtering from '../_components/Filtering';
-import Tab from '../_components/like/Tab';
-import AuthorList from '../_components/AuthorList';
-import ProductList from '../_components/like/ProductList';
+import Filtering from '@/(home)/_components/Filtering';
+import AuthorList from '@/(home)/_components/AuthorList';
+import Tab from '@/like/_components/Tab';
+import ProductList from '@/like/_components/ProductList';
 
 export default function LikePage() {
   const [isSelected, setIsSelected] = useState('product');
