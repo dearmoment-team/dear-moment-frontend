@@ -23,7 +23,9 @@ export const InquiryBottomSheet = ({ open, onOpenChange, isLiked, setIsLiked }: 
       <SheetContent
         onOpenAutoFocus={e => e.preventDefault()}
         side="bottom"
-        className="container h-[28.2rem] rounded-t-[2rem] border-none px-[2rem] bg-common-0"
+        className="container h-[28.2rem] rounded-t-[2rem] border-none px-[2rem] bg-common-0
+        data-[state=open]:animate-slideUp
+        data-[state=closed]:animate-slideDown"
       >
         <SheetHeader>
           <SheetTitle className="mt-[3.2rem] mb-[2rem] text-subtitle2 font-bold">
