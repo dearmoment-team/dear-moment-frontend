@@ -2,7 +2,7 @@
 
 import { Icon_Cancel } from '@/assets/icons';
 import { Appbar } from '@/components/Appbar';
-import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetOverlay, SheetTitle } from '@/components/ui/sheet';
 import { Dispatch, SetStateAction } from 'react';
 import { FilterType, FilterValue } from '../type';
 import { FilteringItems } from './FilteringItems';
@@ -24,7 +24,14 @@ export default function FilteringModal({
 }: FilteringModalProps) {
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent onOpenAutoFocus={e => e.preventDefault()} side="bottom" className="container h-full bg-common-0">
+      <SheetOverlay className="data-[state=open]:animate-fadeIn data-[state=closed]:animate-fadeOut" />
+      <SheetContent
+        onOpenAutoFocus={e => e.preventDefault()}
+        side="bottom"
+        className="container h-full bg-common-0
+        data-[state=open]:animate-scaleUp
+        data-[state=closed]:animate-scaleDown"
+      >
         <SheetTitle>
           <Appbar
             title="필터"

@@ -1,6 +1,6 @@
 import { Icon_Heart, Icon_Heart_Filled } from '@/assets/icons';
 import { Dropbox } from '@/components/molecule/Dropbox';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetOverlay, SheetTitle } from '@/components/ui/sheet';
 import { Dispatch, SetStateAction } from 'react';
 
 interface InquiryBottomSheetProps {
@@ -20,6 +20,7 @@ export const InquiryBottomSheet = ({ open, onOpenChange, isLiked, setIsLiked }: 
   ];
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetOverlay className="data-[state=open]:animate-fadeIn data-[state=closed]:animate-fadeOut" />
       <SheetContent
         onOpenAutoFocus={e => e.preventDefault()}
         side="bottom"

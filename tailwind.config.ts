@@ -150,10 +150,42 @@ const config: Config = {
           from: { transform: 'translateY(0)' },
           to: { transform: 'translateY(100%)' },
         },
+        scaleUp: {
+          '0%': {
+            transform: 'scale(0.95)',
+            opacity: '0',
+          },
+          '100%': {
+            transform: 'scale(1)',
+            opacity: '1',
+          },
+        },
+        scaleDown: {
+          '0%': {
+            transform: 'scale(1)',
+            opacity: '1',
+          },
+          '100%': {
+            transform: 'scale(0.95)',
+            opacity: '0',
+          },
+        },
+        fadeIn: {
+          from: { opacity: '0' },
+          to: { opacity: '1' },
+        },
+        fadeOut: {
+          from: { opacity: '1' },
+          to: { opacity: '0' },
+        },
       },
       animation: {
         slideUp: 'slideUp 0.3s ease-out',
         slideDown: 'slideDown 0.3s ease-out',
+        scaleUp: 'scaleUp 0.2s ease-out',
+        scaleDown: 'scaleDown 0.2s ease-in',
+        fadeIn: 'fadeIn 0.2s ease-out',
+        fadeOut: 'fadeOut 0.2s ease-in',
       },
     },
   },
