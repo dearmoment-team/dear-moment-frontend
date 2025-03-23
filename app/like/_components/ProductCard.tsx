@@ -1,4 +1,4 @@
-import { Icon_Heart_Filled, Icon_Calendar } from '@/assets/icons';
+import { Icon_Heart_Filled, Icon_Calendar, Icon_ChevronRight } from '@/assets/icons';
 import Image from 'next/image';
 
 export default function ProductCard() {
@@ -37,8 +37,11 @@ export default function ProductCard() {
       <div className="h-[1.1rem]"></div>
       <div className="w-[32rem] h-[6.1rem] flex flex-col gap-[0.9rem]">
         <div className="h-auto flex justify-between font-bold text-body2Normal">
-          <div className="text-gray-90">오에브</div>
-          <div className="w-[11.2rem] flex justify-end gap-[0.8rem]">
+          <div className="text-gray-90 flex items-center">
+            <span>오에브</span>
+            <Icon_ChevronRight width={16} height={16} />
+          </div>
+          <div className="w-[11.2rem] flex justify-end gap-[0.8rem] items-center">
             <div className="text-red-40">43%</div>
             <div className="text-common-100">850,000원</div>
           </div>
