@@ -3,13 +3,13 @@ import Minus from '../../assets/icons/svg/minus_circle.svg';
 
 const StudioForm = () => {
   return (
-    <form className="w-full space-y-6 p-6 text-[1.1rem] text-[#000000]">
+    <form className="w-full space-y-6 p-6 text-[1.2rem] text-[#000000]">
       {/* 상태 */}
       <div>
         <label className="block font-medium mb-1">
           상태 <span className="text-[#FF0000]">*</span>
         </label>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 text-[#4C5C6B]">
           <label className="flex items-center gap-1">
             <input type="radio" name="status" value="active" />
             <span>활성</span>
@@ -79,7 +79,6 @@ const StudioForm = () => {
         </div>
       </div>
 
-      {/* 제휴 업체 (반복 가능 영역 예시 1개만) */}
       <div>
         <label className="block font-medium mb-2">일반 제휴 업체</label>
         <div className="grid grid-cols-4 gap-2 items-center mb-2">
