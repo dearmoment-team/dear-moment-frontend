@@ -1,4 +1,4 @@
-import { availablePeriods, cameraType, correctionStyle } from '../constants';
+import { availablePeriods, cameraType, correctionStyle } from '../models/AdminSelectOptionModel';
 
 const ProductForm = () => {
   return (
@@ -30,7 +30,7 @@ const ProductForm = () => {
             촬영 가능 시기 <span className="text-[#FF0000]">*</span>
           </label>
           <div className="flex flex-wrap gap-4">
-            {availablePeriods.map((item, index) => {
+            {Object.keys(availablePeriods).map((item, index) => {
               return (
                 <label key={index} className="inline-flex items-center gap-2 text-[#5C667B] text-sm font-medium">
                   <input
@@ -50,7 +50,7 @@ const ProductForm = () => {
             카메라 종류 <span className="text-[#FF0000]">*</span>
           </label>
           <div className="flex gap-4">
-            {cameraType.map((item, index) => {
+            {Object.keys(cameraType).map((item, index) => {
               return (
                 <label key={index} className="inline-flex items-center gap-2 text-[#5C667B] text-sm font-medium">
                   <input
@@ -72,7 +72,7 @@ const ProductForm = () => {
             보정 스타일 <span className="text-[#FF0000]">*</span>
           </label>
           <div className="grid grid-cols-4 md:grid-cols-5 gap-2">
-            {correctionStyle.map((item, index) => {
+            {Object.keys(correctionStyle).map((item, index) => {
               return (
                 <label key={index} className="inline-flex items-center gap-2 text-[#5C667B] text-sm font-medium">
                   <input
