@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function NotFound() {
@@ -9,7 +10,7 @@ export default function NotFound() {
           <p>페이지를 찾을 수 없습니다</p>
         </div>
         {/* 박스 이미지 */}
-        <div>박스 이미지</div>
+        <Image src="/not_found.webp" alt="Not found" width={159} height={103} className="mx-auto" />
         <Link
           href="/"
           className="block whitespace-nowrap rounded-[0.2rem] bg-common-100 text-body1Normal font-semibold text-gray-10 px-[5.5rem] py-[1.6rem]"
