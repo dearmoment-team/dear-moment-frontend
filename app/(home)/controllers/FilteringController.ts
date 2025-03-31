@@ -28,7 +28,7 @@ export function useFilteringController({
   fetchMainProducts,
 }: UseFilteringControllerProps) {
   const [open, setOpen] = useState(false);
-  const [filterType, setFilterType] = useState<FilterType>('정렬');
+  const [filterType, setFilterType] = useState<FilterType>('sortBy');
   const [selectedFilters, setSelectedFilters] = useState<Record<FilterType, FilterValue>>(
     FilteringService.getInitialFilterState()
   );
@@ -55,13 +55,13 @@ export function useFilteringController({
 
       // 필터 데이터 변환
       const searchFilters = {
-        sortBy: filters.정렬 ? [filters.정렬 as SortOption] : [],
-        availableSeasons: (filters.촬영시기 as ShootingPeriod[]) || [],
-        cameraTypes: (filters.카메라종류 as CameraType[]) || [],
-        retouchStyles: (filters.보정스타일 as RetouchStyle[]) || [],
-        partnerShopCategories: (filters.패키지 as PackageType[]) || [],
-        minPrice: (filters.가격 as PriceRange).min || 0,
-        maxPrice: (filters.가격 as PriceRange).max || 100,
+        sortBy: filters.sortBy ? [filters.sortBy as SortOption] : [],
+        availableSeasons: (filters.shootingPeriod as ShootingPeriod[]) || [],
+        cameraTypes: (filters.cameraType as CameraType[]) || [],
+        retouchStyles: (filters.retouchStyle as RetouchStyle[]) || [],
+        partnerShopCategories: (filters.packageType as PackageType[]) || [],
+        minPrice: (filters.priceRange as PriceRange).min || 0,
+        maxPrice: (filters.priceRange as PriceRange).max || 100,
       };
 
       // 검색 API 호출
@@ -91,27 +91,27 @@ export function useFilteringController({
     const initialState = FilteringService.getInitialFilterState();
 
     // 정렬 옵션 확인
-    if (filters.정렬 !== initialState.정렬) return false;
+    if (filters.sortBy !== initialState.sortBy) return false;
 
     // 촬영시기 확인 (배열)
-    const shootingPeriods = filters.촬영시기 as ShootingPeriod[];
+    const shootingPeriods = filters.shootingPeriod as ShootingPeriod[];
     if (shootingPeriods && shootingPeriods.length > 0) return false;
 
     // 카메라종류 확인 (배열)
-    const cameraTypes = filters.카메라종류 as CameraType[];
+    const cameraTypes = filters.cameraType as CameraType[];
     if (cameraTypes && cameraTypes.length > 0) return false;
 
     // 보정스타일 확인 (배열)
-    const retouchStyles = filters.보정스타일 as RetouchStyle[];
+    const retouchStyles = filters.retouchStyle as RetouchStyle[];
     if (retouchStyles && retouchStyles.length > 0) return false;
 
     // 패키지 확인 (배열)
-    const packageTypes = filters.패키지 as PackageType[];
+    const packageTypes = filters.packageType as PackageType[];
     if (packageTypes && packageTypes.length > 0) return false;
 
     // 가격 범위 확인
-    const priceRange = filters.가격 as PriceRange;
-    const initialPriceRange = initialState.가격 as PriceRange;
+    const priceRange = filters.priceRange as PriceRange;
+    const initialPriceRange = initialState.priceRange as PriceRange;
 
     if (priceRange.min !== initialPriceRange.min || priceRange.max !== initialPriceRange.max) {
       return false;

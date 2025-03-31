@@ -6,6 +6,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useAuthorCardController } from '../controllers/AuthorCardController';
+import { STYLE_DISPLAY_MAP } from '../models/FilteringModel';
+import { RetouchStyle } from '../type';
 
 export default function AuthorCard({
   mainProduct,
@@ -109,7 +111,9 @@ export default function AuthorCard({
         </div>
         <div className="flex gap-[0.4rem] mt-[0.5rem]">
           {mainProduct.retouchStyles &&
-            mainProduct.retouchStyles.slice(0, 2).map((style, index) => <CategoryLabel key={index} label={style} />)}
+            mainProduct.retouchStyles
+              .slice(0, 2)
+              .map((style, index) => <CategoryLabel key={index} label={STYLE_DISPLAY_MAP[style as RetouchStyle]} />)}
         </div>
         <div className="mt-[0.6rem] flex gap-[0.7rem]">
           {hasDiscount && <span className="text-body1Normal font-bold text-red-40">{discountRate}%</span>}

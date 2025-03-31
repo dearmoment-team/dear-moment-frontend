@@ -4,6 +4,7 @@ import { Chip } from '@/components/ui/Chip';
 import { Slider } from '@/components/ui/slider';
 import { Dispatch, SetStateAction } from 'react';
 import { useFilteringItemsController } from '../controllers/FilteringItemsController';
+import { FILTER_DISPLAY_MAP } from '../models/FilteringModel';
 import { FilteringService } from '../services/FilteringService';
 import {
   CameraType,
@@ -52,34 +53,36 @@ export const FilteringItems = ({
 
   // 각 필터 옵션의 원본 값 (enum 값)
   const filterOptions: Record<FilterType, readonly string[]> = {
-    정렬: getSortOptions() as unknown as readonly string[],
-    촬영시기: getShootingPeriodOptions() as unknown as readonly string[],
-    카메라종류: getCameraOptions() as unknown as readonly string[],
-    보정스타일: getStyleOptions() as unknown as readonly string[],
-    패키지: getPackageOptions() as unknown as readonly string[],
-    가격: getPriceRangeOptions(),
+    sortBy: getSortOptions() as unknown as readonly string[],
+    shootingPeriod: getShootingPeriodOptions() as unknown as readonly string[],
+    cameraType: getCameraOptions() as unknown as readonly string[],
+    retouchStyle: getStyleOptions() as unknown as readonly string[],
+    packageType: getPackageOptions() as unknown as readonly string[],
+    priceRange: getPriceRangeOptions(),
   };
 
   // 각 필터 옵션의 표시 텍스트 매핑
   const getDisplayText = (type: FilterType, value: string): string => {
     switch (type) {
-      case '정렬':
+      case 'sortBy':
         return FilteringService.getSortDisplayMap()[value as SortOption] || value;
-      case '촬영시기':
+      case 'shootingPeriod':
         return FilteringService.getShootingPeriodDisplayMap()[value as ShootingPeriod] || value;
-      case '카메라종류':
+      case 'cameraType':
         return FilteringService.getCameraDisplayMap()[value as CameraType] || value;
-      case '보정스타일':
+      case 'retouchStyle':
         return FilteringService.getStyleDisplayMap()[value as RetouchStyle] || value;
-      case '패키지':
+      case 'packageType':
         return FilteringService.getPackageDisplayMap()[value as PackageType] || value;
       default:
         return value;
     }
   };
 
-  const 가격 = tempFilters.가격 as PriceRange;
-  const 가격범위텍스트 = !가격.min && !가격.max ? '-' : `${가격.min}만원 - ${가격.max}만원`;
+  const {
+    priceRange: { min, max },
+  } = tempFilters as Record<FilterType, PriceRange>;
+  const 가격범위텍스트 = !min && !max ? '-' : `${min}만원 - ${max}만원`;
 
   return (
     <div className="space-y-[2.2rem]">
@@ -104,7 +107,7 @@ export const FilteringItems = ({
           min={0}
           max={100}
           step={1}
-          value={[가격.min ?? 0, 가격.max ?? 0]}
+          value={[min ?? 0, max ?? 0]}
           onValueChange={handleSliderChange}
         />
         <div className="mt-4 text-center text-label1Normal font-medium text-gray-70">{가격범위텍스트}</div>
@@ -142,12 +145,12 @@ const Category = ({
 }) => {
   return (
     <div className="space-y-[1.8rem]">
-      <p className="text-body2Normal font-semibold text-gray-95">{title}</p>
+      <p className="text-body2Normal font-semibold text-gray-95">{FILTER_DISPLAY_MAP[title]}</p>
       <div className="flex flex-wrap gap-[0.6rem]">
         {items.map(item => {
           let isSelected = false;
 
-          if (title === '가격') {
+          if (title === 'priceRange') {
             // 가격 범위 비교 로직
             const currentRange = tempFilters[title] as PriceRange;
             const buttonRange = FilteringService.getPriceRangeFromValue(item);

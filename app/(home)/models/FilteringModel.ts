@@ -10,6 +10,16 @@ import {
 } from '../type';
 
 // 필터링 관련 상수와 타입 정의
+
+export const FILTER_DISPLAY_MAP: Record<FilterType, string> = {
+  sortBy: '정렬',
+  shootingPeriod: '촬영 시기',
+  cameraType: '카메라 종류',
+  retouchStyle: '보정 스타일',
+  packageType: '패키지',
+  priceRange: '가격',
+};
+
 // 가격 범위 매핑 상수
 export const PRICE_RANGE_MAP: Record<string, PriceRange> = {
   '30만원 이하': { min: 0, max: 30 },
@@ -104,10 +114,10 @@ export const PACKAGE_DISPLAY_MAP: Record<PackageType, string> = {
 
 // 필터 초기 상태
 export const INITIAL_FILTER_STATE: Record<FilterType, FilterValue> = {
-  정렬: '',
-  촬영시기: [],
-  카메라종류: [],
-  보정스타일: [],
-  패키지: '',
-  가격: { min: undefined, max: undefined },
+  sortBy: '',
+  shootingPeriod: [],
+  cameraType: [],
+  retouchStyle: [],
+  packageType: '',
+  priceRange: { min: undefined, max: undefined },
 };

@@ -23,7 +23,7 @@ export function useFilteringItemsController({
 
   // 필터 선택 핸들러
   const handleFilterSelect = (type: FilterType, value: string) => {
-    if (type === '가격') {
+    if (type === 'priceRange') {
       // 가격 범위 버튼 클릭 시 처리
       const priceRange = FilteringService.getPriceRangeFromValue(value);
       setTempFilters(prev => {
@@ -41,7 +41,7 @@ export function useFilteringItemsController({
           [type]: priceRange,
         };
       });
-    } else if (type === '보정스타일') {
+    } else if (type === 'retouchStyle') {
       // 보정 스타일 다중 선택 로직
       setTempFilters(prev => {
         const currentStyles = (Array.isArray(prev[type]) ? prev[type] : []) as RetouchStyle[];
@@ -54,7 +54,7 @@ export function useFilteringItemsController({
           [type]: updatedStyles,
         };
       });
-    } else if (type === '촬영시기') {
+    } else if (type === 'shootingPeriod') {
       // 촬영 시기 다중 선택 로직
       setTempFilters(prev => {
         const currentPeriods = (Array.isArray(prev[type]) ? prev[type] : []) as ShootingPeriod[];
@@ -67,7 +67,7 @@ export function useFilteringItemsController({
           [type]: updatedPeriods,
         };
       });
-    } else if (type === '카메라종류') {
+    } else if (type === 'cameraType') {
       // 카메라 종류 다중 선택 로직
       setTempFilters(prev => {
         const currentCameras = (Array.isArray(prev[type]) ? prev[type] : []) as CameraType[];
@@ -80,7 +80,7 @@ export function useFilteringItemsController({
           [type]: updatedCameras,
         };
       });
-    } else if (type === '패키지') {
+    } else if (type === 'packageType') {
       // 패키지 다중 선택 로직 (새로 추가)
       setTempFilters(prev => {
         const currentPackages = (Array.isArray(prev[type]) ? prev[type] : []) as PackageType[];
@@ -93,7 +93,7 @@ export function useFilteringItemsController({
           [type]: updatedPackages,
         };
       });
-    } else if (type === '정렬') {
+    } else if (type === 'sortBy') {
       // 정렬 옵션 선택 (단일 선택)
       setTempFilters(prev => ({
         ...prev,
@@ -108,7 +108,7 @@ export function useFilteringItemsController({
 
     setTempFilters(prev => ({
       ...prev,
-      가격: { min, max } as PriceRange,
+      priceRange: { min, max } as PriceRange,
     }));
   };
 
