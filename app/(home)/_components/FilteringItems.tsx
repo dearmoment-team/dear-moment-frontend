@@ -5,13 +5,23 @@ import { Slider } from '@/components/ui/slider';
 import { Dispatch, SetStateAction } from 'react';
 import { useFilteringItemsController } from '../controllers/FilteringItemsController';
 import { FilteringService } from '../services/FilteringService';
-import { FilterType, FilterValue, PriceRange } from '../type';
+import {
+  CameraType,
+  FilterType,
+  FilterValue,
+  PackageType,
+  PriceRange,
+  RetouchStyle,
+  ShootingPeriod,
+  SortOption,
+} from '../type';
 
 interface FilteringItemsProps {
   onOpenChange: (open: boolean) => void;
   filterType: FilterType;
   selectedFilters: Record<FilterType, FilterValue>;
   setSelectedFilters: Dispatch<SetStateAction<Record<FilterType, FilterValue>>>;
+  applyFiltersAndSearch?: (filters: Record<FilterType, FilterValue>) => Promise<void>;
 }
 
 export const FilteringItems = ({
@@ -19,6 +29,7 @@ export const FilteringItems = ({
   filterType,
   selectedFilters,
   setSelectedFilters,
+  applyFiltersAndSearch,
 }: FilteringItemsProps) => {
   const { tempFilters, handleFilterSelect, handleSliderChange, handleReset, handleApply } = useFilteringItemsController(
     {
@@ -26,6 +37,7 @@ export const FilteringItems = ({
       selectedFilters,
       setSelectedFilters,
       onOpenChange,
+      applyFiltersAndSearch,
     }
   );
 
@@ -38,13 +50,32 @@ export const FilteringItems = ({
     getPriceRangeOptions,
   } = FilteringService;
 
-  const displayCategory: Record<FilterType, readonly string[]> = {
-    정렬: getSortOptions(),
-    촬영시기: getShootingPeriodOptions(),
-    카메라종류: getCameraOptions(),
-    보정스타일: getStyleOptions(),
-    패키지: getPackageOptions(),
+  // 각 필터 옵션의 원본 값 (enum 값)
+  const filterOptions: Record<FilterType, readonly string[]> = {
+    정렬: getSortOptions() as unknown as readonly string[],
+    촬영시기: getShootingPeriodOptions() as unknown as readonly string[],
+    카메라종류: getCameraOptions() as unknown as readonly string[],
+    보정스타일: getStyleOptions() as unknown as readonly string[],
+    패키지: getPackageOptions() as unknown as readonly string[],
     가격: getPriceRangeOptions(),
+  };
+
+  // 각 필터 옵션의 표시 텍스트 매핑
+  const getDisplayText = (type: FilterType, value: string): string => {
+    switch (type) {
+      case '정렬':
+        return FilteringService.getSortDisplayMap()[value as SortOption] || value;
+      case '촬영시기':
+        return FilteringService.getShootingPeriodDisplayMap()[value as ShootingPeriod] || value;
+      case '카메라종류':
+        return FilteringService.getCameraDisplayMap()[value as CameraType] || value;
+      case '보정스타일':
+        return FilteringService.getStyleDisplayMap()[value as RetouchStyle] || value;
+      case '패키지':
+        return FilteringService.getPackageDisplayMap()[value as PackageType] || value;
+      default:
+        return value;
+    }
   };
 
   const 가격 = tempFilters.가격 as PriceRange;
@@ -57,9 +88,10 @@ export const FilteringItems = ({
           <Category
             key={title}
             title={title as FilterType}
-            items={displayCategory[title as FilterType]}
+            items={filterOptions[title as FilterType]}
             tempFilters={tempFilters}
             handleFilterSelect={handleFilterSelect}
+            getDisplayText={getDisplayText}
           />
         );
       })}
@@ -100,11 +132,13 @@ const Category = ({
   items,
   tempFilters,
   handleFilterSelect,
+  getDisplayText,
 }: {
   title: FilterType;
   items: readonly string[];
   tempFilters: Record<FilterType, FilterValue>;
   handleFilterSelect: (section: FilterType, value: string) => void;
+  getDisplayText: (type: FilterType, value: string) => string;
 }) => {
   return (
     <div className="space-y-[1.8rem]">
@@ -140,7 +174,7 @@ const Category = ({
           return (
             <Chip
               key={item}
-              label={item}
+              label={getDisplayText(title, item)}
               background={isSelected ? 'inverse' : 'default'}
               onClick={() => handleFilterSelect(title, item)}
             />

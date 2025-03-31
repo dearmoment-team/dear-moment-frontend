@@ -33,6 +33,7 @@ export const API_ENDPOINTS = {
   products: {
     main: '/products/main',
     detail: (id: number) => `/products/${id}`,
+    search: '/products/search',
   },
   // 추후 다른 도메인 엔드포인트 추가
 };

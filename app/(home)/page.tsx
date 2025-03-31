@@ -56,7 +56,12 @@ export default function HomePage() {
 
   return (
     <main className="space-y-4">
-      <Filtering />
+      <Filtering
+        setMainProducts={setMainProducts}
+        setLoading={setLoading}
+        setError={setError}
+        fetchMainProducts={fetchMainProducts}
+      />
 
       <AuthorList mainProducts={mainProducts} loading={loading} error={error} />
     </main>

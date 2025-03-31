@@ -80,3 +80,14 @@ export interface PagedResponse<T> {
 
 // 메인 페이지 상품 응답 형식
 export type MainPageProductsResponse = ApiResponse<PagedResponse<MainPageProduct>>;
+
+// 상품 검색 필터 요청 타입
+export interface ProductSearchFilter {
+  sortBy?: string[];
+  availableSeasons?: string[];
+  cameraTypes?: string[];
+  retouchStyles?: string[];
+  partnerShopCategories?: string[];
+  minPrice?: number;
+  maxPrice?: number;
+}
