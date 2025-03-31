@@ -4,6 +4,17 @@ const nextConfig: NextConfig = {
   compiler: {
     // 컴파일러 옵션들...
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'axi7ktcb95py.objectstorage.ap-chuncheon-1.oci.customer-oci.com',
+        port: '',
+        pathname: '/**',
+        search: '',
+      },
+    ],
+  },
   // API 요청에 대한 프록시 설정 추가
   async rewrites() {
     return [
