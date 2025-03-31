@@ -54,6 +54,19 @@ export interface Product {
   options: ProductOption[]; // 상품 옵션 리스트
 }
 
+// Main 페이지 상품 데이터 형식 정의
+export interface MainPageProduct {
+  productId: number;
+  studioName: string; // 스튜디오 이름
+  thumbnailUrls: string[]; // 썸네일 이미지 URL 리스트
+  retouchStyles: string[]; // 보정 스타일 'MODERN', 'VINTAGE' 등
+  shootingSeason: string[]; // 촬영 시기 'YEAR_2025_FIRST_HALF', 'YEAR_2025_SECOND_HALF' 등
+  minPrice: number; // 최소 가격
+  maxPrice: number; // 최대 가격
+  discountRate: number; // 할인율
+  isLiked: boolean; // 좋아요 여부
+}
+
 import { ApiResponse } from '../common/types';
 
 // 페이지네이션 응답 형식 정의
@@ -66,4 +79,4 @@ export interface PagedResponse<T> {
 }
 
 // 메인 페이지 상품 응답 형식
-export type MainPageProductsResponse = ApiResponse<PagedResponse<Product>>;
+export type MainPageProductsResponse = ApiResponse<PagedResponse<MainPageProduct>>;
