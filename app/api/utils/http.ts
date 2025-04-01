@@ -16,7 +16,10 @@ export const defaultRequestOptions: RequestInit = {
  * @param timeout 타임아웃 시간 (ms)
  * @returns AbortController 인스턴스와 타임아웃 ID
  */
-function createAbortController(timeout: number = API_CONFIG.timeout): { controller: AbortController; timeoutId: number } {
+function createAbortController(timeout: number = API_CONFIG.timeout): {
+  controller: AbortController;
+  timeoutId: number;
+} {
   const controller = new AbortController();
   const timeoutId = window.setTimeout(() => controller.abort(), timeout);
   return { controller, timeoutId };
@@ -31,7 +34,7 @@ function createAbortController(timeout: number = API_CONFIG.timeout): { controll
 export async function get<T>(endpoint: string, options?: RequestInit): Promise<T> {
   const url = createApiUrl(endpoint);
   const { controller, timeoutId } = createAbortController();
-  
+
   try {
     const response = await fetch(url, {
       method: 'GET',
@@ -65,7 +68,7 @@ export async function get<T>(endpoint: string, options?: RequestInit): Promise<T
 export async function post<T>(endpoint: string, data: unknown, options?: RequestInit): Promise<T> {
   const url = createApiUrl(endpoint);
   const { controller, timeoutId } = createAbortController();
-  
+
   try {
     const response = await fetch(url, {
       method: 'POST',
@@ -100,7 +103,7 @@ export async function post<T>(endpoint: string, data: unknown, options?: Request
 export async function put<T>(endpoint: string, data: unknown, options?: RequestInit): Promise<T> {
   const url = createApiUrl(endpoint);
   const { controller, timeoutId } = createAbortController();
-  
+
   try {
     const response = await fetch(url, {
       method: 'PUT',
@@ -134,7 +137,7 @@ export async function put<T>(endpoint: string, data: unknown, options?: RequestI
 export async function del<T>(endpoint: string, options?: RequestInit): Promise<T> {
   const url = createApiUrl(endpoint);
   const { controller, timeoutId } = createAbortController();
-  
+
   try {
     const response = await fetch(url, {
       method: 'DELETE',
