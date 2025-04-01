@@ -1,4 +1,4 @@
-import { availablePeriods, cameraType, correctionStyle } from '../models/AdminSelectOptionModel';
+import { AVAILBLE_PREIODS, CAMERATYPE, CORRECTION_STYLES } from "../_constants/product";
 
 const ProductForm = () => {
   return (
@@ -30,7 +30,7 @@ const ProductForm = () => {
             촬영 가능 시기 <span className="text-[#FF0000]">*</span>
           </label>
           <div className="flex flex-wrap gap-4">
-            {Object.keys(availablePeriods).map((item, index) => {
+            {Object.keys(AVAILBLE_PREIODS).map((item, index) => {
               return (
                 <label key={index} className="inline-flex items-center gap-2 text-[#5C667B] text-sm font-medium">
                   <input
@@ -50,7 +50,7 @@ const ProductForm = () => {
             카메라 종류 <span className="text-[#FF0000]">*</span>
           </label>
           <div className="flex gap-4">
-            {Object.keys(cameraType).map((item, index) => {
+            {Object.keys(CAMERATYPE).map((item, index) => {
               return (
                 <label key={index} className="inline-flex items-center gap-2 text-[#5C667B] text-sm font-medium">
                   <input
@@ -72,7 +72,7 @@ const ProductForm = () => {
             보정 스타일 <span className="text-[#FF0000]">*</span>
           </label>
           <div className="grid grid-cols-4 md:grid-cols-5 gap-2">
-            {Object.keys(correctionStyle).map((item, index) => {
+            {Object.keys(CORRECTION_STYLES).map((item, index) => {
               return (
                 <label key={index} className="inline-flex items-center gap-2 text-[#5C667B] text-sm font-medium">
                   <input
