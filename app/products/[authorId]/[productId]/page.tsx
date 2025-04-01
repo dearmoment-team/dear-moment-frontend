@@ -71,10 +71,22 @@ export default function ProductDetailPage() {
     fetchProductData();
   }, [params.authorId, params.productId]);
 
-  if (loading) return <LoadingSpinner />;
+  if (loading)
+    return (
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <LoadingSpinner />
+      </div>
+    );
+
   if (error)
     return <div className="p-[2rem] bg-red-100 border border-red-400 text-red-700 rounded relative">{error}</div>;
-  if (!product || !productOption) return <div className="p-[2rem]">상품을 찾을 수 없습니다.</div>;
+
+  if (!product || !productOption)
+    return (
+      <div className="absolute text-body1Normal font-semibold text-gray-90 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        상품을 찾을 수 없습니다.
+      </div>
+    );
 
   // 상품 옵션 상세 정보 구성
   const productDetailsEntry = {

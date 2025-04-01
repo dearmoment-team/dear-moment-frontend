@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import { CAMERA_DISPLAY_MAP } from '@/(home)/models/FilteringModel';
-import { CameraType } from '@/(home)/type';
+import { CAMERA_DISPLAY_MAP, STYLE_DISPLAY_MAP } from '@/(home)/models/FilteringModel';
+import { CameraType, RetouchStyle } from '@/(home)/type';
 import { fetchProductDetail } from '@/api';
 import { ApiErrorImpl } from '@/api/error';
 import { Product } from '@/api/products/types';
@@ -69,13 +69,24 @@ export default function AuthorDetailPage() {
 
   const portfolioImages = author?.subImages.map(img => img.url);
 
-  if (loading) return <LoadingSpinner />;
+  if (loading)
+    return (
+      <div className="p-[2rem] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <LoadingSpinner />
+      </div>
+    );
   if (error)
-    return <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">{error}</div>;
+    return (
+      <div className="p-[2rem] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">{error}</div>
+      </div>
+    );
   if (!author)
     return (
-      <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
-        작가를 찾을 수 없습니다.
+      <div className="p-[2rem] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <div className="text-gray-90 text-body1Normal font-semibold px-4 py-3 rounded relative">
+          상품을 찾을 수 없습니다.
+        </div>
       </div>
     );
 
@@ -95,10 +106,14 @@ export default function AuthorDetailPage() {
             <div className="space-y-[0.8rem] py-[0.7rem]">
               <span className="text-gray-90 text-subtitle2 font-bold">{author.title}</span>
               <div className="flex gap-[0.5rem]">
-                <div className="text-gray-80 text-label2 font-semibold bg-red-20 px-[0.8rem] py-[0.45rem]">우아한</div>
-                <div className="text-gray-80 text-label2 font-semibold bg-red-20 px-[0.8rem] py-[0.45rem]">
-                  빈티지한
-                </div>
+                {author.retouchStyles.map(style => (
+                  <div
+                    key={style}
+                    className="text-gray-80 text-label2 font-semibold bg-red-20 px-[0.8rem] py-[0.45rem]"
+                  >
+                    {STYLE_DISPLAY_MAP[style as RetouchStyle]}
+                  </div>
+                ))}
               </div>
             </div>
             <button className="ml-auto" onClick={() => setIsLiked(!isLiked)}>
