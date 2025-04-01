@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'axi7ktcb95py.objectstorage.ap-chuncheon-1.oci.customer-oci.com',
+        hostname: '*.objectstorage.ap-chuncheon-1.oci.customer-oci.com',
         port: '',
         pathname: '/**',
         search: '',
