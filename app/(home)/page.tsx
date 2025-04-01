@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import { fetchMainPageProducts } from '../api';
 import { ApiErrorImpl } from '../api/error';
 import { MainPageProduct } from '../api/products/types';
-import AuthorList from './_components/AuthorList';
 import Filtering from './_components/Filtering';
+import ProductList from './_components/ProductList';
 
 export default function HomePage() {
   const [mainProducts, setMainProducts] = useState<MainPageProduct[]>([]);
@@ -63,7 +63,7 @@ export default function HomePage() {
         fetchMainProducts={fetchMainProducts}
       />
 
-      <AuthorList mainProducts={mainProducts} loading={loading} error={error} />
+      <ProductList mainProducts={mainProducts} loading={loading} error={error} />
     </main>
   );
 }

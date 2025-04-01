@@ -4,7 +4,7 @@ import { Icon_ChevronDown } from '@/assets/icons';
 import { Appbar } from '@/components/Appbar';
 import { useRouter } from 'next/navigation';
 
-const ProductsLayout = ({ children }: { children: React.ReactNode }) => {
+const ProductOptionsLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   return (
     <div className="container">
@@ -17,4 +17,4 @@ const ProductsLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default ProductsLayout;
+export default ProductOptionsLayout;

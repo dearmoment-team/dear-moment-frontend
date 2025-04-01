@@ -5,29 +5,29 @@ import { Icon_ChevronDown, Icon_Heart, Icon_Heart_Filled } from '@/assets/icons'
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-interface ProductCardProps {
-  product: ProductOption;
-  authorId?: string;
+interface ProductOptionCardProps {
+  productOption: ProductOption;
+  productId?: string;
 }
 
-export const ProductCard = ({ product, authorId }: ProductCardProps) => {
+export const ProductOptionCard = ({ productOption, productId }: ProductOptionCardProps) => {
   const router = useRouter();
   const [isLike, setIsLike] = useState(false);
 
   const productDetailsEntry = {
-    시간: `${product.shootingHours}시간 ${product.shootingMinutes}분`,
-    장소: `${product.shootingLocationCount}곳`,
-    의상: `최대 ${product.costumeCount}벌`,
-    보정본: `${product.retouchedCount}장`,
+    시간: `${productOption.shootingHours}시간 ${productOption.shootingMinutes}분`,
+    장소: `${productOption.shootingLocationCount}곳`,
+    의상: `최대 ${productOption.costumeCount}벌`,
+    보정본: `${productOption.retouchedCount}장`,
   };
 
-  const discountRate = product.discountPrice
-    ? ((product.originalPrice - product.discountPrice) / product.originalPrice) * 100
+  const discountRate = productOption.discountPrice
+    ? ((productOption.originalPrice - productOption.discountPrice) / productOption.originalPrice) * 100
     : 0;
 
   const handleDetailClick = () => {
     // 단순히 상품 상세 페이지로 이동
-    router.push(`/products/${authorId}/${product.optionId}`);
+    router.push(`/options/${productId}/${productOption.optionId}`);
   };
 
   return (
@@ -36,19 +36,21 @@ export const ProductCard = ({ product, authorId }: ProductCardProps) => {
       <div className="flex justify-between items-start mb-[1.6rem]">
         <div className="flex gap-[1rem] items-center">
           <div className="flex flex-col gap-[0.3rem]">
-            <span className="text-subtitle2 font-bold text-gray-90">{product.name}</span>
-            {product.discountPrice ? (
+            <span className="text-subtitle2 font-bold text-gray-90">{productOption.name}</span>
+            {productOption.discountPrice ? (
               <div>
                 <p className="text-body2Normal font-bold text-gray-60 line-through my-[0.6rem]">
-                  {product.originalPrice.toLocaleString()}원
+                  {productOption.originalPrice.toLocaleString()}원
                 </p>
                 <div className="text-subtitle2 font-bold">
                   <span className="text-red-40">{discountRate}%</span>
-                  <span className="text-gray-80 ml-[0.3rem]">{product.discountPrice?.toLocaleString()}원</span>
+                  <span className="text-gray-80 ml-[0.3rem]">{productOption.discountPrice?.toLocaleString()}원</span>
                 </div>
               </div>
             ) : (
-              <span className="text-subtitle2 font-bold text-gray-80">{product.originalPrice.toLocaleString()}원</span>
+              <span className="text-subtitle2 font-bold text-gray-80">
+                {productOption.originalPrice.toLocaleString()}원
+              </span>
             )}
           </div>
         </div>

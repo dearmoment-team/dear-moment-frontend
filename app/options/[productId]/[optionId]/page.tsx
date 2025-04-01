@@ -8,13 +8,13 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-export default function ProductDetailPage() {
+export default function ProductOptionsPage() {
   const params = useParams();
   const [product, setProduct] = useState<Product | null>(null);
   const [productOption, setProductOption] = useState<ProductOption | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(false); // Option 좋아요
 
   useEffect(() => {
     // 상품 정보를 가져오는 함수
@@ -24,14 +24,14 @@ export default function ProductDetailPage() {
         setError(null);
 
         // API를 통해 상품 정보 가져오기
-        const response = await fetchProductDetail(Number(params.authorId));
+        const response = await fetchProductDetail(Number(params.productId));
 
         if (response.success && response.data) {
           setProduct(response.data);
 
           // API 응답에서 해당 옵션 찾기
           if (response.data.options) {
-            const option = response.data.options.find(opt => opt.optionId === Number(params.productId));
+            const option = response.data.options.find(opt => opt.optionId === Number(params.optionId));
             if (option) {
               setProductOption(option);
             } else {
@@ -69,7 +69,7 @@ export default function ProductDetailPage() {
     };
 
     fetchProductData();
-  }, [params.authorId, params.productId]);
+  }, [params.productId, params.optionId]);
 
   if (loading)
     return (

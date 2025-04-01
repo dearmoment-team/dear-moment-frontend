@@ -2,15 +2,15 @@
 
 import { Product, ProductOption } from '@/api/products/types';
 import { useRef, useState } from 'react';
-import { ProductCard } from './ProductCard';
+import { ProductOptionCard } from './ProductOptionCard';
 
-interface AuthorTabsProps {
-  products: ProductOption[];
+interface ProductTabsProps {
+  productOptions: ProductOption[];
   guidelines: string[];
-  author?: Product;
+  product: Product; // TODO: studio 이름으로 추후 수정
 }
 
-export default function AuthorTabs({ products, guidelines, author }: AuthorTabsProps) {
+export default function ProductTabs({ productOptions, guidelines, product }: ProductTabsProps) {
   // 활성화된 탭을 관리하는 상태
   const [activeTab, setActiveTab] = useState<'products' | 'guidelines'>('products');
 
@@ -68,11 +68,11 @@ export default function AuthorTabs({ products, guidelines, author }: AuthorTabsP
 
       <div ref={productsRef} className="my-[5.2rem] px-[2rem]">
         <p className="text-subtitle1 font-bold keep-all w-[17rem] text-gray-95 mb-[3.7rem]">
-          [{author?.title}]만의 특별한 스냅 상품 정보
+          [{product?.title}]만의 특별한 스냅 상품 정보
         </p>
         <ul className="space-y-[3rem]">
-          {products.map((product, index) => (
-            <ProductCard key={index} product={product} authorId={String(author?.productId)} />
+          {productOptions.map((productOption, index) => (
+            <ProductOptionCard key={index} productOption={productOption} productId={String(product?.productId)} />
           ))}
         </ul>
       </div>
