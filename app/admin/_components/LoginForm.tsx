@@ -1,0 +1,17 @@
+const LoginForm = () => {
+  return (
+    <form className="flex flex-col items-center gap-[1rem]">
+      <input
+        placeholder="아이디"
+        className="h-[4rem] w-[40.3rem] rounded-md border border-solid border-[#D8DDE3] px-[1.8rem] py-[0.9rem] focus:outline-none focus:ring-2 focus:ring-[#D8DDE3]"
+      />
+      <input
+        placeholder="비밀번호"
+        className="h-[4rem] w-[40.3rem] rounded-md border border-solid border-[#D8DDE3] px-[1.8rem] py-[0.9rem] focus:outline-none focus:ring-2 focus:ring-[#D8DDE3]"
+      />
+      <button className="mt-[0.9rem] h-[5.6rem] w-[40.3rem] rounded-md bg-[#3F3F3F] text-white">로그인</button>
+    </form>
+  );
+};
+
+export default LoginForm;
