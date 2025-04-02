@@ -8,10 +8,10 @@ interface AuthorListProps {
   error?: string | null;
 }
 
-export default function AuthorList({ mainProducts = [], loading, error }: AuthorListProps) {
+export default function AuthorList({ mainProducts = [], loading = false, error }: AuthorListProps) {
   return (
     <section className="px-[2rem] ">
-      <p className="text-body1Normal font-bold text-gray-90 mt-[2.4rem] mb-[2rem]">지금 가장 HOT한 스냅 작가!</p>
+      <p className="text-body1Normal font-bold text-gray-90 mt-[2.4rem] mb-[2rem]">지금 가장 HOT한 스납 작가!</p>
 
       <ul className="space-y-[1.7rem] max-h-[calc(100vh-20rem)] overflow-y-auto scrollbar-hide">
         {loading && (
@@ -22,7 +22,7 @@ export default function AuthorList({ mainProducts = [], loading, error }: Author
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">{error}</div>
         )}
-        {mainProducts.length === 0 && !loading && (
+        {mainProducts.length === 0 && !loading && !error && (
           <div className="text-body1Normal font-semibold text-center text-gray-90 py-4 rounded relative">
             상품이 없습니다.
           </div>
