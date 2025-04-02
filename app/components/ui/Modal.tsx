@@ -1,11 +1,12 @@
 'use client';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { ReactNode } from 'react';
 
 interface ModalProps {
   isOpen: boolean;
   title?: string;
-  description?: string;
+  description?: ReactNode;
   primaryButton?: {
     text: string;
     onClick: () => void;
@@ -48,7 +49,7 @@ export const Modal = ({ isOpen, title, description, primaryButton, secondaryButt
       <DialogContent className="w-[30rem] min-h-[20rem] px-[2rem] pt-[2.6rem] pb-[2.2rem] space-y-[1.4rem] bg-common-0 rounded-[0.2rem]">
         <DialogHeader className="space-y-[1.4rem]">
           <DialogTitle className="text-subtitle1 font-bold text-gray-95">{title}</DialogTitle>
-          <DialogDescription className="min-h-[5rem] flex items-center text-body2Reading font-medium text-gray-60">
+          <DialogDescription className="min-h-[5rem] text-body2Reading font-medium text-gray-60">
             {description}
           </DialogDescription>
         </DialogHeader>
