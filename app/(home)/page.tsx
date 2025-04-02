@@ -1,4 +1,4 @@
-import ClientWrapper from './_components/ClientWrapper';
+import Home from './_components/Home';
 import { getMainProducts } from './actions/products';
 
 export default async function HomePage() {
@@ -7,7 +7,7 @@ export default async function HomePage() {
 
   return (
     <main className="space-y-4">
-      <ClientWrapper initialProducts={products} initialError={error} />
+      <Home initialProducts={products} initialError={error} />
     </main>
   );
 }

@@ -1,100 +1,41 @@
-/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import { CAMERA_DISPLAY_MAP, STYLE_DISPLAY_MAP } from '@/(home)/models/FilteringModel';
 import { CameraType, RetouchStyle } from '@/(home)/type';
-import { fetchProductDetail } from '@/api';
-import { ApiErrorImpl } from '@/api/error';
 import { Product } from '@/api/products/types';
 import { Icon_Calendar, Icon_Heart, Icon_Heart_Filled } from '@/assets/icons';
-import LoadingSpinner from '@/components/LoadingSpinner';
-import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { ImageViewerModal } from './_components/ImageViewerModal';
-import { InquiryBottomSheet } from './_components/InquiryBottomSheet';
-import ProductTabs from './_components/ProductTabs';
+import Image from 'next/image';
+import { useState } from 'react';
+import { ImageViewerModal } from './ImageViewerModal';
+import { InquiryBottomSheet } from './InquiryBottomSheet';
+import ProductTabs from './ProductTabs';
 
-export default function ProductPage() {
-  const params = useParams();
-  // NOTE: Studio 좋아요 상태 관리
+interface ProductDetailProps {
+  initialProduct: Product | null;
+  initialError: string | null;
+}
+
+export default function ProductDetail({ initialProduct, initialError }: ProductDetailProps) {
+  // 클라이언트 상태 관리
   const [isLiked, setIsLiked] = useState(false);
   const [openInquiry, setOpenInquiry] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
-  const [product, setProduct] = useState<Product | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    // 상품 정보를 가져오는 API 호출
-    const fetchProductData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+  const portfolioImages = initialProduct?.subImages.map(img => img.url) ?? [];
 
-        const response = await fetchProductDetail(Number(params.id));
-
-        // API 응답 구조 변경에 따른 처리
-        if (response.success && response.data) {
-          setProduct(response.data);
-        } else {
-          setError('상품 데이터를 가져오는데 실패했습니다.');
-        }
-      } catch (error) {
-        console.error('상품 데이터 가져오기 실패:', error);
-
-        // 에러 유형에 따른 처리
-        if (error instanceof ApiErrorImpl) {
-          switch (error.code) {
-            case 'NOT_FOUND':
-              setError('상품 데이터를 찾을 수 없습니다.');
-              break;
-            case 'UNAUTHORIZED':
-              setError('인증이 필요합니다.');
-              break;
-            default:
-              setError(`오류가 발생했습니다: ${error.message}`);
-          }
-        } else {
-          setError('알 수 없는 오류가 발생했습니다.');
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProductData();
-  }, [params.id]);
-
-  const portfolioImages = product?.subImages.map(img => img.url);
-
-  if (loading)
+  if (initialError) {
     return (
       <div className="p-[2rem] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <LoadingSpinner />
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">{initialError}</div>
       </div>
     );
-
-  if (error)
-    return (
-      <div className="p-[2rem] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">{error}</div>
-      </div>
-    );
-
-  if (!product)
-    return (
-      <div className="p-[2rem] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <div className="text-gray-90 text-body1Normal font-semibold px-4 py-3 rounded relative">
-          상품을 찾을 수 없습니다.
-        </div>
-      </div>
-    );
+  }
 
   return (
     <div className="w-full max-w-screen-md mx-auto">
       {/* 대표 이미지 */}
-      <div className="relative w-full h-[400px]">
-        <img src={product.mainImage.url} alt="대표 이미지" className="w-full h-full object-cover" />
+      <div className="relative w-full h-[286px]">
+        <Image src={initialProduct?.mainImage.url ?? ''} alt="main_image" fill className="object-contain" />
       </div>
 
       {/* 작가 정보 섹션 */}
@@ -104,9 +45,9 @@ export default function ProductPage() {
           <div className="flex items-center gap-[1rem]">
             <div className="w-[5.7rem] h-[5.7rem] rounded-full bg-gray-40" />
             <div className="space-y-[0.8rem] py-[0.7rem]">
-              <span className="text-gray-90 text-subtitle2 font-bold">{product.title}</span>
+              <span className="text-gray-90 text-subtitle2 font-bold">{initialProduct?.title}</span>
               <div className="flex gap-[0.5rem]">
-                {product.retouchStyles.map(style => (
+                {initialProduct?.retouchStyles.map(style => (
                   <div
                     key={style}
                     className="text-gray-80 text-label2 font-semibold bg-red-20 px-[0.8rem] py-[0.45rem]"
@@ -121,13 +62,13 @@ export default function ProductPage() {
             </button>
           </div>
           <div className="mt-[1.4rem]">
-            <p className="text-body2Reading font-bold">{product.description}</p>
-            <p className="text-body2Reading font-bold">{product.detailedInfo}</p>
+            <p className="text-body2Reading font-bold">{initialProduct?.description}</p>
+            <p className="text-body2Reading font-bold">{initialProduct?.detailedInfo}</p>
           </div>
           <div className="flex gap-[0.5rem] mt-[1.4rem] items-center">
             <Icon_Calendar width={14} height={14} />
             <div className="flex gap-[0.6rem] items-center">
-              {product.availableSeasons.map((season, index) => (
+              {initialProduct?.availableSeasons.map((season, index) => (
                 <span
                   key={index}
                   className="text-label2 font-medium text-gray-80 last:border-l last:border-gray-50 last:pl-[0.6rem]"
@@ -140,7 +81,7 @@ export default function ProductPage() {
           <div className="flex gap-[0.5rem] mt-[0.6rem] items-center">
             <Icon_Calendar width={14} height={14} />
             <div className="flex gap-[0.6rem] items-center">
-              {product.cameraTypes.map((cameraType, index) => (
+              {initialProduct?.cameraTypes.map((cameraType, index) => (
                 <span
                   key={index}
                   className="text-label2 font-medium text-gray-80 last:border-l last:border-gray-50 last:pl-[0.6rem]"
@@ -156,13 +97,15 @@ export default function ProductPage() {
         <div className="">
           {/* 작가 포트폴리오 */}
           <div className="mt-[0.6rem] px-[2rem]">
-            <p className="text-gray-95 text-body2Normal font-semibold mb-[2rem]">{product.title}의 포트폴리오</p>
+            <p className="text-gray-95 text-body2Normal font-semibold mb-[2rem]">
+              {initialProduct?.title}의 포트폴리오
+            </p>
             <div className="flex gap-[0.2rem] flex-wrap">
               {portfolioImages?.map((imgSrc, index) => {
-                if (index > 7) return;
+                if (index > 7) return null;
                 return (
                   <div key={index} className="relative cursor-pointer" onClick={() => setSelectedImageIndex(index)}>
-                    <img src={imgSrc} alt="대표 이미지" className="object-cover w-[7.8rem] h-[7.8rem]" />
+                    <Image src={imgSrc} alt="sub_image" width={78} height={78} className="object-contain" />
                     {index === 7 && (
                       <div className="absolute w-full h-full bg-gray-30 top-0 left-0 opacity-90 flex justify-center items-center">
                         <span className="text-body3Normal text-common-0">+{8 - index}</span>
@@ -176,7 +119,11 @@ export default function ProductPage() {
         </div>
 
         {/* 상품정보, 안내사항 탭 */}
-        <ProductTabs productOptions={product.options} guidelines={['guildline1', 'guildline2']} product={product} />
+        <ProductTabs
+          productOptions={initialProduct?.options ?? []}
+          guidelines={['guildline1', 'guildline2']}
+          product={initialProduct}
+        />
 
         {/* 문의하기 버튼 */}
         <div className="h-[5.6rem] mb-[1.2rem] flex gap-[1rem] justify-between items-center px-[2rem]">
@@ -197,7 +144,7 @@ export default function ProductPage() {
 
       {/* 문의하기 Popup */}
       <InquiryBottomSheet
-        productOptions={product.options}
+        productOptions={initialProduct?.options ?? []}
         open={openInquiry}
         onOpenChange={setOpenInquiry}
         isLiked={isLiked}

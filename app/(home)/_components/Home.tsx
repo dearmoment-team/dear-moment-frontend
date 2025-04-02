@@ -5,7 +5,7 @@ import { searchMainPageProducts } from '../../api';
 import { ApiErrorImpl } from '../../api/error';
 import { MainPageProduct } from '../../api/products/types';
 import Filtering from './Filtering';
-import AuthorList from './AuthorList';
+import ProductList from './ProductList';
 
 interface ClientFilteringWrapperProps {
   initialProducts: MainPageProduct[];
@@ -63,7 +63,7 @@ export default function ClientFilteringWrapper({ initialProducts, initialError }
         setError={setError}
         fetchMainProducts={fetchMainProducts}
       />
-      <AuthorList mainProducts={mainProducts} loading={loading} error={error} />
+      <ProductList mainProducts={mainProducts} loading={loading} error={error} />
     </>
   );
 }

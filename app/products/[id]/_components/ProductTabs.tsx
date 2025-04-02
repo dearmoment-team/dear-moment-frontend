@@ -7,7 +7,7 @@ import { ProductOptionCard } from './ProductOptionCard';
 interface ProductTabsProps {
   productOptions: ProductOption[];
   guidelines: string[];
-  product: Product; // TODO: studio 이름으로 추후 수정
+  product: Product | null; // TODO: studio 이름으로 추후 수정
 }
 
 export default function ProductTabs({ productOptions, guidelines, product }: ProductTabsProps) {
