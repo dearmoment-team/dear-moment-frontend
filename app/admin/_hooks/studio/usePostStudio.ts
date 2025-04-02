@@ -24,11 +24,11 @@ export const usePostStudio = () => {
 
     const onSubmit = async (data: StudioFormDataType) => {
         try {
-          console.log('Form data:', data);
+          console.log(data);
           // API 호출 로직
           reset()
         } catch (error) {
-          console.error('Error submitting form:', error);
+          console.error(error);
         }
       };
 
