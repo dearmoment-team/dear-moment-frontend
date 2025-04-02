@@ -22,10 +22,14 @@ export const FILTER_DISPLAY_MAP: Record<FilterType, string> = {
 
 // 가격 범위 매핑 상수
 export const PRICE_RANGE_MAP: Record<string, PriceRange> = {
-  '30만원 이하': { min: 0, max: 30 },
-  '31-49만원': { min: 31, max: 49 },
-  '50-69만원': { min: 50, max: 69 },
-  '70만원 이상': { min: 70, max: 100 },
+  '40만원 이하': { min: 0, max: 40 },
+  '40-60만원 이하': { min: 41, max: 60 },
+  '60-80만원 이하': { min: 61, max: 80 },
+  '80-100만원 이하': { min: 81, max: 100 },
+  '100-120만원 이하': { min: 101, max: 120 },
+  '120-150만원 이하': { min: 121, max: 150 },
+  '150-200만원 이하': { min: 151, max: 200 },
+  '200만원 초과': { min: 201, max: 1000 },
 } as const;
 
 // 정렬 옵션
