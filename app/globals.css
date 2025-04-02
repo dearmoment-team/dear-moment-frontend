@@ -32,13 +32,6 @@ body {
   word-break: keep-all;
 }
 
-button,
-input,
-select,
-textarea {
-  border: none;
-}
-
 button {
   padding: 0;
   cursor: pointer;
