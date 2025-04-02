@@ -1,11 +1,10 @@
 'use client';
 
-import { useLogin } from "../_hooks/login/useLogin";
+import { useLogin } from '../_hooks/login/useLogin';
 
 const LoginForm = () => {
-
   const methods = useLogin();
-  const {register, handleSubmit, onSubmit} = methods
+  const { register, handleSubmit, onSubmit } = methods;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center gap-[1rem]">
@@ -15,8 +14,8 @@ const LoginForm = () => {
         className="h-[4rem] w-[40.3rem] rounded-md border border-solid border-[#D8DDE3] px-[1.8rem] py-[0.9rem] focus:outline-none focus:ring-2 focus:ring-[#D8DDE3]"
       />
       <input
-      {...register('password')}
-      type="password"
+        {...register('password')}
+        type="password"
         placeholder="비밀번호"
         className="h-[4rem] w-[40.3rem] rounded-md border border-solid border-[#D8DDE3] px-[1.8rem] py-[0.9rem] focus:outline-none focus:ring-2 focus:ring-[#D8DDE3]"
       />

@@ -6,14 +6,17 @@ import { FormProvider } from 'react-hook-form';
 import { usePostStudio } from '../_hooks/studio/usePostStudio';
 
 const StudioForm = () => {
-
   const methods = usePostStudio();
-  const { register, handleSubmit, onSubmit, formState: { errors } } = methods;
+  const {
+    register,
+    handleSubmit,
+    onSubmit,
+    formState: { errors },
+  } = methods;
 
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-6 p-6 text-[1.2rem]">
-        
         {/* 상태 */}
         <div>
           <label className="mb-1 block font-medium">
@@ -21,11 +24,11 @@ const StudioForm = () => {
           </label>
           <div className="flex items-center gap-4">
             <label className="flex items-center gap-1">
-              <input type="radio" value="ACTIVE" {...register('status', {required: true})} />
+              <input type="radio" value="ACTIVE" {...register('status', { required: true })} />
               <span>활성</span>
             </label>
             <label className="flex items-center gap-1">
-              <input type="radio" value="INACTIVE" {...register('status', {required: true})}  />
+              <input type="radio" value="INACTIVE" {...register('status', { required: true })} />
               <span>비활성</span>
             </label>
           </div>
@@ -39,11 +42,11 @@ const StudioForm = () => {
           </label>
           <div className="flex items-center gap-4">
             <label className="flex items-center gap-1">
-              <input type="radio" value="true" {...register('isCasted', {required: true})}/>
+              <input type="radio" value="true" {...register('isCasted', { required: true })} />
               <span>해당</span>
             </label>
             <label className="flex items-center gap-1">
-              <input type="radio" value="false" {...register('isCasted', {required: true})} />
+              <input type="radio" value="false" {...register('isCasted', { required: true })} />
               <span>비해당</span>
             </label>
           </div>
@@ -58,7 +61,7 @@ const StudioForm = () => {
             </label>
             <input
               type="text"
-              {...register('name', {required: true})}
+              {...register('name', { required: true })}
               className="w-full rounded-md border border-solid border-[#D8DDE3] p-2 focus:outline-none focus:ring-2 focus:ring-[#D8DDE3]"
             />
             {errors.name && <p className="text-red-500">필수 작성</p>}
@@ -69,7 +72,7 @@ const StudioForm = () => {
             </label>
             <input
               type="text"
-              {...register('contact', {required: true})}
+              {...register('contact', { required: true })}
               className="w-full rounded-md border border-solid border-[#D8DDE3] p-2 focus:outline-none focus:ring-2 focus:ring-[#D8DDE3]"
             />
             {errors.contact && <p className="text-red-500">필수 작성</p>}
@@ -81,14 +84,20 @@ const StudioForm = () => {
           <label className="mb-1 block font-medium">
             스튜디오 소개글 <span className="text-[#FF0000]">*</span>
           </label>
-          <textarea {...register('studioIntro', {required: true, maxLength: 100})} className="h-28 w-full rounded-md border border-solid border-[#D8DDE3] p-2 focus:outline-none focus:ring-2 focus:ring-[#D8DDE3]" />
+          <textarea
+            {...register('studioIntro', { required: true, maxLength: 100 })}
+            className="h-28 w-full rounded-md border border-solid border-[#D8DDE3] p-2 focus:outline-none focus:ring-2 focus:ring-[#D8DDE3]"
+          />
           {errors.studioIntro && <p className="text-red-500">필수 작성</p>}
         </div>
         <div>
           <label className="mb-1 block font-medium">
             소속 작가 소개글 <span className="text-[#FF0000]">*</span>
           </label>
-          <textarea {...register('artistsIntro', {required: true})} className="h-28 w-full rounded-md border border-solid border-[#D8DDE3] p-2 focus:outline-none focus:ring-2 focus:ring-[#D8DDE3]" />
+          <textarea
+            {...register('artistsIntro', { required: true })}
+            className="h-28 w-full rounded-md border border-solid border-[#D8DDE3] p-2 focus:outline-none focus:ring-2 focus:ring-[#D8DDE3]"
+          />
           {errors.artistsIntro && <p className="text-red-500">필수 작성</p>}
         </div>
 
@@ -100,7 +109,7 @@ const StudioForm = () => {
             </label>
             <input
               type="text"
-              {...register('instagramUrl', {required: true})}
+              {...register('instagramUrl', { required: true })}
               className="w-full rounded-md border border-solid border-[#D8DDE3] p-2 focus:outline-none focus:ring-2 focus:ring-[#D8DDE3]"
             />
             {errors.instagramUrl && <p className="text-red-500">필수 작성</p>}
@@ -111,13 +120,12 @@ const StudioForm = () => {
             </label>
             <input
               type="text"
-              {...register('kakaoChannelUrl', {required: true})}
+              {...register('kakaoChannelUrl', { required: true })}
               className="w-full rounded-md border border-solid border-[#D8DDE3] p-2 focus:outline-none focus:ring-2 focus:ring-[#D8DDE3]"
             />
             {errors.kakaoChannelUrl && <p className="text-red-500">필수 작성</p>}
           </div>
         </div>
-
 
         {/* 제휴 업체 플러스 버튼 클릭 시 배열 추가 시켜야함. */}
         <div>
@@ -146,13 +154,19 @@ const StudioForm = () => {
         {/* 예약 전 안내사항 */}
         <div>
           <label className="mb-1 block font-medium">예약 전 안내사항</label>
-          <textarea {...register('reservationNotice')} className="h-28 w-full rounded-md border border-solid border-[#D8DDE3] p-2 focus:outline-none focus:ring-2 focus:ring-[#D8DDE3]" />
+          <textarea
+            {...register('reservationNotice')}
+            className="h-28 w-full rounded-md border border-solid border-[#D8DDE3] p-2 focus:outline-none focus:ring-2 focus:ring-[#D8DDE3]"
+          />
         </div>
 
         {/* 취소 및 환불규정 */}
         <div>
           <label className="mb-1 block font-medium">취소 및 환불규정</label>
-          <textarea {...register('cancellationPolicy')} className="h-28 w-full rounded-md border border-solid border-[#D8DDE3] p-2 focus:outline-none focus:ring-2 focus:ring-[#D8DDE3]" />
+          <textarea
+            {...register('cancellationPolicy')}
+            className="h-28 w-full rounded-md border border-solid border-[#D8DDE3] p-2 focus:outline-none focus:ring-2 focus:ring-[#D8DDE3]"
+          />
         </div>
 
         {/* 버튼 */}
