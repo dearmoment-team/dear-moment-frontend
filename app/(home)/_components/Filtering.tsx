@@ -35,11 +35,10 @@ export default function Filtering({ setMainProducts, setLoading, setError, fetch
   // 가격 범위 표시 텍스트 생성
   const getPriceRangeText = (priceRange: PriceRange) => {
     // 가격이 선택되지 않았거나 min, max가 없는 경우
-    if (priceRange.min === undefined || priceRange.max === undefined) return '가격';
-
-    if (priceRange.min === 0 && priceRange.max === 30) return '30만원 이하';
-    if (priceRange.min === 70) return '70만원 이상';
-    return `${priceRange.min}-${priceRange.max}만원`;
+    if (!priceRange.min && !priceRange.max) return '가격';
+    if (priceRange.min && priceRange.min === 201) return '200만원 초과';
+    if (priceRange.max && priceRange.max > 200) return `${priceRange.min}만원 - 200만원 초과`;
+    return `${priceRange.min}만원 - ${priceRange.max}만원`;
   };
 
   // 보정 스타일 리스트 및 표시 텍스트 생성

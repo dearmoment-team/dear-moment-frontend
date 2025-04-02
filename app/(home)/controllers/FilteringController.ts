@@ -60,8 +60,8 @@ export function useFilteringController({
         cameraTypes: (filters.cameraType as CameraType[]) || [],
         retouchStyles: (filters.retouchStyle as RetouchStyle[]) || [],
         partnerShopCategories: (filters.packageType as PackageType[]) || [],
-        minPrice: (filters.priceRange as PriceRange).min || 0,
-        maxPrice: (filters.priceRange as PriceRange).max || 100,
+        minPrice: ((filters.priceRange as PriceRange).min || 0) * 10000,
+        maxPrice: ((filters.priceRange as PriceRange).max || 100) * 10000,
       };
 
       // 검색 API 호출

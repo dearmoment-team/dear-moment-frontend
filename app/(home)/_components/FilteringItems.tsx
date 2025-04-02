@@ -82,7 +82,13 @@ export const FilteringItems = ({
   const {
     priceRange: { min, max },
   } = tempFilters as Record<FilterType, PriceRange>;
-  const 가격범위텍스트 = !min && !max ? '-' : `${min}만원 - ${max}만원`;
+
+  const priceRangeText = (min?: number, max?: number) => {
+    if (!min && !max) return '-';
+    if (min && min === 201) return '200만원 초과';
+    if (max && max > 200) return `${min}만원 - 200만원 초과`;
+    return `${min}만원 - ${max}만원`;
+  };
 
   return (
     <div className="space-y-[2.2rem]">
@@ -100,17 +106,17 @@ export const FilteringItems = ({
       })}
       {/* 가격 슬라이더 */}
       <div className="relative pt-[1.8rem]">
-        <div className="absolute -top-3 left-4 text-label1Normal font-medium text-common-100">0 만원</div>
-        <div className="absolute -top-3 right-4 text-label1Normal font-medium text-common-100">100 만원</div>
+        <div className="absolute -top-3 left-4 text-label1Normal font-medium text-common-100">0원</div>
+        <div className="absolute -top-3 right-4 text-label1Normal font-medium text-common-100">200만원 초과</div>
         <Slider
           defaultValue={[0, 100]}
           min={0}
-          max={100}
+          max={201}
           step={1}
           value={[min ?? 0, max ?? 0]}
           onValueChange={handleSliderChange}
         />
-        <div className="mt-4 text-center text-label1Normal font-medium text-gray-70">{가격범위텍스트}</div>
+        <div className="mt-4 text-center text-label1Normal font-medium text-gray-70">{priceRangeText(min, max)}</div>
       </div>
       <div className="flex justify-between items-end bg-white gap-[1rem] absolute bottom-0 right-0 w-full pb-[1.2rem] px-[2rem] h-[10rem]">
         <button
