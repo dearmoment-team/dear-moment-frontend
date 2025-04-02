@@ -2,7 +2,7 @@ import { Icon_ChevronDown } from '@/assets/icons';
 import { Appbar } from '@/components/Appbar';
 import Link from 'next/link';
 
-const AuthorsLayout = ({ children }: { children: React.ReactNode }) => {
+const ProductLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="container">
       <Appbar
@@ -18,4 +18,4 @@ const AuthorsLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default AuthorsLayout;
+export default ProductLayout;

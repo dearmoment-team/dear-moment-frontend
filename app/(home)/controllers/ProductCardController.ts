@@ -1,11 +1,11 @@
 import { MainPageProduct } from '@/api/products/types';
 import { useState } from 'react';
 
-interface UseAuthorCardControllerProps {
+interface UseProductCardControllerProps {
   mainProduct: MainPageProduct;
 }
 
-export function useAuthorCardController({ mainProduct }: UseAuthorCardControllerProps) {
+export function useProductCardController({ mainProduct }: UseProductCardControllerProps) {
   const [isLiked, setIsLiked] = useState(mainProduct.isLiked);
 
   const onClickHeart = () => {

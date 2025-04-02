@@ -1,21 +1,21 @@
 import { MainPageProduct } from '@/api/products/types';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import AuthorCard from './AuthorCard';
+import ProductCard from './ProductCard';
 
-interface AuthorListProps {
+interface ProductListProps {
   mainProducts?: MainPageProduct[];
   loading?: boolean;
   error?: string | null;
 }
 
-export default function AuthorList({ mainProducts = [], loading = false, error }: AuthorListProps) {
+export default function ProductList({ mainProducts = [], loading, error }: ProductListProps) {
   return (
     <section className="px-[2rem] ">
       <p className="text-body1Normal font-bold text-gray-90 mt-[2.4rem] mb-[2rem]">지금 가장 HOT한 스납 작가!</p>
 
-      <ul className="space-y-[1.7rem] max-h-[calc(100vh-20rem)] overflow-y-auto scrollbar-hide">
+      <ul className="relative space-y-[1.7rem] h-[calc(100vh-20rem)] overflow-y-auto scrollbar-hide">
         {loading && (
-          <div className="flex items-center justify-center">
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <LoadingSpinner />
           </div>
         )}
@@ -35,7 +35,7 @@ export default function AuthorList({ mainProducts = [], loading = false, error }
               marginBottom: index === mainProducts.length - 1 ? '2rem' : undefined,
             }}
           >
-            <AuthorCard isFirst={index === 0} mainProduct={mainProduct} />
+            <ProductCard isFirst={index === 0} mainProduct={mainProduct} />
           </li>
         ))}
       </ul>
