@@ -11,12 +11,13 @@ export function useProductCardController({ mainProduct }: UseProductCardControll
   const [isLiked, setIsLiked] = useState(mainProduct.isLiked);
 
   const onClickHeart = async () => {
-    setIsLiked(!isLiked);
     if (isLiked) {
       // TODO: 좋아요 제거 API 호출
       // await removeLike({ likeId: mainProduct.productId, productId: mainProduct.productId });
+      setIsLiked(false);
     } else {
       await addProductLike(mainProduct.productId);
+      setIsLiked(true);
     }
   };
 

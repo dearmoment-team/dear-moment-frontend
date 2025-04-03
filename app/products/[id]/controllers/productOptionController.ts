@@ -13,12 +13,13 @@ export function useProductOptionController({ productOption }: { productOption: P
 
   // TODO: 상품 옵션 좋아요 API 연동
   const onClickHeart = async () => {
-    setIsLiked(!isLiked);
     if (isLiked) {
       // TODO: 좋아요 제거 API 호출
       // await removeOptionLike({ optionId: productOption.optionId });
+      setIsLiked(false);
     } else {
       await addOptionLike(productOption.optionId);
+      setIsLiked(true);
     }
   };
 

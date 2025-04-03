@@ -33,19 +33,33 @@ export function useProductDetailController({
     }
   };
 
-  // NOTE: 옵션 좋아요 상태값 최신화를 위해 mount 시 refech -> TODO: 추후 호출 로직 개선해보기
+  // 세션 스토리지에서 옵션 좋아요 상태 변경 여부 확인
   useEffect(() => {
-    refreshProductData();
+    // 세션 스토리지에서 상태 변경 정보 가져오기
+    const optionLikeChanged = sessionStorage.getItem('optionLikeChanged');
+    const storedProductId = sessionStorage.getItem('productId');
+
+    // NOTE: 만약에 상품 옵션 페이지에서 다른 상품의 옵션으로 이동 가능하다면 오류 발생 가능성 예방을 위해 상품 ID, 저장된 상품 ID 비교
+    // 현재 상품 ID와 저장된 상품 ID가 일치하고, 좋아요 상태가 변경되었을 때만 데이터 다시 가져오기
+    if (optionLikeChanged === 'true' && currentProduct && storedProductId === currentProduct.productId.toString()) {
+      refreshProductData();
+
+      // 세션 스토리지 정보 제거
+      sessionStorage.removeItem('optionLikeChanged');
+      sessionStorage.removeItem('optionId');
+      sessionStorage.removeItem('productId');
+    }
   }, []);
 
   const onClickHeart = async () => {
-    setIsLiked(!isLiked);
     if (isLiked) {
       // TODO: 좋아요 제거 API 호출
       // await removeLike({ likeId: mainProduct.productId, productId: mainProduct.productId });
+      setIsLiked(false);
     } else {
       if (!currentProduct) return;
       await addProductLike(currentProduct.productId);
+      setIsLiked(true);
     }
   };
 
