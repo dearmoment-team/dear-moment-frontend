@@ -2,7 +2,7 @@
 
 import { Product, ProductOption } from '@/api/products/types';
 import { Icon_Heart, Icon_Heart_Filled } from '@/assets/icons';
-import { useState } from 'react';
+import { useProductOptionController } from '../controllers/productOptionController';
 
 interface OptionDetailProps {
   initialProduct: Product | null;
@@ -11,12 +11,15 @@ interface OptionDetailProps {
 }
 
 export default function OptionDetail({ initialProduct, initialProductOption, initialError }: OptionDetailProps) {
-  // 클라이언트 상태 관리
-  const [isLiked, setIsLiked] = useState(false); // Option 좋아요
+  // TODO: 상품 옵션 좋아요 초기 상태값 likedId로 연동
+  const { isLiked, onClickHeart } = useProductOptionController({
+    initIsLiked: initialProductOption?.isLiked ?? false,
+    productOption: initialProductOption ?? null,
+  });
 
   if (initialError) {
     return (
-      <div className="p-[2rem] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+      <div className="p-[2rem] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 container mx-[2rem]">
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">{initialError}</div>
       </div>
     );
@@ -83,7 +86,7 @@ export default function OptionDetail({ initialProduct, initialProductOption, ini
         <div className="max-w-screen-md mx-auto flex gap-[1rem] justify-between items-center">
           <button
             className="w-[6.8rem] h-[5.6rem] flex justify-center items-center bg-red-0 border border-red-40 rounded-[0.4rem]"
-            onClick={() => setIsLiked(!isLiked)}
+            onClick={onClickHeart}
           >
             {isLiked ? <Icon_Heart_Filled /> : <Icon_Heart className="stroke-red-40" />}
           </button>
