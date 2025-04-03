@@ -13,8 +13,7 @@ interface OptionDetailProps {
 export default function OptionDetail({ initialProduct, initialProductOption, initialError }: OptionDetailProps) {
   // TODO: 상품 옵션 좋아요 초기 상태값 likedId로 연동
   const { isLiked, onClickHeart } = useProductOptionController({
-    initIsLiked: initialProductOption?.isLiked ?? false,
-    productOption: initialProductOption ?? null,
+    initProductOption: initialProductOption ?? null,
   });
 
   if (initialError) {

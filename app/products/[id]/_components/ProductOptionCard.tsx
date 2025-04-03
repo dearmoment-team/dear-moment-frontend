@@ -12,7 +12,7 @@ interface ProductOptionCardProps {
 
 export const ProductOptionCard = ({ productOption, productId }: ProductOptionCardProps) => {
   const router = useRouter();
-  const { isLiked, onClickHeart } = useProductOptionController({ initIsLiked: productOption.isLiked, productOption });
+  const { isLiked, onClickHeart } = useProductOptionController({ productOption });
 
   const productDetailsEntry = {
     시간: `${productOption.shootingHours}시간 ${productOption.shootingMinutes}분`,

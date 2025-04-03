@@ -17,5 +17,5 @@ export default async function ProductPage({
   // 쿼리 파라미터에서 isLiked 값 가져오기
   const initIsLiked = isLiked === 'true';
 
-  return <ProductDetail initialProduct={product} initialError={error} initIsLiked={initIsLiked} />;
+  return <ProductDetail initProduct={product} initialError={error} initIsLiked={initIsLiked} />;
 }

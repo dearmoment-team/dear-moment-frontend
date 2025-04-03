@@ -1,17 +1,42 @@
 import { addProductLike } from '@/api/likes';
+import { fetchProductDetail } from '@/api/products';
 import { Product } from '@/api/products/types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export function useProductDetailController({
   initIsLiked,
-  product,
+  initProduct,
 }: {
   initIsLiked: boolean;
-  product: Product | null;
+  initProduct: Product | null;
 }) {
+  const [currentProduct, setCurrentProduct] = useState(initProduct);
   const [isLiked, setIsLiked] = useState(initIsLiked);
   const [isOpenInquiry, setIsOpenInquiry] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+
+  // 상품 데이터 다시 가져오기
+  const refreshProductData = async () => {
+    if (!currentProduct) return;
+
+    try {
+      const { data: refreshedProduct } = await fetchProductDetail(currentProduct.productId);
+
+      if (refreshedProduct) {
+        setCurrentProduct(refreshedProduct);
+
+        // TODO: product에도 likeId 추가되면 상품 좋아요 상태 변경
+        // setIsLiked(refreshedProduct.isLiked || hasLikedOptions);
+      }
+    } catch (error) {
+      console.error('상품 데이터 가져오기 실패:', error);
+    }
+  };
+
+  // NOTE: 옵션 좋아요 상태값 최신화를 위해 mount 시 refech -> TODO: 추후 호출 로직 개선해보기
+  useEffect(() => {
+    refreshProductData();
+  }, []);
 
   const onClickHeart = async () => {
     setIsLiked(!isLiked);
@@ -19,8 +44,8 @@ export function useProductDetailController({
       // TODO: 좋아요 제거 API 호출
       // await removeLike({ likeId: mainProduct.productId, productId: mainProduct.productId });
     } else {
-      if (!product) return;
-      await addProductLike(product.productId);
+      if (!currentProduct) return;
+      await addProductLike(currentProduct.productId);
     }
   };
 
@@ -33,6 +58,7 @@ export function useProductDetailController({
   };
 
   return {
+    product: currentProduct,
     isLiked,
     onClickHeart,
     isOpenInquiry,

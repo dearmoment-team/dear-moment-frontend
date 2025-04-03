@@ -11,16 +11,24 @@ import { InquiryBottomSheet } from './InquiryBottomSheet';
 import ProductTabs from './ProductTabs';
 
 interface ProductDetailProps {
-  initialProduct: Product | null;
+  initProduct: Product | null;
   initialError: string | null;
   initIsLiked: boolean;
 }
 
-export default function ProductDetail({ initialProduct, initialError, initIsLiked }: ProductDetailProps) {
-  const { isLiked, onClickHeart, isOpenInquiry, selectedImageIndex, setIsOpenInquiry, onSelectImage, onResetImage } =
-    useProductDetailController({ initIsLiked, product: initialProduct });
+export default function ProductDetail({ initProduct, initialError, initIsLiked }: ProductDetailProps) {
+  const {
+    product,
+    isLiked,
+    onClickHeart,
+    isOpenInquiry,
+    selectedImageIndex,
+    setIsOpenInquiry,
+    onSelectImage,
+    onResetImage,
+  } = useProductDetailController({ initIsLiked, initProduct });
 
-  const portfolioImages = initialProduct?.subImages.map(img => img.url) ?? [];
+  const portfolioImages = product?.subImages.map(img => img.url) ?? [];
 
   if (initialError) {
     return (
@@ -34,7 +42,7 @@ export default function ProductDetail({ initialProduct, initialError, initIsLike
     <div className="w-full max-w-screen-md mx-auto">
       {/* 대표 이미지 */}
       <div className="relative w-full h-[286px]">
-        <Image src={initialProduct?.mainImage.url ?? ''} alt="main_image" fill className="object-contain" />
+        <Image src={product?.mainImage.url ?? ''} alt="main_image" fill className="object-contain" />
       </div>
 
       {/* 작가 정보 섹션 */}
@@ -44,9 +52,9 @@ export default function ProductDetail({ initialProduct, initialError, initIsLike
           <div className="flex items-center gap-[1rem]">
             <div className="w-[5.7rem] h-[5.7rem] rounded-full bg-gray-40" />
             <div className="space-y-[0.8rem] py-[0.7rem]">
-              <span className="text-gray-90 text-subtitle2 font-bold">{initialProduct?.title}</span>
+              <span className="text-gray-90 text-subtitle2 font-bold">{product?.title}</span>
               <div className="flex gap-[0.5rem]">
-                {initialProduct?.retouchStyles.map(style => (
+                {product?.retouchStyles.map(style => (
                   <div
                     key={style}
                     className="text-gray-80 text-label2 font-semibold bg-red-20 px-[0.8rem] py-[0.45rem]"
@@ -61,13 +69,13 @@ export default function ProductDetail({ initialProduct, initialError, initIsLike
             </button>
           </div>
           <div className="mt-[1.4rem]">
-            <p className="text-body2Reading font-bold">{initialProduct?.description}</p>
-            <p className="text-body2Reading font-bold">{initialProduct?.detailedInfo}</p>
+            <p className="text-body2Reading font-bold">{product?.description}</p>
+            <p className="text-body2Reading font-bold">{product?.detailedInfo}</p>
           </div>
           <div className="flex gap-[0.5rem] mt-[1.4rem] items-center">
             <Icon_Calendar width={14} height={14} />
             <div className="flex gap-[0.6rem] items-center">
-              {initialProduct?.availableSeasons.map((season, index) => (
+              {product?.availableSeasons.map((season, index) => (
                 <span
                   key={index}
                   className="text-label2 font-medium text-gray-80 last:border-l last:border-gray-50 last:pl-[0.6rem]"
@@ -80,7 +88,7 @@ export default function ProductDetail({ initialProduct, initialError, initIsLike
           <div className="flex gap-[0.5rem] mt-[0.6rem] items-center">
             <Icon_Calendar width={14} height={14} />
             <div className="flex gap-[0.6rem] items-center">
-              {initialProduct?.cameraTypes.map((cameraType, index) => (
+              {product?.cameraTypes.map((cameraType, index) => (
                 <span
                   key={index}
                   className="text-label2 font-medium text-gray-80 last:border-l last:border-gray-50 last:pl-[0.6rem]"
@@ -96,9 +104,7 @@ export default function ProductDetail({ initialProduct, initialError, initIsLike
         <div className="">
           {/* 작가 포트폴리오 */}
           <div className="mt-[0.6rem] px-[2rem]">
-            <p className="text-gray-95 text-body2Normal font-semibold mb-[2rem]">
-              {initialProduct?.title}의 포트폴리오
-            </p>
+            <p className="text-gray-95 text-body2Normal font-semibold mb-[2rem]">{product?.title}의 포트폴리오</p>
             <div className="flex gap-[0.2rem] flex-wrap">
               {portfolioImages?.map((imgSrc, index) => {
                 if (index > 7) return null;
@@ -119,9 +125,9 @@ export default function ProductDetail({ initialProduct, initialError, initIsLike
 
         {/* 상품정보, 안내사항 탭 */}
         <ProductTabs
-          productOptions={initialProduct?.options ?? []}
+          productOptions={product?.options ?? []}
           guidelines={['guildline1', 'guildline2']}
-          product={initialProduct}
+          product={product}
         />
 
         {/* 문의하기 버튼 */}
@@ -143,7 +149,7 @@ export default function ProductDetail({ initialProduct, initialError, initIsLike
 
       {/* 문의하기 Popup */}
       <InquiryBottomSheet
-        productOptions={initialProduct?.options ?? []}
+        productOptions={product?.options ?? []}
         open={isOpenInquiry}
         onOpenChange={setIsOpenInquiry}
         isLiked={isLiked}
