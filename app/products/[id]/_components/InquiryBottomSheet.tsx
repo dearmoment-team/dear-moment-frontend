@@ -1,3 +1,4 @@
+import { addInquiryOption } from '@/api/inquiries';
 import { ProductOption } from '@/api/products/types';
 import { Icon_Heart, Icon_Heart_Filled } from '@/assets/icons';
 import { BaseItem, Dropbox } from '@/components/molecule/Dropbox';
@@ -24,13 +25,29 @@ export const InquiryBottomSheet = ({
   const dropdownItems = productOptions.map(option => ({
     id: option.optionId.toString(),
     label: option.name,
-    value: option.optionId.toString(),
+    value: option.discountPrice,
   }));
 
   // 상품 선택 시 가격 업데이트
   const handleProductSelect = (item: BaseItem | null) => {
     setSelectedItem(item);
   };
+
+  const onClickInquiry = async () => {
+    if (!selectedItem) return;
+    const currOption = productOptions.find(option => option.optionId === Number(selectedItem.id));
+
+    // TODO: 문의하기 API 호출
+    try {
+      if (!currOption) return;
+
+      await addInquiryOption({ productId: currOption.productId, optionId: currOption.optionId });
+      alert('문의가 성공적으로 등록되었습니다.');
+    } catch (error) {
+      console.error('문의하기 API 호출 중 오류:', error);
+    }
+  };
+
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetOverlay className="data-[state=open]:animate-fadeIn data-[state=closed]:animate-fadeOut" />
@@ -55,7 +72,7 @@ export const InquiryBottomSheet = ({
         <div className="mt-[1.4rem] pt-[2.4rem] border-t border-gray-20 flex justify-between">
           <span className="text-body1Normal font-bold text-gray-70">문의 상품 금액</span>
           <span className="text-body1Normal font-semibold text-gray-90">
-            {Boolean(selectedItem?.value) ? `${selectedItem?.value}원` : '-'}
+            {Boolean(selectedItem?.value) ? `${selectedItem?.value.toLocaleString()}원` : '-'}
           </span>
         </div>
         <div className="h-[5.6rem] mt-[3.2rem] flex gap-[1rem] justify-between items-center">
@@ -70,6 +87,7 @@ export const InquiryBottomSheet = ({
               selectedItem ? 'bg-red-40' : 'bg-gray-40'
             }`}
             disabled={!selectedItem}
+            onClick={onClickInquiry}
           >
             문의하기
           </button>
