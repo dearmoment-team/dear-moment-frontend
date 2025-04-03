@@ -25,3 +25,23 @@ export const login = async ({ loginId, password }: LoginFormDataType) => {
 
   return { token, data };
 };
+
+export const getProfile = async (token: string) => {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/users`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('작가 정보 조회 실패');
+  }
+
+  const data = await response.json();
+  console.log(data);
+
+  return { data };
+};

@@ -1,48 +1,127 @@
-import { FilterType, FilterValue } from "../type";
+import {
+  CameraType,
+  FilterType,
+  FilterValue,
+  PackageType,
+  PriceRange,
+  RetouchStyle,
+  ShootingPeriod,
+  SortOption,
+} from '../type';
 
 // 필터링 관련 상수와 타입 정의
-export const PRICE_RANGE_MAP = {
-  "20만원 이하": [0, 20],
-  "20~40만원대": [21, 40],
-  "40~60만원대": [41, 60],
-  "60~80만원대": [61, 80],
-  "80만원 이상": [81, 100],
+
+export const FILTER_DISPLAY_MAP: Record<FilterType, string> = {
+  sortBy: '정렬',
+  shootingPeriod: '촬영 시기',
+  cameraType: '카메라 종류',
+  retouchStyle: '보정 스타일',
+  packageType: '패키지',
+  priceRange: '가격',
+};
+
+// 가격 범위 매핑 상수
+export const PRICE_RANGE_MAP: Record<string, PriceRange> = {
+  '40만원 이하': { min: 0, max: 40 },
+  '40-60만원 이하': { min: 41, max: 60 },
+  '60-80만원 이하': { min: 61, max: 80 },
+  '80-100만원 이하': { min: 81, max: 100 },
+  '100-120만원 이하': { min: 101, max: 120 },
+  '120-150만원 이하': { min: 121, max: 150 },
+  '150-200만원 이하': { min: 151, max: 200 },
+  '200만원 초과': { min: 201, max: 1000 },
 } as const;
 
-export const SORT_OPTIONS = ["최신순", "인기순", "좋아요순"] as const;
-export const SHOOTING_PERIOD_OPTIONS = [
-  "2025년 상반기",
-  "2025년 하반기",
-  "2026년 상반기",
-] as const;
-export const STYLE_OPTIONS = [
-  "빈티지한",
-  "우아한",
-  "따뜻한",
-  "모던한",
-  "클래식한",
-] as const;
-export const PACKAGE_OPTIONS = ["있음", "없음"] as const;
+// 정렬 옵션
+export const SORT_OPTIONS: SortOption[] = ['RECOMMENDED', 'POPULAR', 'PRICE_LOW', 'PRICE_HIGH'];
+
+// 정렬 옵션 표시 매핑
+export const SORT_DISPLAY_MAP: Record<SortOption, string> = {
+  RECOMMENDED: '추천순',
+  POPULAR: '인기순',
+  PRICE_LOW: '낮은가격순',
+  PRICE_HIGH: '높은가격순',
+};
+
+// 촬영 시기 옵션
+export const SHOOTING_PERIOD_OPTIONS: ShootingPeriod[] = [
+  'YEAR_2025_FIRST_HALF',
+  'YEAR_2025_SECOND_HALF',
+  'YEAR_2026_FIRST_HALF',
+  'YEAR_2026_SECOND_HALF',
+];
+
+// 촬영 시기 표시 매핑
+export const SHOOTING_PERIOD_DISPLAY_MAP: Record<ShootingPeriod, string> = {
+  YEAR_2025_FIRST_HALF: '2025년 상반기',
+  YEAR_2025_SECOND_HALF: '2025년 하반기',
+  YEAR_2026_FIRST_HALF: '2026년 상반기',
+  YEAR_2026_SECOND_HALF: '2026년 하반기',
+};
+
+// 카메라 종류 옵션
+export const CAMERA_OPTIONS: CameraType[] = ['DIGITAL', 'FILM'];
+
+// 카메라 종류 표시 매핑
+export const CAMERA_DISPLAY_MAP: Record<CameraType, string> = {
+  DIGITAL: '디지털',
+  FILM: '필름',
+};
+
+// 보정 스타일 옵션
+export const STYLE_OPTIONS: RetouchStyle[] = [
+  'MODERN',
+  'CHIC',
+  'CALM',
+  'VINTAGE',
+  'FAIRYTALE',
+  'WARM',
+  'DREAMY',
+  'BRIGHT',
+  'NATURAL',
+];
+
+// 보정 스타일 표시 매핑
+export const STYLE_DISPLAY_MAP: Record<RetouchStyle, string> = {
+  MODERN: '모던한',
+  CHIC: '시크한',
+  CALM: '안정적인',
+  VINTAGE: '빈티지한',
+  FAIRYTALE: '동화같은',
+  WARM: '따뜻한',
+  DREAMY: '몽환적인',
+  BRIGHT: '밝은',
+  NATURAL: '자연스러운',
+};
+
+// 패키지 옵션
+export const PACKAGE_OPTIONS: PackageType[] = [
+  'HAIR_MAKEUP',
+  'DRESS',
+  'MENS_SUIT',
+  'BOUQUET',
+  'VIDEO',
+  'STUDIO',
+  'ETC',
+];
+
+// 패키지 표시 매핑
+export const PACKAGE_DISPLAY_MAP: Record<PackageType, string> = {
+  HAIR_MAKEUP: '헤어/메이크업',
+  DRESS: '드레스',
+  MENS_SUIT: '남성용 수트',
+  BOUQUET: '부케',
+  VIDEO: '비디오',
+  STUDIO: '스튜디오',
+  ETC: '기타',
+};
 
 // 필터 초기 상태
 export const INITIAL_FILTER_STATE: Record<FilterType, FilterValue> = {
-  정렬: "",
-  촬영시기: "",
-  스타일: [],
-  패키지: "",
-  가격: 0,
+  sortBy: '',
+  shootingPeriod: [],
+  cameraType: [],
+  retouchStyle: [],
+  packageType: '',
+  priceRange: { min: undefined, max: undefined },
 };
-
-// 필터 관련 유틸리티 함수들
-export class FilteringUtils {
-  static getCurrentPriceButton(price: number): string {
-    const selectedRange = Object.entries(PRICE_RANGE_MAP).find(([, range]) => {
-      return price >= range[0] && price <= range[1];
-    });
-    return selectedRange ? selectedRange[0] : "";
-  }
-
-  static getPriceRange(value: string) {
-    return PRICE_RANGE_MAP[value as keyof typeof PRICE_RANGE_MAP];
-  }
-}
