@@ -1,3 +1,5 @@
+import { ApiResponse, PagedResponse } from '../common/types';
+
 // 상품 관련 API 타입 정의
 
 // 이미지 타입 정의
@@ -36,7 +38,6 @@ export interface ProductOption {
 // 상품 데이터 형식 정의
 export interface Product {
   productId: number; // 상품 ID
-  userId: number; // 사용자 ID
   productType: string; // 상품 유형 'WEDDING_SNAP' 등
   shootingPlace: string; // 촬영장소 'JEJU' 등
   title: string; // 상품 제목
@@ -67,19 +68,11 @@ export interface MainPageProduct {
   isLiked: boolean; // 좋아요 여부
 }
 
-import { ApiResponse } from '../common/types';
-
-// 페이지네이션 응답 형식 정의
-export interface PagedResponse<T> {
-  content: T[];
-  page: number;
-  size: number;
-  totalElements: number;
-  totalPages: number;
-}
-
 // 메인 페이지 상품 응답 형식
 export type MainPageProductsResponse = ApiResponse<PagedResponse<MainPageProduct>>;
+
+// 상품 상세 응답 형식
+export type ProductDetailResponse = ApiResponse<Product>;
 
 // 상품 검색 필터 요청 타입
 export interface ProductSearchFilter {

@@ -3,7 +3,7 @@
 import { API_ENDPOINTS } from '../config';
 import { handleApiError } from '../error';
 import { get } from '../utils/http';
-import { MainPageProductsResponse, Product, ProductSearchFilter } from './types';
+import { MainPageProductsResponse, ProductDetailResponse, ProductSearchFilter } from './types';
 
 /**
  * 메인 페이지 상품 목록을 가져오는 API
@@ -26,10 +26,10 @@ export async function fetchMainPageProducts(page: number = 0, size: number = 10)
  * @param id 상품 ID
  * @returns 상품 상세 정보
  */
-export async function fetchProductDetail(id: number): Promise<Product> {
+export async function fetchProductDetail(id: number): Promise<ProductDetailResponse> {
   try {
     const endpoint = API_ENDPOINTS.products.detail(id);
-    return await get<Product>(endpoint);
+    return await get<ProductDetailResponse>(endpoint);
   } catch (error) {
     console.error('상품 상세 데이터 가져오기 실패:', error);
     throw handleApiError(error);

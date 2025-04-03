@@ -5,11 +5,11 @@ import { Icon_Calendar, Icon_Cancel_Circle_Filled, Icon_Heart, Icon_Heart_Filled
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useAuthorCardController } from '../controllers/AuthorCardController';
+import { useProductCardController } from '../controllers/ProductCardController';
 import { STYLE_DISPLAY_MAP } from '../models/FilteringModel';
 import { RetouchStyle } from '../type';
 
-export default function AuthorCard({
+export default function ProductCard({
   mainProduct,
   isFirst = false,
 }: {
@@ -18,21 +18,21 @@ export default function AuthorCard({
 }) {
   const router = useRouter();
   // TODO: 기존 상품에 대한 좋아요 표시 상태값 초기화 및 좋아요 API 연동
-  const { isLiked, onClickHeart } = useAuthorCardController({ mainProduct });
+  const { isLiked, onClickHeart } = useProductCardController({ mainProduct });
   const [showNotification, setShowNotification] = useState(false);
 
   // 첫번째 요소에만 Notification 띄우고 session 기간까지만 유지
   // 현재는 mockData 사용중이라 새로고침 시 깜빡이는 이슈 존재하지만 실 데이터 API 연동 시 데이터 바인딩 후 AuthorCard 렌더링 되므로 깜빡이는 이슈 해결
   useEffect(() => {
     if (isFirst) {
-      const notificationState = sessionStorage.getItem('authorCardNotificationShown');
+      const notificationState = sessionStorage.getItem('productCardNotificationShown');
       setShowNotification(notificationState !== 'hidden');
     }
   }, [isFirst]);
 
   const closeNotification = (e: React.MouseEvent) => {
     e.stopPropagation();
-    sessionStorage.setItem('authorCardNotificationShown', 'hidden');
+    sessionStorage.setItem('productCardNotificationShown', 'hidden');
     setShowNotification(false);
   };
 
@@ -49,9 +49,9 @@ export default function AuthorCard({
   // 썸네일 이미지 설정
   const thumbnails = mainProduct.thumbnailUrls || [];
 
-  // 작가 페이지로 이동
+  // 상품 페이지로 이동
   const handleMainProductClick = () => {
-    router.push(`/authors/${mainProduct.productId}`);
+    router.push(`/product/${mainProduct.productId}`);
   };
 
   return (

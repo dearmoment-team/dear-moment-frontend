@@ -1,23 +1,29 @@
+import { ProductOption } from '@/api/products/types';
 import { Icon_Heart, Icon_Heart_Filled } from '@/assets/icons';
 import { Dropbox } from '@/components/molecule/Dropbox';
 import { Sheet, SheetContent, SheetHeader, SheetOverlay, SheetTitle } from '@/components/ui/sheet';
 import { Dispatch, SetStateAction } from 'react';
 
 interface InquiryBottomSheetProps {
+  productOptions: ProductOption[];
   open: boolean;
   onOpenChange: (open: boolean) => void;
   isLiked: boolean;
   setIsLiked: Dispatch<SetStateAction<boolean>>;
 }
 
-export const InquiryBottomSheet = ({ open, onOpenChange, isLiked, setIsLiked }: InquiryBottomSheetProps) => {
-  const dropdownItems = [
-    { id: '1', label: '1', value: '1' },
-    { id: '2', label: '2', value: '2' },
-    { id: '3', label: '3', value: '3' },
-    { id: '4', label: '4', value: '4' },
-    { id: '5', label: '5', value: '5' },
-  ];
+export const InquiryBottomSheet = ({
+  productOptions,
+  open,
+  onOpenChange,
+  isLiked,
+  setIsLiked,
+}: InquiryBottomSheetProps) => {
+  const dropdownItems = productOptions.map(option => ({
+    id: option.optionId.toString(),
+    label: option.name,
+    value: option.optionId.toString(),
+  }));
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetOverlay className="data-[state=open]:animate-fadeIn data-[state=closed]:animate-fadeOut" />
