@@ -1,14 +1,17 @@
 'use client';
 
-import { postStudio } from '@/admin/_services/studio';
+import { getStudio, patchStudio, postStudio } from '@/admin/_services/studio';
 import { adminTokenStore } from '@/admin/_stores/adminTokenStore';
 import { StudioFormDataType } from '@/admin/_types/studio';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 
 export const useStudio = () => {
   const { token } = adminTokenStore();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const studioId = searchParams.get('id');
 
   const methods = useForm<StudioFormDataType>({
     defaultValues: {
@@ -32,20 +35,44 @@ export const useStudio = () => {
     },
   });
 
-  const { control } = methods;
+  const { reset, control } = methods;
 
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'partnerShops',
   });
 
+  useEffect(() => {
+    const fetchStudio = async () => {
+      if (!studioId) return;
+      try {
+        const { data: responseData } = await getStudio(token, studioId);
+        reset(responseData.data);
+      } catch (error) {
+        console.error('스튜디오 불러오기 실패:', error);
+      }
+    };
+
+    fetchStudio();
+  }, [studioId, reset, token]);
+
   const onSubmit = async (data: StudioFormDataType) => {
-    try {
-      const { data: studioData } = await postStudio({ token, body: data });
-      alert('스튜디오 등록에 성공했습니다.');
-      router.push(`/admin/studio?id=${studioData.data.id}`);
-    } catch (error) {
-      console.error(error);
+    if (!studioId) {
+      try {
+        const { data: studioData } = await postStudio({ token, body: data });
+        alert('스튜디오 등록에 성공했습니다.');
+        router.push(`/admin/studio?id=${studioData.data.id}`);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      try {
+        const { data: studioIdData } = await patchStudio({ token, body: data, studioId });
+        alert('스튜디오 수정에 성공했습니다.');
+        router.push(`/admin/studio?id=${studioIdData.data.id}`);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
