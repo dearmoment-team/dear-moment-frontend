@@ -3,15 +3,20 @@
 import Plus from '../../assets/icons/svg/plus_circle.svg';
 import Minus from '../../assets/icons/svg/minus_circle.svg';
 import { FormProvider } from 'react-hook-form';
-import { usePostStudio } from '../_hooks/studio/usePostStudio';
+import { useStudio } from '../_hooks/studio/useStudio';
+import { PARTNERSHOPS_CATEGORY } from '../_constants/studio';
 
 const StudioForm = () => {
-  const methods = usePostStudio();
+  const methods = useStudio();
   const {
     register,
     handleSubmit,
     onSubmit,
+    reset,
     formState: { errors },
+    fields,
+    append,
+    remove,
   } = methods;
 
   return (
@@ -72,6 +77,7 @@ const StudioForm = () => {
             </label>
             <input
               type="text"
+              placeholder="'010-0000-0000' 형태로 작성 해주세요."
               {...register('contact', { required: true })}
               className="w-full rounded-md border border-solid border-[#D8DDE3] p-2 focus:outline-none focus:ring-2 focus:ring-[#D8DDE3]"
             />
@@ -130,25 +136,66 @@ const StudioForm = () => {
         {/* 제휴 업체 플러스 버튼 클릭 시 배열 추가 시켜야함. */}
         <div>
           <label className="mb-2 block font-medium">일반 제휴 업체</label>
-          <div className="mb-2 grid grid-cols-4 items-center gap-2">
-            <select className="w-full rounded-md border border-solid border-[#D8DDE3] p-2 focus:outline-none focus:ring-2 focus:ring-[#D8DDE3]">
-              <option>제휴 업체 구분</option>
-            </select>
-            <input
-              type="text"
-              placeholder="제휴 업체명"
-              className="w-full rounded-md border border-solid border-[#D8DDE3] p-2 text-[#4C5C6B] focus:outline-none focus:ring-2 focus:ring-[#D8DDE3]"
-            />
-            <input
-              type="text"
-              placeholder="링크"
-              className="w-full rounded-md border border-solid border-[#D8DDE3] p-2 text-[#4C5C6B] focus:outline-none focus:ring-2 focus:ring-[#D8DDE3]"
-            />
-            <div className="flex w-full gap-2">
-              <Plus width={16.5} height={16.5} />
-              <Minus width={16.5} height={16.5} />
+
+          {fields.map((field, index) => (
+            <div key={field.id} className="mb-2 grid grid-cols-4 items-center gap-2">
+              {/* 카테고리 select */}
+              <select
+                {...register(`partnerShops.${index}.category`, { required: true })}
+                className="w-full rounded-md border border-solid border-[#D8DDE3] p-2 focus:outline-none focus:ring-2 focus:ring-[#D8DDE3]"
+                defaultValue={field.category ?? ''}
+              >
+                <option value="" disabled>
+                  제휴 업체 구분
+                </option>
+                {Object.entries(PARTNERSHOPS_CATEGORY).map(([label, value]) => (
+                  <option value={value} key={value}>
+                    {label}
+                  </option>
+                ))}
+              </select>
+
+              {/* 제휴 업체명 input */}
+              <input
+                {...register(`partnerShops.${index}.name`, { required: true })}
+                type="text"
+                placeholder="제휴 업체명"
+                defaultValue={field.name}
+                className="w-full rounded-md border border-solid border-[#D8DDE3] p-2"
+              />
+
+              {/* 링크 input */}
+              <input
+                {...register(`partnerShops.${index}.urlLink`, { required: true })}
+                type="text"
+                placeholder="링크"
+                defaultValue={field.urlLink}
+                className="w-full rounded-md border border-solid border-[#D8DDE3] p-2"
+              />
+
+              {/* 버튼 영역 */}
+              <div className="flex w-full gap-2">
+                {/* 추가 */}
+                <button
+                  type="button"
+                  onClick={() => append({ category: 'WEDDING_SHOP', name: '', urlLink: '' })}
+                  className="flex items-center justify-center"
+                >
+                  <Plus width={16.5} height={16.5} />
+                </button>
+
+                {/* 삭제 */}
+                <button
+                  type="button"
+                  onClick={() => remove(index)}
+                  disabled={fields.length === 1}
+                  className="flex items-center justify-center"
+                >
+                  <Minus width={16.5} height={16.5} />
+                </button>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
 
         {/* 예약 전 안내사항 */}
@@ -171,7 +218,7 @@ const StudioForm = () => {
 
         {/* 버튼 */}
         <div className="mt-6 flex justify-end gap-2">
-          <button type="button" className="rounded bg-[#E0E0E0] px-4 py-2 text-black">
+          <button onClick={() => reset()} type="button" className="rounded bg-[#E0E0E0] px-4 py-2 text-black">
             취소
           </button>
           <button type="submit" className="rounded bg-[#3F3F3F] px-4 py-2 text-white">
