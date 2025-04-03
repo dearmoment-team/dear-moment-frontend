@@ -1,9 +1,9 @@
 import { addInquiryOption } from '@/api/inquiries';
 import { addOptionLike } from '@/api/likes';
-import { ProductOption } from '@/api/products/types';
+import { Product, ProductOption } from '@/api/products/types';
 import { useState } from 'react';
 
-export function useProductOptionController({ initProductOption }: { initProductOption: ProductOption | null }) {
+export function useProductOptionController({ initProductOption, initProduct }: { initProductOption: ProductOption | null, initProduct: Product | null }) {
   const [isLiked, setIsLiked] = useState(initProductOption?.isLiked ?? false);
 
   // 상품 옵션 좋아요 API 연동
@@ -35,12 +35,16 @@ export function useProductOptionController({ initProductOption }: { initProductO
 
   const onClickInquiry = async () => {
     try {
-      if (!initProductOption) return;
+      if (!initProductOption || !initProduct) return;
 
       await addInquiryOption({
         productId: initProductOption.productId,
         optionId: initProductOption.optionId,
       });
+      const url = initProduct?.studio?.kakaoChannelUrl;
+      if (url) {
+        window.open(url, '_blank');
+      }
       alert('문의가 성공적으로 등록되었습니다.');
     } catch (error) {
       console.error('옵션 문의 액션 실패:', error);

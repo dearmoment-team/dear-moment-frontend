@@ -1,12 +1,12 @@
 import { addInquiryOption } from '@/api/inquiries';
-import { ProductOption } from '@/api/products/types';
+import { Product, ProductOption } from '@/api/products/types';
 import { Icon_Heart, Icon_Heart_Filled } from '@/assets/icons';
 import { BaseItem, Dropbox } from '@/components/molecule/Dropbox';
 import { Sheet, SheetContent, SheetHeader, SheetOverlay, SheetTitle } from '@/components/ui/sheet';
 import { useState } from 'react';
 
 interface InquiryBottomSheetProps {
-  productOptions: ProductOption[];
+  product: Product | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   isLiked: boolean;
@@ -14,7 +14,7 @@ interface InquiryBottomSheetProps {
 }
 
 export const InquiryBottomSheet = ({
-  productOptions,
+  product,
   open,
   onOpenChange,
   isLiked,
@@ -22,7 +22,7 @@ export const InquiryBottomSheet = ({
 }: InquiryBottomSheetProps) => {
   const [selectedItem, setSelectedItem] = useState<BaseItem | null>(null);
 
-  const dropdownItems = productOptions.map(option => ({
+  const dropdownItems = product?.options.map(option => ({
     id: option.optionId.toString(),
     label: option.name,
     value: option.discountPrice,
@@ -35,13 +35,17 @@ export const InquiryBottomSheet = ({
 
   const onClickInquiry = async () => {
     if (!selectedItem) return;
-    const currOption = productOptions.find(option => option.optionId === Number(selectedItem.id));
+    const currOption = product?.options.find(option => option.optionId === Number(selectedItem.id));
 
     // TODO: 문의하기 API 호출
     try {
       if (!currOption) return;
 
       await addInquiryOption({ productId: currOption.productId, optionId: currOption.optionId });
+      const url = product?.studio?.kakaoChannelUrl;
+      if (url) {
+        window.open(url, '_blank');
+      }
       alert('문의가 성공적으로 등록되었습니다.');
     } catch (error) {
       console.error('문의하기 API 호출 중 오류:', error);

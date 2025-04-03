@@ -149,7 +149,7 @@ export default function ProductDetail({ initProduct, initialError, initIsLiked }
 
       {/* 문의하기 Popup */}
       <InquiryBottomSheet
-        productOptions={product?.options ?? []}
+        product={product}
         open={isOpenInquiry}
         onOpenChange={setIsOpenInquiry}
         isLiked={isLiked}

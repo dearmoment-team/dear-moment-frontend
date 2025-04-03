@@ -14,6 +14,7 @@ export default function OptionDetail({ initialProduct, initialProductOption, ini
   // TODO: 상품 옵션 좋아요 초기 상태값 likedId로 연동
   const { isLiked, onClickHeart, onClickInquiry } = useProductOptionController({
     initProductOption: initialProductOption ?? null,
+    initProduct: initialProduct ?? null,
   });
 
   if (initialError) {
