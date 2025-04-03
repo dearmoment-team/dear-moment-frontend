@@ -1,6 +1,6 @@
 'use client';
 
-import { getProfile, login } from '@/admin/_apis/user';
+import { getProfile, login } from '@/admin/_services/user';
 import { adminTokenStore } from '@/admin/_stores/adminTokenStore';
 import { LoginFormDataType } from '@/admin/_types/login';
 import { useRouter } from 'next/navigation';
