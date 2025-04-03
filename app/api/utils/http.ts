@@ -18,10 +18,11 @@ export const defaultRequestOptions: RequestInit = {
  */
 function createAbortController(timeout: number = API_CONFIG.timeout): {
   controller: AbortController;
-  timeoutId: number;
+  timeoutId: NodeJS.Timeout | number;
 } {
   const controller = new AbortController();
-  const timeoutId = window.setTimeout(() => controller.abort(), timeout);
+  // 서버와 클라이언트 환경 모두에서 동작하도록 수정
+  const timeoutId = setTimeout(() => controller.abort(), timeout);
   return { controller, timeoutId };
 }
 
