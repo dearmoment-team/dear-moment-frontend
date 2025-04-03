@@ -1,15 +1,24 @@
 'use client';
 
+import { MainPageProduct } from '@/api/products/types';
 import { Icon_Calendar, Icon_Cancel_Circle_Filled, Icon_Heart, Icon_Heart_Filled } from '@/assets/icons';
-import { AuthorDetail } from '@/mock/authorData';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useAuthorCardController } from '../controllers/AuthorCardController';
+import { STYLE_DISPLAY_MAP } from '../models/FilteringModel';
+import { RetouchStyle } from '../type';
 
-export default function AuthorCard({ author, isFirst = false }: { author: AuthorDetail; isFirst?: boolean }) {
+export default function AuthorCard({
+  mainProduct,
+  isFirst = false,
+}: {
+  mainProduct: MainPageProduct;
+  isFirst?: boolean;
+}) {
   const router = useRouter();
-  const { isLiked, onClickHeart } = useAuthorCardController();
+  // TODO: 기존 상품에 대한 좋아요 표시 상태값 초기화 및 좋아요 API 연동
+  const { isLiked, onClickHeart } = useAuthorCardController({ mainProduct });
   const [showNotification, setShowNotification] = useState(false);
 
   // 첫번째 요소에만 Notification 띄우고 session 기간까지만 유지
@@ -21,7 +30,8 @@ export default function AuthorCard({ author, isFirst = false }: { author: Author
     }
   }, [isFirst]);
 
-  const closeNotification = () => {
+  const closeNotification = (e: React.MouseEvent) => {
+    e.stopPropagation();
     sessionStorage.setItem('authorCardNotificationShown', 'hidden');
     setShowNotification(false);
   };
@@ -32,31 +42,65 @@ export default function AuthorCard({ author, isFirst = false }: { author: Author
     onClickHeart();
   };
 
+  // MainPageProduct 타입은 이미 계산된 값을 가지고 있음
+  const { minPrice, maxPrice, discountRate } = mainProduct;
+  const hasDiscount = discountRate > 0;
+
+  // 썸네일 이미지 설정
+  const thumbnails = mainProduct.thumbnailUrls || [];
+
+  // 작가 페이지로 이동
+  const handleMainProductClick = () => {
+    router.push(`/authors/${mainProduct.productId}`);
+  };
+
   return (
-    <div className="w-full bg-white rounded-lg cursor-pointer" onClick={() => router.push(`/authors/${author.id}`)}>
-      {/* 사진 갤러리 레이아웃 */}
-      <div className="flex gap-[0.2rem] h-[13.6rem] relative">
-        <div className="text-label1Normal font-semibold text-common-0 bg-red-40 absolute top-0 left-0 z-10 px-[0.8rem] py-[0.55rem]">
-          할인 프로모션
+    <div className="w-full bg-white rounded-lg cursor-pointer" onClick={handleMainProductClick}>
+      {/* 사진 갤러리 레이아웃 - 가로 스크롤 기능 추가 */}
+      <div className="relative h-[13.6rem]">
+        {hasDiscount && (
+          <div className="text-label1Normal font-semibold text-common-0 bg-red-40 absolute top-0 left-0 z-10 px-[0.8rem] py-[0.55rem]">
+            할인 프로모션
+          </div>
+        )}
+
+        {/* 이미지 갤러리 스크롤 영역 */}
+        <div className="flex overflow-x-auto gap-[0.2rem] h-full scrollbar-hide snap-x snap-mandatory">
+          {thumbnails.length > 0 ? (
+            thumbnails.map((thumbnail, index) => (
+              <div key={index} className="relative flex-shrink-0 w-[calc(33.33%-0.133rem)] h-full snap-start">
+                <Image
+                  src={thumbnail || '/author_thumb.png'}
+                  alt={`상품 이미지 ${index + 1}`}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            ))
+          ) : (
+            // 이미지가 없을 경우 기본 이미지 표시
+            <div className="relative flex-shrink-0 w-full h-full">
+              <Image src="/author_thumb.png" alt="기본 상품 이미지" fill className="object-cover" />
+            </div>
+          )}
         </div>
-        <div className="relative flex-[2] overflow-hidden ">
-          <Image src="/author_thumb.png" alt="메인 웨딩 사진" fill className="object-cover" />
-        </div>
-        <div className="relative flex-[2] overflow-hidden ">
-          <Image src="/author_thumb.png" alt="메인 웨딩 사진" fill className="object-cover" />
-        </div>
-        <div className="relative flex-[2] overflow-hidden ">
-          <Image src="/author_thumb.png" alt="메인 웨딩 사진" fill className="object-cover" />
-        </div>
+
+        {/* 스크롤 표시자 */}
+        {thumbnails.length > 3 && (
+          <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1">
+            {thumbnails.map((_, index) => (
+              <div key={index} className={`w-1.5 h-1.5 rounded-full ${index < 3 ? 'bg-white' : 'bg-white/50'}`} />
+            ))}
+          </div>
+        )}
       </div>
 
       {/* 하단 텍스트 정보 */}
       <div className="mt-[0.8rem]">
         <div className="flex justify-between gap-2">
           <div className="flex items-center gap-[1rem]">
-            {/* 작가 프로필 이미지 */}
-            {/* <div className="w-[2.4rem] h-[2.4rem] bg-gray-50 rounded-full" /> */}
-            <h3 className="text-body2Normal font-semibold text-gray-90">{author.name}</h3>
+            {/* 스튜디오 이름 */}
+            <h3 className="text-body2Normal font-semibold text-gray-90">{mainProduct.studioName}</h3>
           </div>
 
           {isLiked ? (
@@ -66,14 +110,20 @@ export default function AuthorCard({ author, isFirst = false }: { author: Author
           )}
         </div>
         <div className="flex gap-[0.4rem] mt-[0.5rem]">
-          <CategoryLabel label="우아한" />
-          <CategoryLabel label="빈티지한" />
+          {mainProduct.retouchStyles &&
+            mainProduct.retouchStyles
+              .slice(0, 2)
+              .map((style, index) => <CategoryLabel key={index} label={STYLE_DISPLAY_MAP[style as RetouchStyle]} />)}
         </div>
         <div className="mt-[0.6rem] flex gap-[0.7rem]">
-          <span className="text-body1Normal font-bold text-red-40">43%</span>
-          <span className="text-body1Normal font-semibold text-gray-90">500,000원</span>
-          <span className="text-body1Normal font-bold text-gray-90">~</span>
-          <span className="text-body1Normal font-semibold text-gray-90">1,400,000원</span>
+          {hasDiscount && <span className="text-body1Normal font-bold text-red-40">{discountRate}%</span>}
+          <span className="text-body1Normal font-semibold text-gray-90">{minPrice.toLocaleString()}원</span>
+          {minPrice !== maxPrice && (
+            <>
+              <span className="text-body1Normal font-bold text-gray-90">~</span>
+              <span className="text-body1Normal font-semibold text-gray-90">{maxPrice.toLocaleString()}원</span>
+            </>
+          )}
         </div>
 
         {/* 가격 툴팁 */}
@@ -83,12 +133,15 @@ export default function AuthorCard({ author, isFirst = false }: { author: Author
         <div className="flex gap-[0.5rem] mt-[0.6rem] items-center">
           <Icon_Calendar width={14} height={14} />
           <div className="flex gap-[0.6rem] items-center">
-            <span className="text-label2 font-medium text-gray-80 last:border-l last:border-gray-50 last:pl-[0.6rem]">
-              25년 상반기
-            </span>
-            <span className="text-label2 font-medium text-gray-80 last:border-l last:border-gray-50 last:pl-[0.6rem]">
-              25년 상반기
-            </span>
+            {mainProduct.shootingSeason &&
+              mainProduct.shootingSeason.map((season, index) => (
+                <span
+                  key={index}
+                  className="text-label2 font-medium text-gray-80 last:border-l last:border-gray-50 last:pl-[0.6rem]"
+                >
+                  {season.replace('YEAR_', '').replace('_FIRST_HALF', '년 상반기').replace('_SECOND_HALF', '년 하반기')}
+                </span>
+              ))}
           </div>
         </div>
       </div>
@@ -104,7 +157,7 @@ const CategoryLabel = ({ label }: { label: string }) => {
   );
 };
 
-const Notification = ({ closeNotification }: { closeNotification: () => void }) => {
+const Notification = ({ closeNotification }: { closeNotification: (e: React.MouseEvent) => void }) => {
   return (
     <div className="relative bg-gray-90 inline-block px-[0.65rem] py-[0.5rem] rounded-[0.4rem] mt-[0.7rem]">
       <div className="absolute -top-[1.5rem] left-[2.4rem] w-0 h-0 border-[1rem] border-gray-90 border-t-transparent border-r-transparent border-l-transparent" />
