@@ -1,7 +1,8 @@
 import { ProductOption } from '@/api/products/types';
 import { Icon_Heart, Icon_Heart_Filled } from '@/assets/icons';
-import { Dropbox } from '@/components/molecule/Dropbox';
+import { BaseItem, Dropbox } from '@/components/molecule/Dropbox';
 import { Sheet, SheetContent, SheetHeader, SheetOverlay, SheetTitle } from '@/components/ui/sheet';
+import { useState } from 'react';
 
 interface InquiryBottomSheetProps {
   productOptions: ProductOption[];
@@ -18,11 +19,18 @@ export const InquiryBottomSheet = ({
   isLiked,
   onClickHeart,
 }: InquiryBottomSheetProps) => {
+  const [selectedItem, setSelectedItem] = useState<BaseItem | null>(null);
+
   const dropdownItems = productOptions.map(option => ({
     id: option.optionId.toString(),
     label: option.name,
     value: option.optionId.toString(),
   }));
+
+  // 상품 선택 시 가격 업데이트
+  const handleProductSelect = (item: BaseItem | null) => {
+    setSelectedItem(item);
+  };
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetOverlay className="data-[state=open]:animate-fadeIn data-[state=closed]:animate-fadeOut" />
@@ -38,10 +46,17 @@ export const InquiryBottomSheet = ({
             이 상품에 대해 작가에게 문의할게요
           </SheetTitle>
         </SheetHeader>
-        <Dropbox placeholder="문의하실 상품을 선택해주세요" dropdownItems={dropdownItems} />
+        <Dropbox
+          placeholder="문의하실 상품을 선택해주세요"
+          dropdownItems={dropdownItems}
+          selectedItem={selectedItem}
+          onChangeProps={handleProductSelect}
+        />
         <div className="mt-[1.4rem] pt-[2.4rem] border-t border-gray-20 flex justify-between">
           <span className="text-body1Normal font-bold text-gray-70">문의 상품 금액</span>
-          <span className="text-body1Normal font-semibold text-gray-90">850,000원</span>
+          <span className="text-body1Normal font-semibold text-gray-90">
+            {Boolean(selectedItem?.value) ? `${selectedItem?.value}원` : '-'}
+          </span>
         </div>
         <div className="h-[5.6rem] mt-[3.2rem] flex gap-[1rem] justify-between items-center">
           <button
@@ -50,7 +65,12 @@ export const InquiryBottomSheet = ({
           >
             {isLiked ? <Icon_Heart_Filled /> : <Icon_Heart className="stroke-red-40" />}
           </button>
-          <button className="w-[24.2rem] h-full text-body1Normal font-semibold text-gray-10 bg-red-40 rounded-[0.4rem]">
+          <button
+            className={`w-[24.2rem] h-full text-body1Normal font-semibold text-gray-10 rounded-[0.4rem] ${
+              selectedItem ? 'bg-red-40' : 'bg-gray-40'
+            }`}
+            disabled={!selectedItem}
+          >
             문의하기
           </button>
         </div>
