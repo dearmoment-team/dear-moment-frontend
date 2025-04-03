@@ -17,6 +17,8 @@ export default function OptionDetail({ initialProduct, initialProductOption, ini
     initProduct: initialProduct ?? null,
   });
 
+  const studio = initialProduct?.studio;
+
   if (initialError) {
     return (
       <div className="p-[2rem] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 container mx-[2rem]">
@@ -42,7 +44,7 @@ export default function OptionDetail({ initialProduct, initialProductOption, ini
       {/* 상품 헤더 */}
       <div className="flex flex-col items-center mt-[2.8rem]">
         <div className="w-[5.7rem] h-[5.7rem] bg-gray-40 rounded-full" />
-        <span className="text-body1Normal font-semibold mt-[1rem] mb-[2.2rem]">{initialProduct.title}</span>
+        <span className="text-body1Normal font-semibold mt-[1rem] mb-[2.2rem]">{studio?.name}</span>
         <span className="text-subtitle1 font-bold text-gray-95">{initialProductOption.name}</span>
       </div>
 

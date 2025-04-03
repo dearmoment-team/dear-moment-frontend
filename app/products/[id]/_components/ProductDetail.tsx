@@ -30,6 +30,8 @@ export default function ProductDetail({ initProduct, initialError, initIsLiked }
 
   const portfolioImages = product?.subImages.map(img => img.url) ?? [];
 
+  const studio = product?.studio;
+
   if (initialError) {
     return (
       <div className="p-[2rem] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -52,7 +54,7 @@ export default function ProductDetail({ initProduct, initialError, initIsLiked }
           <div className="flex items-center gap-[1rem]">
             <div className="w-[5.7rem] h-[5.7rem] rounded-full bg-gray-40" />
             <div className="space-y-[0.8rem] py-[0.7rem]">
-              <span className="text-gray-90 text-subtitle2 font-bold">{product?.title}</span>
+              <span className="text-gray-90 text-subtitle2 font-bold">{studio?.name}</span>
               <div className="flex gap-[0.5rem]">
                 {product?.retouchStyles.map(style => (
                   <div
@@ -104,7 +106,7 @@ export default function ProductDetail({ initProduct, initialError, initIsLiked }
         <div className="">
           {/* 작가 포트폴리오 */}
           <div className="mt-[0.6rem] px-[2rem]">
-            <p className="text-gray-95 text-body2Normal font-semibold mb-[2rem]">{product?.title}의 포트폴리오</p>
+            <p className="text-gray-95 text-body2Normal font-semibold mb-[2rem]">{studio?.name}의 포트폴리오</p>
             <div className="flex gap-[0.2rem] flex-wrap">
               {portfolioImages?.map((imgSrc, index) => {
                 if (index > 7) return null;
