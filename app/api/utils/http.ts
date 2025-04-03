@@ -132,10 +132,11 @@ export async function put<T>(endpoint: string, data: unknown, options?: RequestI
 /**
  * HTTP DELETE 요청 함수
  * @param endpoint API 엔드포인트
+ * @param data 요청 데이터 (request body)
  * @param options 요청 옵션
  * @returns 응답 데이터
  */
-export async function del<T>(endpoint: string, options?: RequestInit): Promise<T> {
+export async function del<T>(endpoint: string, data: unknown, options?: RequestInit): Promise<T> {
   const url = createApiUrl(endpoint);
   const { controller, timeoutId } = createAbortController();
 
@@ -144,6 +145,7 @@ export async function del<T>(endpoint: string, options?: RequestInit): Promise<T
       method: 'DELETE',
       ...defaultRequestOptions,
       ...options,
+      body: JSON.stringify(data),
       signal: controller.signal,
     });
 

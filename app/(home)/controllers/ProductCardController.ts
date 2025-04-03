@@ -1,3 +1,4 @@
+import { addLike } from '@/api/likes';
 import { MainPageProduct } from '@/api/products/types';
 import { useState } from 'react';
 
@@ -6,10 +7,17 @@ interface UseProductCardControllerProps {
 }
 
 export function useProductCardController({ mainProduct }: UseProductCardControllerProps) {
+  // TODO: likeId(number)를 통해 상태값 boolean 관리
   const [isLiked, setIsLiked] = useState(mainProduct.isLiked);
 
-  const onClickHeart = () => {
+  const onClickHeart = async () => {
     setIsLiked(!isLiked);
+    if (isLiked) {
+      // TODO: 좋아요 제거 API 호출
+      // await removeLike({ likeId: mainProduct.productId, productId: mainProduct.productId });
+    } else {
+      await addLike(mainProduct.productId);
+    }
   };
 
   return { isLiked, onClickHeart };
