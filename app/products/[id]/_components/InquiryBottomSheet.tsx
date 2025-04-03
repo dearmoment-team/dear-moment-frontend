@@ -2,14 +2,13 @@ import { ProductOption } from '@/api/products/types';
 import { Icon_Heart, Icon_Heart_Filled } from '@/assets/icons';
 import { Dropbox } from '@/components/molecule/Dropbox';
 import { Sheet, SheetContent, SheetHeader, SheetOverlay, SheetTitle } from '@/components/ui/sheet';
-import { Dispatch, SetStateAction } from 'react';
 
 interface InquiryBottomSheetProps {
   productOptions: ProductOption[];
   open: boolean;
   onOpenChange: (open: boolean) => void;
   isLiked: boolean;
-  setIsLiked: Dispatch<SetStateAction<boolean>>;
+  onClickHeart: () => void;
 }
 
 export const InquiryBottomSheet = ({
@@ -17,7 +16,7 @@ export const InquiryBottomSheet = ({
   open,
   onOpenChange,
   isLiked,
-  setIsLiked,
+  onClickHeart,
 }: InquiryBottomSheetProps) => {
   const dropdownItems = productOptions.map(option => ({
     id: option.optionId.toString(),
@@ -47,7 +46,7 @@ export const InquiryBottomSheet = ({
         <div className="h-[5.6rem] mt-[3.2rem] flex gap-[1rem] justify-between items-center">
           <button
             className="w-[6.8rem] h-full flex justify-center items-center bg-red-0 border border-red-40 rounded-[0.4rem] cursor-pointer"
-            onClick={() => setIsLiked(!isLiked)}
+            onClick={onClickHeart}
           >
             {isLiked ? <Icon_Heart_Filled /> : <Icon_Heart className="stroke-red-40" />}
           </button>

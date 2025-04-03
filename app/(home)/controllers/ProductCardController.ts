@@ -1,4 +1,4 @@
-import { addLike } from '@/api/likes';
+import { addProductLike } from '@/api/likes';
 import { MainPageProduct } from '@/api/products/types';
 import { useState } from 'react';
 
@@ -16,7 +16,7 @@ export function useProductCardController({ mainProduct }: UseProductCardControll
       // TODO: 좋아요 제거 API 호출
       // await removeLike({ likeId: mainProduct.productId, productId: mainProduct.productId });
     } else {
-      await addLike(mainProduct.productId);
+      await addProductLike(mainProduct.productId);
     }
   };
 

@@ -3,7 +3,7 @@
 import { ProductOption } from '@/api/products/types';
 import { Icon_ChevronDown, Icon_Heart, Icon_Heart_Filled } from '@/assets/icons';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useProductOptionController } from '../controllers/productOptionController';
 
 interface ProductOptionCardProps {
   productOption: ProductOption;
@@ -12,7 +12,7 @@ interface ProductOptionCardProps {
 
 export const ProductOptionCard = ({ productOption, productId }: ProductOptionCardProps) => {
   const router = useRouter();
-  const [isLike, setIsLike] = useState(false);
+  const { isLiked, onClickHeart } = useProductOptionController({ initIsLiked: productOption.isLiked, productOption });
 
   const productDetailsEntry = {
     시간: `${productOption.shootingHours}시간 ${productOption.shootingMinutes}분`,
@@ -26,7 +26,6 @@ export const ProductOptionCard = ({ productOption, productId }: ProductOptionCar
     : 0;
 
   const handleDetailClick = () => {
-    // 단순히 상품 상세 페이지로 이동
     router.push(`/options/${productId}/${productOption.optionId}`);
   };
 
@@ -54,8 +53,8 @@ export const ProductOptionCard = ({ productOption, productId }: ProductOptionCar
             )}
           </div>
         </div>
-        <button type="button" onClick={() => setIsLike(!isLike)} className="">
-          {isLike ? <Icon_Heart_Filled /> : <Icon_Heart />}
+        <button type="button" onClick={onClickHeart} className="">
+          {isLiked ? <Icon_Heart_Filled /> : <Icon_Heart />}
         </button>
       </div>
 

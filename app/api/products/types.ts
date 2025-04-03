@@ -1,4 +1,5 @@
 import { ApiResponse, PagedResponse } from '../common/types';
+import { Studio } from '../studio/types';
 
 // 상품 관련 API 타입 정의
 
@@ -33,6 +34,7 @@ export interface ProductOption {
   partnerShops: PartnerShop[]; // 파트너 샵 리스트
   createdAt: string; // 생성일
   updatedAt: string; // 수정일
+  isLiked: boolean; // 좋아요 여부
 }
 
 // 상품 데이터 형식 정의
@@ -53,6 +55,7 @@ export interface Product {
   createdAt: string; // 생성일
   updatedAt: string; // 수정일
   options: ProductOption[]; // 상품 옵션 리스트
+  studio: Studio; // 스튜디오 정보
 }
 
 // Main 페이지 상품 데이터 형식 정의

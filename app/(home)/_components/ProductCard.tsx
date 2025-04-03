@@ -51,7 +51,7 @@ export default function ProductCard({
 
   // 상품 페이지로 이동
   const handleMainProductClick = () => {
-    router.push(`/products/${mainProduct.productId}`);
+    router.push(`/products/${mainProduct.productId}?isLiked=${isLiked}`);
   };
 
   return (

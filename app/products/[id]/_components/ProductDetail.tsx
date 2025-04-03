@@ -5,7 +5,7 @@ import { CameraType, RetouchStyle } from '@/(home)/type';
 import { Product } from '@/api/products/types';
 import { Icon_Calendar, Icon_Heart, Icon_Heart_Filled } from '@/assets/icons';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useProductDetailController } from '../controllers/productDetailController';
 import { ImageViewerModal } from './ImageViewerModal';
 import { InquiryBottomSheet } from './InquiryBottomSheet';
 import ProductTabs from './ProductTabs';
@@ -13,13 +13,12 @@ import ProductTabs from './ProductTabs';
 interface ProductDetailProps {
   initialProduct: Product | null;
   initialError: string | null;
+  initIsLiked: boolean;
 }
 
-export default function ProductDetail({ initialProduct, initialError }: ProductDetailProps) {
-  // 클라이언트 상태 관리
-  const [isLiked, setIsLiked] = useState(false);
-  const [openInquiry, setOpenInquiry] = useState(false);
-  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+export default function ProductDetail({ initialProduct, initialError, initIsLiked }: ProductDetailProps) {
+  const { isLiked, onClickHeart, isOpenInquiry, selectedImageIndex, setIsOpenInquiry, onSelectImage, onResetImage } =
+    useProductDetailController({ initIsLiked, product: initialProduct });
 
   const portfolioImages = initialProduct?.subImages.map(img => img.url) ?? [];
 
@@ -57,7 +56,7 @@ export default function ProductDetail({ initialProduct, initialError }: ProductD
                 ))}
               </div>
             </div>
-            <button className="ml-auto" onClick={() => setIsLiked(!isLiked)}>
+            <button className="ml-auto" onClick={onClickHeart}>
               {isLiked ? <Icon_Heart_Filled /> : <Icon_Heart />}
             </button>
           </div>
@@ -104,7 +103,7 @@ export default function ProductDetail({ initialProduct, initialError }: ProductD
               {portfolioImages?.map((imgSrc, index) => {
                 if (index > 7) return null;
                 return (
-                  <div key={index} className="relative cursor-pointer" onClick={() => setSelectedImageIndex(index)}>
+                  <div key={index} className="relative cursor-pointer" onClick={() => onSelectImage(index)}>
                     <Image src={imgSrc} alt="sub_image" width={78} height={78} className="object-contain" />
                     {index === 7 && (
                       <div className="absolute w-full h-full bg-gray-30 top-0 left-0 opacity-90 flex justify-center items-center">
@@ -129,13 +128,13 @@ export default function ProductDetail({ initialProduct, initialError }: ProductD
         <div className="h-[5.6rem] mb-[1.2rem] flex gap-[1rem] justify-between items-center px-[2rem]">
           <button
             className="w-[6.8rem] h-full flex justify-center items-center bg-red-0 border border-red-40 rounded-[0.4rem] cursor-pointer"
-            onClick={() => setIsLiked(!isLiked)}
+            onClick={onClickHeart}
           >
             {isLiked ? <Icon_Heart_Filled /> : <Icon_Heart className="stroke-red-40" />}
           </button>
           <button
             className="w-[24.2rem] h-full text-body1Normal font-semibold text-gray-10 bg-red-40 rounded-[0.4rem]"
-            onClick={() => setOpenInquiry(true)}
+            onClick={() => setIsOpenInquiry(true)}
           >
             문의하기
           </button>
@@ -145,16 +144,16 @@ export default function ProductDetail({ initialProduct, initialError }: ProductD
       {/* 문의하기 Popup */}
       <InquiryBottomSheet
         productOptions={initialProduct?.options ?? []}
-        open={openInquiry}
-        onOpenChange={setOpenInquiry}
+        open={isOpenInquiry}
+        onOpenChange={setIsOpenInquiry}
         isLiked={isLiked}
-        setIsLiked={setIsLiked}
+        onClickHeart={onClickHeart}
       />
 
       {/* 이미지 뷰어 모달 */}
       <ImageViewerModal
         isOpen={selectedImageIndex !== null}
-        onClose={() => setSelectedImageIndex(null)}
+        onClose={onResetImage}
         images={portfolioImages ?? []}
         initialImageIndex={selectedImageIndex || 0}
       />

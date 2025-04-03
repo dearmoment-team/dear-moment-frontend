@@ -36,7 +36,10 @@ export const API_ENDPOINTS = {
     detail: (id: number) => `/products/${id}`,
     search: '/products/search',
   },
-  likes: '/likes/products',
+  likes: {
+    products: '/likes/products',
+    options: '/likes/product-options',
+  },
   // 추후 다른 도메인 엔드포인트 추가
 };
 
