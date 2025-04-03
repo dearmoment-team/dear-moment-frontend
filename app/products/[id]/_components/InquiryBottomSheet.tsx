@@ -1,31 +1,36 @@
+import { ProductOption } from '@/api/products/types';
 import { Icon_Heart, Icon_Heart_Filled } from '@/assets/icons';
 import { BaseItem, Dropbox } from '@/components/molecule/Dropbox';
 import { Sheet, SheetContent, SheetHeader, SheetOverlay, SheetTitle } from '@/components/ui/sheet';
 import { Dispatch, SetStateAction, useState } from 'react';
 
 interface InquiryBottomSheetProps {
+  productOptions: ProductOption[];
   open: boolean;
   onOpenChange: (open: boolean) => void;
   isLiked: boolean;
   setIsLiked: Dispatch<SetStateAction<boolean>>;
 }
 
-export const InquiryBottomSheet = ({ open, onOpenChange, isLiked, setIsLiked }: InquiryBottomSheetProps) => {
+export const InquiryBottomSheet = ({
+  productOptions,
+  open,
+  onOpenChange,
+  isLiked,
+  setIsLiked,
+}: InquiryBottomSheetProps) => {
   const [selectedItem, setSelectedItem] = useState<BaseItem | null>(null);
 
-  const dropdownItems: BaseItem[] = [
-    { id: '1', label: '상품 1', value: '850,000' },
-    { id: '2', label: '상품 2', value: '750,000' },
-    { id: '3', label: '상품 3', value: '950,000' },
-    { id: '4', label: '상품 4', value: '650,000' },
-    { id: '5', label: '상품 5', value: '550,000' },
-  ];
+  const dropdownItems = productOptions.map(option => ({
+    id: option.optionId.toString(),
+    label: option.name,
+    value: option.optionId.toString(),
+  }));
 
   // 상품 선택 시 가격 업데이트
   const handleProductSelect = (item: BaseItem | null) => {
     setSelectedItem(item);
   };
-
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetOverlay className="data-[state=open]:animate-fadeIn data-[state=closed]:animate-fadeOut" />
