@@ -1,3 +1,4 @@
+import { addInquiryOption } from '@/api/inquiries';
 import { addOptionLike } from '@/api/likes';
 import { ProductOption } from '@/api/products/types';
 import { useState } from 'react';
@@ -32,8 +33,23 @@ export function useProductOptionController({ initProductOption }: { initProductO
     }
   };
 
+  const onClickInquiry = async () => {
+    try {
+      if (!initProductOption) return;
+
+      await addInquiryOption({
+        productId: initProductOption.productId,
+        optionId: initProductOption.optionId,
+      });
+      alert('문의가 성공적으로 등록되었습니다.');
+    } catch (error) {
+      console.error('옵션 문의 액션 실패:', error);
+    }
+  };
+
   return {
     isLiked,
     onClickHeart,
+    onClickInquiry,
   };
 }
