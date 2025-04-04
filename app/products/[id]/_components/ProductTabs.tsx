@@ -1,18 +1,17 @@
 'use client';
 
+import { PACKAGE_DISPLAY_MAP } from '@/(home)/models/FilteringModel';
+import { PackageType } from '@/(home)/type';
 import { Product, ProductOption } from '@/api/products/types';
 import { useRef, useState } from 'react';
 import { ProductOptionCard } from './ProductOptionCard';
-import { PACKAGE_DISPLAY_MAP } from '@/(home)/models/FilteringModel';
-import { PackageType } from '@/(home)/type';
 
 interface ProductTabsProps {
   productOptions: ProductOption[];
-  guidelines: string[];
   product: Product | null; // TODO: studio 이름으로 추후 수정
 }
 
-export default function ProductTabs({ productOptions, guidelines, product }: ProductTabsProps) {
+export default function ProductTabs({ productOptions, product }: ProductTabsProps) {
   // 활성화된 탭을 관리하는 상태
   const [activeTab, setActiveTab] = useState<'products' | 'guidelines'>('products');
 
@@ -45,8 +44,6 @@ export default function ProductTabs({ productOptions, guidelines, product }: Pro
     }
   };
 
-  console.log('====studio:', studio);
-
   return (
     <section className="mt-[4.5rem]">
       <div className="w-full h-[3.7rem] sticky top-[-1px] z-10 flex border-b border-gray-20 bg-common-0 p-0">
@@ -74,7 +71,8 @@ export default function ProductTabs({ productOptions, guidelines, product }: Pro
 
       <div ref={productsRef} className="my-[5.2rem] px-[2rem]">
         <p className="text-subtitle1 font-bold keep-all text-gray-95 mb-[3.7rem]">
-          {studio?.name}만의 특별한 <br />스냅 상품 정보
+          {studio?.name}만의 특별한 <br />
+          스냅 상품 정보
         </p>
         <ul className="space-y-[3rem]">
           {productOptions.map((productOption, index) => (
@@ -93,7 +91,9 @@ export default function ProductTabs({ productOptions, guidelines, product }: Pro
           <p className="text-body2Normal font-semibold text-gray-95">제휴샵 안내</p>
           <ul className="list-disc list-inside my-[3rem]">
             {studio?.partnerShops?.map((partnerShop, index) => (
-              <li key={index}>{PACKAGE_DISPLAY_MAP[partnerShop.category as PackageType]}: {partnerShop.name}</li>
+              <li key={index}>
+                {PACKAGE_DISPLAY_MAP[partnerShop.category as PackageType]}: {partnerShop.name}
+              </li>
             ))}
           </ul>
         </div>

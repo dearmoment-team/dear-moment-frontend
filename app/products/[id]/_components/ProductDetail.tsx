@@ -126,11 +126,7 @@ export default function ProductDetail({ initProduct, initialError, initIsLiked }
         </div>
 
         {/* 상품정보, 안내사항 탭 */}
-        <ProductTabs
-          productOptions={product?.options ?? []}
-          guidelines={['guildline1', 'guildline2']}
-          product={product}
-        />
+        <ProductTabs productOptions={product?.options ?? []} product={product} />
 
         {/* 문의하기 버튼 */}
         <div className="h-[5.6rem] mb-[1.2rem] flex gap-[1rem] justify-between items-center px-[2rem]">
