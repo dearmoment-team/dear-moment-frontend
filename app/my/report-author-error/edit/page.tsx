@@ -1,5 +1,6 @@
 'use client';
 
+import { postInquiryStudio } from '@/api/inquiry';
 import { Icon_ChevronDown } from '@/assets/icons';
 import { Appbar } from '@/components/Appbar';
 import { Input } from '@/components/ui/input';
@@ -15,6 +16,8 @@ export default function MyReportAuthorErrorEditPage() {
   // 입력 필드 상태 관리
   const [title, setTitle] = useState('');
   const [email, setEmail] = useState('');
+  const [isEmailValid, setIsEmailValid] = useState(true);
+  const [emailErrorMessage, setEmailErrorMessage] = useState('');
   const [content, setContent] = useState('');
 
   // 모달 상태 관리
@@ -26,8 +29,31 @@ export default function MyReportAuthorErrorEditPage() {
     setTitle(e.target.value);
   };
 
+  // 이메일 유효성 검사 함수
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    return emailRegex.test(email);
+  };
+
   const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
+    const newEmail = e.target.value;
+    setEmail(newEmail);
+
+    if (newEmail && !validateEmail(newEmail)) {
+      setIsEmailValid(false);
+      setEmailErrorMessage('유효한 이메일 주소를 입력해주세요.');
+    } else {
+      setIsEmailValid(true);
+      setEmailErrorMessage('');
+    }
+  };
+
+  // 이메일 필드에서 포커스가 빠져나갈 때 검증
+  const handleEmailBlur = () => {
+    if (email && !validateEmail(email)) {
+      setIsEmailValid(false);
+      setEmailErrorMessage('유효한 이메일 주소를 입력해주세요.');
+    }
   };
 
   const onChangeContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -35,7 +61,14 @@ export default function MyReportAuthorErrorEditPage() {
   };
 
   // 폼 제출 핸들러
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    // 이메일 유효성 검사
+    if (email && !validateEmail(email)) {
+      setIsEmailValid(false);
+      setEmailErrorMessage('유효한 이메일 주소를 입력해주세요.');
+      return;
+    }
+
     // 필수 항목 검증
     if (!title.trim() || !email.trim() || !content.trim()) {
       // 하나라도 빈 값이면 에러 모달 표시
@@ -50,6 +83,12 @@ export default function MyReportAuthorErrorEditPage() {
 
     // TODO: 실제 API 호출은 여기에 추가
     // submitReport({ title, email, content });
+    try {
+      const res = await postInquiryStudio({ title, email, content });
+      console.log('====res: ', res);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   // 모달 닫기 핸들러
@@ -88,8 +127,11 @@ export default function MyReportAuthorErrorEditPage() {
             placeholder="이메일을 입력해주세요"
             maxLength={50}
             onChange={onChangeEmail}
+            onBlur={handleEmailBlur}
             value={email}
+            className={!isEmailValid ? 'border-red-500' : ''}
           />
+          {!isEmailValid && <p className="text-red-500 text-sm mt-1">{emailErrorMessage}</p>}
         </div>
         <div className="mt-[4.6rem]">
           <p className="text-body2Normal font-bold text-gray-90">안내사항</p>
@@ -101,7 +143,8 @@ export default function MyReportAuthorErrorEditPage() {
         </div>
       </main>
       <button
-        className="w-[32rem] h-[5.6rem] bg-red-40 text-body1Normal font-semibold text-gray-10 mx-auto mb-[1.2rem] rounded-[0.4rem]"
+        className="w-[32rem] h-[5.6rem] bg-red-40 text-body1Normal font-semibold text-gray-10 mx-auto mb-[1.2rem] rounded-[0.4rem] disabled:bg-gray-80 disabled:text-gray-50"
+        disabled={!isEmailValid || !email.trim() || !title.trim() || !content.trim()}
         onClick={handleSubmit}
       >
         접수하기
