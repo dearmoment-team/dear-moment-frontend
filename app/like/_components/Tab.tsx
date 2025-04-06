@@ -7,7 +7,7 @@ interface TabProps {
 
 export default function Tab({ isSelected, onSelect }: TabProps) {
   return (
-    <div className="w-[36rem] h-[3.7rem] flex font-semibold text-body1Normal border-b border-gray-20">
+    <div className="w-[36rem] h-[3.7rem] top-[11.6rem] flex font-semibold text-body1Normal border-b border-gray-20">
       <div className="w-[18rem] h-[3.7rem] text-center cursor-pointer" onClick={() => onSelect('product')}>
         <span>찜한 상품</span>
         {isSelected == 'product' ? (
