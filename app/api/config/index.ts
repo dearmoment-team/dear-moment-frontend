@@ -47,11 +47,14 @@ export function createApiUrl(endpoint: string): string {
   // 서버와 클라이언트 모두 내부 API 라우트 사용
   const isServer = typeof window === 'undefined';
 
+  console.log('isServer', isServer);
+  const noPrefix = endpoint.startsWith('/auth') || endpoint.startsWith('/oauth');
+
   if (isServer) {
     // 서버에서는 절대 경로 사용
-    return `${API_CONFIG.baseUrl}${API_CONFIG.pathPrefix}${endpoint}`;
+    return noPrefix ? `${API_CONFIG.baseUrl}${endpoint}` : `${API_CONFIG.baseUrl}${API_CONFIG.pathPrefix}${endpoint}`;
   } else {
     // 클라이언트에서는 상대 경로 사용
-    return `${API_CONFIG.pathPrefix}${endpoint}`;
+    return noPrefix ? endpoint : `${API_CONFIG.pathPrefix}${endpoint}`;
   }
 }

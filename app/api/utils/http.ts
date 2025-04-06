@@ -34,6 +34,7 @@ function createAbortController(timeout: number = API_CONFIG.timeout): {
  */
 export async function get<T>(endpoint: string, options?: RequestInit): Promise<T> {
   const url = createApiUrl(endpoint);
+  console.log('url>>>>>>>>>>>>>', url);
   const { controller, timeoutId } = createAbortController();
 
   try {
