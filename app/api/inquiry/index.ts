@@ -1,7 +1,7 @@
 import { ApiResponse } from '../common/types';
 import { API_ENDPOINTS } from '../config';
 import { handleApiError } from '../error';
-import { get, post } from '../utils/http';
+import { del, get, post } from '../utils/http';
 import { InquiryListResponse, InquiryServiceReq, InquiryStudioListResponse, InquiryStudioReq } from './types';
 
 /**
@@ -62,6 +62,27 @@ export async function postInquiryService(data: InquiryServiceReq): Promise<ApiRe
     return await post<ApiResponse<{ inquiryId: number }>>(endpoint, data);
   } catch (error) {
     console.error('서비스 문의 생성 실패:', error);
+    throw handleApiError(error);
+  }
+}
+
+/**
+ * 상품 옵션 문의 삭제하는 API
+ * @param inquiryId 문의 ID
+ * @param productId 상품 ID
+ */
+export async function deleteInquiryOption({
+  inquiryId,
+  productId,
+}: {
+  inquiryId: number;
+  productId: number;
+}): Promise<void> {
+  try {
+    const endpoint = API_ENDPOINTS.inquiry.options;
+    await del(endpoint, { inquiryId, productId });
+  } catch (error) {
+    console.error('상품 옵션 문의 삭제 실패:', error);
     throw handleApiError(error);
   }
 }
