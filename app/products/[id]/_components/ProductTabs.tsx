@@ -1,16 +1,17 @@
 'use client';
 
+import { PACKAGE_DISPLAY_MAP } from '@/(home)/models/FilteringModel';
+import { PackageType } from '@/(home)/type';
 import { Product, ProductOption } from '@/api/products/types';
 import { useRef, useState } from 'react';
 import { ProductOptionCard } from './ProductOptionCard';
 
 interface ProductTabsProps {
   productOptions: ProductOption[];
-  guidelines: string[];
-  product: Product | null; // TODO: studio 이름으로 추후 수정
+  product: Product | null;
 }
 
-export default function ProductTabs({ productOptions, guidelines, product }: ProductTabsProps) {
+export default function ProductTabs({ productOptions, product }: ProductTabsProps) {
   // 활성화된 탭을 관리하는 상태
   const [activeTab, setActiveTab] = useState<'products' | 'guidelines'>('products');
 
@@ -20,6 +21,8 @@ export default function ProductTabs({ productOptions, guidelines, product }: Pro
 
   // 탭 높이(3.7rem = 59.2px) + 추가 여백(10px)을 고려한 스크롤 오프셋
   const scrollOffset = -36;
+
+  const studio = product?.studio;
 
   // 탭 클릭 핸들러
   const handleTabClick = (tab: 'products' | 'guidelines') => {
@@ -67,8 +70,9 @@ export default function ProductTabs({ productOptions, guidelines, product }: Pro
       </div>
 
       <div ref={productsRef} className="my-[5.2rem] px-[2rem]">
-        <p className="text-subtitle1 font-bold keep-all w-[17rem] text-gray-95 mb-[3.7rem]">
-          [{product?.title}]만의 특별한 스냅 상품 정보
+        <p className="text-subtitle1 font-bold keep-all text-gray-95 mb-[3.7rem]">
+          {studio?.name}만의 특별한 <br />
+          스냅 상품 정보
         </p>
         <ul className="space-y-[3rem]">
           {productOptions.map((productOption, index) => (
@@ -86,28 +90,23 @@ export default function ProductTabs({ productOptions, guidelines, product }: Pro
         <div className="">
           <p className="text-body2Normal font-semibold text-gray-95">제휴샵 안내</p>
           <ul className="list-disc list-inside my-[3rem]">
-            <li>헤어, 드레스, 메이크업</li>
-            <li>Lorem ipsum dolor sit</li>
-            <li>Lorem ipsum dolor sit</li>
-            <li>Lorem ipsum dolor sit</li>
+            {studio?.partnerShops?.map((partnerShop, index) => (
+              <li key={index}>
+                {PACKAGE_DISPLAY_MAP[partnerShop.category as PackageType]}: {partnerShop.name}
+              </li>
+            ))}
           </ul>
         </div>
         <div className="">
           <p className="text-body2Normal font-semibold text-gray-95">필독 안내사항</p>
           <ul className="list-disc list-inside my-[3rem]">
-            <li>헤어, 드레스, 메이크업</li>
-            <li>Lorem ipsum dolor sit</li>
-            <li>Lorem ipsum dolor sit</li>
-            <li>Lorem ipsum dolor sit</li>
+            <li>{studio?.reservationNotice}</li>
           </ul>
         </div>
         <div className="">
           <p className="text-body2Normal font-semibold text-gray-95">취소 및 환불 규정</p>
           <ul className="list-disc list-inside my-[3rem]">
-            <li>헤어, 드레스, 메이크업</li>
-            <li>Lorem ipsum dolor sit</li>
-            <li>Lorem ipsum dolor sit</li>
-            <li>Lorem ipsum dolor sit</li>
+            <li>{studio?.cancellationPolicy}</li>
           </ul>
         </div>
       </div>

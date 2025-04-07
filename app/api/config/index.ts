@@ -17,6 +17,7 @@ export const API_CONFIG = {
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
+    Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
   },
 
   // 재시도 설정
@@ -34,6 +35,13 @@ export const API_ENDPOINTS = {
     main: '/products/main',
     detail: (id: number) => `/products/${id}`,
     search: '/products/search',
+  },
+  likes: {
+    products: '/likes/products',
+    options: '/likes/product-options',
+  },
+  inquiries: {
+    options: '/inquiries/product-options',
   },
   // 추후 다른 도메인 엔드포인트 추가
 };
