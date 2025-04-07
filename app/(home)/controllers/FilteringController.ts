@@ -69,7 +69,6 @@ export function useFilteringController({
 
       if (response.success && response.data) {
         setMainProducts(response.data.content);
-        console.log('필터링된 상품 데이터:', response);
       } else {
         setError('상품 검색에 실패했습니다.');
         // NOTE: 오류 발생 시 상품 목록을 초기화하지 않음

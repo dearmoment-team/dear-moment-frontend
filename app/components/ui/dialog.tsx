@@ -33,7 +33,7 @@ const DialogContent = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => (
   <DialogPortal>
-    <DialogOverlay />
+    <DialogOverlay className="data-[state=open]:animate-fadeIn data-[state=closed]:animate-fadeOut" />
     <DialogPrimitive.Content
       ref={ref}
       className={cn(

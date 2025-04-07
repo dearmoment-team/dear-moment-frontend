@@ -2,7 +2,7 @@
 
 import { Product, ProductOption } from '@/api/products/types';
 import { Icon_Heart, Icon_Heart_Filled } from '@/assets/icons';
-import { useState } from 'react';
+import { useProductOptionController } from '../controllers/productOptionController';
 
 interface OptionDetailProps {
   initialProduct: Product | null;
@@ -11,12 +11,16 @@ interface OptionDetailProps {
 }
 
 export default function OptionDetail({ initialProduct, initialProductOption, initialError }: OptionDetailProps) {
-  // 클라이언트 상태 관리
-  const [isLiked, setIsLiked] = useState(false); // Option 좋아요
+  const { isLiked, onClickHeart, onClickInquiry } = useProductOptionController({
+    initProductOption: initialProductOption ?? null,
+    initProduct: initialProduct ?? null,
+  });
+
+  const studio = initialProduct?.studio;
 
   if (initialError) {
     return (
-      <div className="p-[2rem] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+      <div className="p-[2rem] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 container mx-[2rem]">
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">{initialError}</div>
       </div>
     );
@@ -39,7 +43,7 @@ export default function OptionDetail({ initialProduct, initialProductOption, ini
       {/* 상품 헤더 */}
       <div className="flex flex-col items-center mt-[2.8rem]">
         <div className="w-[5.7rem] h-[5.7rem] bg-gray-40 rounded-full" />
-        <span className="text-body1Normal font-semibold mt-[1rem] mb-[2.2rem]">{initialProduct.title}</span>
+        <span className="text-body1Normal font-semibold mt-[1rem] mb-[2.2rem]">{studio?.name}</span>
         <span className="text-subtitle1 font-bold text-gray-95">{initialProductOption.name}</span>
       </div>
 
@@ -83,11 +87,14 @@ export default function OptionDetail({ initialProduct, initialProductOption, ini
         <div className="max-w-screen-md mx-auto flex gap-[1rem] justify-between items-center">
           <button
             className="w-[6.8rem] h-[5.6rem] flex justify-center items-center bg-red-0 border border-red-40 rounded-[0.4rem]"
-            onClick={() => setIsLiked(!isLiked)}
+            onClick={onClickHeart}
           >
             {isLiked ? <Icon_Heart_Filled /> : <Icon_Heart className="stroke-red-40" />}
           </button>
-          <button className="w-[24.2rem] h-[5.6rem] text-body1Normal font-semibold text-gray-10 bg-red-40 rounded-[0.4rem]">
+          <button
+            className="w-[24.2rem] h-[5.6rem] text-body1Normal font-semibold text-gray-10 bg-red-40 rounded-[0.4rem]"
+            onClick={onClickInquiry}
+          >
             바로 문의하기
           </button>
         </div>
