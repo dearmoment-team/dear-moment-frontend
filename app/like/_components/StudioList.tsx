@@ -7,9 +7,9 @@ export default function ProductList() {
         <li>
           <StudioCard />
         </li>
-        {/* <li>
+        <li>
           <StudioCard />
-        </li> */}
+        </li>
       </ul>
     </div>
   );

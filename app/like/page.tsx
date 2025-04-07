@@ -14,7 +14,7 @@ export default function LikePage() {
   };
   return (
     <div className="space-y-4">
-      <div className="w-[6.2rem] h-[3.4rem] top-[6rem] left-[1.8rem] font-bold text-title2 text-gray-90">MY 찜</div>
+      
       <Tab isSelected={isSelected} onSelect={handleTabSelected}></Tab>
       <Filtering />
       {isSelected === 'product' ? <ProductList /> : <StudioList />}
