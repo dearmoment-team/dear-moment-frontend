@@ -134,9 +134,9 @@ export async function put<T>(endpoint: string, data: unknown, options?: RequestI
  * @param endpoint API 엔드포인트
  * @param data 요청 데이터 (request body)
  * @param options 요청 옵션
- * @returns 응답 데이터
+ * @returns void - 반환값 없음
  */
-export async function del(endpoint: string, data: unknown, options?: RequestInit) {
+export async function del(endpoint: string, data: unknown, options?: RequestInit): Promise<void> {
   const url = createApiUrl(endpoint);
   const { controller, timeoutId } = createAbortController();
 
@@ -150,9 +150,10 @@ export async function del(endpoint: string, data: unknown, options?: RequestInit
     });
 
     if (!response.ok) {
-      return await handleHttpError(response);
+      throw await handleHttpError(response);
     }
 
+    // DELETE 요청은 성공 시 반환값 없음 (No Content 처리)
     return;
   } catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError') {
