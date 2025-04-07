@@ -1,5 +1,5 @@
 import { addInquiryOption } from '@/api/inquiries';
-import { Product, ProductOption } from '@/api/products/types';
+import { Product } from '@/api/products/types';
 import { Icon_Heart, Icon_Heart_Filled } from '@/assets/icons';
 import { BaseItem, Dropbox } from '@/components/molecule/Dropbox';
 import { Sheet, SheetContent, SheetHeader, SheetOverlay, SheetTitle } from '@/components/ui/sheet';
@@ -13,13 +13,7 @@ interface InquiryBottomSheetProps {
   onClickHeart: () => void;
 }
 
-export const InquiryBottomSheet = ({
-  product,
-  open,
-  onOpenChange,
-  isLiked,
-  onClickHeart,
-}: InquiryBottomSheetProps) => {
+export const InquiryBottomSheet = ({ product, open, onOpenChange, isLiked, onClickHeart }: InquiryBottomSheetProps) => {
   const [selectedItem, setSelectedItem] = useState<BaseItem | null>(null);
 
   const dropdownItems = product?.options.map(option => ({
@@ -37,7 +31,6 @@ export const InquiryBottomSheet = ({
     if (!selectedItem) return;
     const currOption = product?.options.find(option => option.optionId === Number(selectedItem.id));
 
-    // TODO: 문의하기 API 호출
     try {
       if (!currOption) return;
 

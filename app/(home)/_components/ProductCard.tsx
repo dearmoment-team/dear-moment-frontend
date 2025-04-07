@@ -17,7 +17,6 @@ export default function ProductCard({
   isFirst?: boolean;
 }) {
   const router = useRouter();
-  // TODO: 기존 상품에 대한 좋아요 표시 상태값 초기화 및 좋아요 API 연동
   const { isLiked, onClickHeart } = useProductCardController({ mainProduct });
   const [showNotification, setShowNotification] = useState(false);
 
@@ -51,7 +50,7 @@ export default function ProductCard({
 
   // 상품 페이지로 이동
   const handleMainProductClick = () => {
-    router.push(`/products/${mainProduct.productId}?isLiked=${isLiked}`);
+    router.push(`/products/${mainProduct.productId}`);
   };
 
   return (

@@ -34,7 +34,7 @@ export interface ProductOption {
   partnerShops: PartnerShop[]; // 파트너 샵 리스트
   createdAt: string; // 생성일
   updatedAt: string; // 수정일
-  isLiked: boolean; // 좋아요 여부
+  likeId: number; // 좋아요 ID (0이면 좋아요 X, 0이외의 값이면 좋아요 O)
 }
 
 // 상품 데이터 형식 정의
@@ -56,6 +56,7 @@ export interface Product {
   updatedAt: string; // 수정일
   options: ProductOption[]; // 상품 옵션 리스트
   studio: Studio; // 스튜디오 정보
+  likeId: number; // 좋아요 ID (0이면 좋아요 X, 0이외의 값이면 좋아요 O)
 }
 
 // Main 페이지 상품 데이터 형식 정의
@@ -68,7 +69,7 @@ export interface MainPageProduct {
   minPrice: number; // 최소 가격
   maxPrice: number; // 최대 가격
   discountRate: number; // 할인율
-  isLiked: boolean; // 좋아요 여부
+  likeId: number; // 좋아요 ID (0이면 좋아요 X, 0이외의 값이면 좋아요 O)
 }
 
 // 메인 페이지 상품 응답 형식

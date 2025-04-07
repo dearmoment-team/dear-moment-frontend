@@ -13,10 +13,9 @@ import ProductTabs from './ProductTabs';
 interface ProductDetailProps {
   initProduct: Product | null;
   initialError: string | null;
-  initIsLiked: boolean;
 }
 
-export default function ProductDetail({ initProduct, initialError, initIsLiked }: ProductDetailProps) {
+export default function ProductDetail({ initProduct, initialError }: ProductDetailProps) {
   const {
     product,
     isLiked,
@@ -26,7 +25,7 @@ export default function ProductDetail({ initProduct, initialError, initIsLiked }
     setIsOpenInquiry,
     onSelectImage,
     onResetImage,
-  } = useProductDetailController({ initIsLiked, initProduct });
+  } = useProductDetailController({ initProduct });
 
   const portfolioImages = product?.subImages.map(img => img.url) ?? [];
 

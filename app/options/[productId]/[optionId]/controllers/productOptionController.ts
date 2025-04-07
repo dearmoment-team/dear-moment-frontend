@@ -1,10 +1,16 @@
 import { addInquiryOption } from '@/api/inquiries';
-import { addOptionLike } from '@/api/likes';
+import { addOptionLike, removeOptionLike } from '@/api/likes';
 import { Product, ProductOption } from '@/api/products/types';
 import { useState } from 'react';
 
-export function useProductOptionController({ initProductOption, initProduct }: { initProductOption: ProductOption | null, initProduct: Product | null }) {
-  const [isLiked, setIsLiked] = useState(initProductOption?.isLiked ?? false);
+export function useProductOptionController({
+  initProductOption,
+  initProduct,
+}: {
+  initProductOption: ProductOption | null;
+  initProduct: Product | null;
+}) {
+  const [isLiked, setIsLiked] = useState(initProductOption?.likeId !== 0);
 
   // 상품 옵션 좋아요 API 연동
   const onClickHeart = async () => {
@@ -12,8 +18,7 @@ export function useProductOptionController({ initProductOption, initProduct }: {
       if (!initProductOption) return;
 
       if (isLiked) {
-        // TODO: 좋아요 제거 API 호출
-        // await removeOptionLike({ optionId: initProductOption.optionId });
+        await removeOptionLike({ likeId: initProductOption.likeId, optionId: initProductOption.optionId });
         setIsLiked(false);
       } else {
         await addOptionLike(initProductOption.optionId);
