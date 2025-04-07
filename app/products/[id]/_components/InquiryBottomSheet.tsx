@@ -1,36 +1,50 @@
-import { ProductOption } from '@/api/products/types';
+import { addInquiryOption } from '@/api/inquiries';
+import { Product } from '@/api/products/types';
 import { Icon_Heart, Icon_Heart_Filled } from '@/assets/icons';
 import { BaseItem, Dropbox } from '@/components/molecule/Dropbox';
 import { Sheet, SheetContent, SheetHeader, SheetOverlay, SheetTitle } from '@/components/ui/sheet';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 
 interface InquiryBottomSheetProps {
-  productOptions: ProductOption[];
+  product: Product | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   isLiked: boolean;
-  setIsLiked: Dispatch<SetStateAction<boolean>>;
+  onClickHeart: () => void;
 }
 
-export const InquiryBottomSheet = ({
-  productOptions,
-  open,
-  onOpenChange,
-  isLiked,
-  setIsLiked,
-}: InquiryBottomSheetProps) => {
+export const InquiryBottomSheet = ({ product, open, onOpenChange, isLiked, onClickHeart }: InquiryBottomSheetProps) => {
   const [selectedItem, setSelectedItem] = useState<BaseItem | null>(null);
 
-  const dropdownItems = productOptions.map(option => ({
+  const dropdownItems = product?.options.map(option => ({
     id: option.optionId.toString(),
     label: option.name,
-    value: option.optionId.toString(),
+    value: option.discountPrice,
   }));
 
   // 상품 선택 시 가격 업데이트
   const handleProductSelect = (item: BaseItem | null) => {
     setSelectedItem(item);
   };
+
+  const onClickInquiry = async () => {
+    if (!selectedItem) return;
+    const currOption = product?.options.find(option => option.optionId === Number(selectedItem.id));
+
+    try {
+      if (!currOption) return;
+
+      await addInquiryOption({ productId: currOption.productId, optionId: currOption.optionId });
+      const url = product?.studio?.kakaoChannelUrl;
+      if (url) {
+        window.open(url, '_blank');
+      }
+      alert('문의가 성공적으로 등록되었습니다.');
+    } catch (error) {
+      console.error('문의하기 API 호출 중 오류:', error);
+    }
+  };
+
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetOverlay className="data-[state=open]:animate-fadeIn data-[state=closed]:animate-fadeOut" />
@@ -55,13 +69,13 @@ export const InquiryBottomSheet = ({
         <div className="mt-[1.4rem] pt-[2.4rem] border-t border-gray-20 flex justify-between">
           <span className="text-body1Normal font-bold text-gray-70">문의 상품 금액</span>
           <span className="text-body1Normal font-semibold text-gray-90">
-            {Boolean(selectedItem?.value) ? `${selectedItem?.value}원` : '-'}
+            {Boolean(selectedItem?.value) ? `${selectedItem?.value.toLocaleString()}원` : '-'}
           </span>
         </div>
         <div className="h-[5.6rem] mt-[3.2rem] flex gap-[1rem] justify-between items-center">
           <button
             className="w-[6.8rem] h-full flex justify-center items-center bg-red-0 border border-red-40 rounded-[0.4rem] cursor-pointer"
-            onClick={() => setIsLiked(!isLiked)}
+            onClick={onClickHeart}
           >
             {isLiked ? <Icon_Heart_Filled /> : <Icon_Heart className="stroke-red-40" />}
           </button>
@@ -70,6 +84,7 @@ export const InquiryBottomSheet = ({
               selectedItem ? 'bg-red-40' : 'bg-gray-40'
             }`}
             disabled={!selectedItem}
+            onClick={onClickInquiry}
           >
             문의하기
           </button>

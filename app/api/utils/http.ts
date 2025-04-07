@@ -132,7 +132,7 @@ export async function put<T>(endpoint: string, data: unknown, options?: RequestI
 /**
  * HTTP DELETE 요청 함수
  * @param endpoint API 엔드포인트
- * @param data 요청 데이터
+ * @param data 요청 데이터 (request body)
  * @param options 요청 옵션
  * @returns void - 반환값 없음
  */
