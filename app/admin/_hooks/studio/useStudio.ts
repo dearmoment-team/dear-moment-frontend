@@ -47,7 +47,7 @@ export const useStudio = () => {
       if (!studioId) return;
       try {
         const { data: responseData } = await getStudio(token, studioId);
-        reset(responseData.data);
+        reset({ ...responseData.data, isCasted: responseData.data.isCasted === 'true' });
       } catch (error) {
         console.error('스튜디오 불러오기 실패:', error);
       }
@@ -59,17 +59,22 @@ export const useStudio = () => {
   const onSubmit = async (data: StudioFormDataType) => {
     if (!studioId) {
       try {
-        const { data: studioData } = await postStudio({ token, body: data });
+        const { data: studioData } = await postStudio({ token, body: { ...data, isCasted: data.isCasted === 'true' } });
         alert('스튜디오 등록에 성공했습니다.');
-        router.push(`/admin/studio?id=${studioData.data.id}`);
+
+        router.push(`/admin/studio?studioId=${studioData.data.id}`);
       } catch (error) {
         console.error(error);
       }
     } else {
       try {
-        const { data: studioIdData } = await patchStudio({ token, body: data, studioId });
+        const { data: studioIdData } = await patchStudio({
+          token,
+          body: { ...data, isCasted: data.isCasted === 'true' },
+          studioId,
+        });
         alert('스튜디오 수정에 성공했습니다.');
-        router.push(`/admin/studio?id=${studioIdData.data.id}`);
+        router.push(`/admin/studio?studioId=${studioIdData.data.id}`);
       } catch (error) {
         console.error(error);
       }
