@@ -1,23 +1,11 @@
-'use client';
+import LikeHome from './_components/LikePage';
+import { getMainLikeProducts } from './actions/like';
 
-import { useState } from 'react';
-import Filtering from '@/(home)/_components/Filtering';
-import Tab from '@/like/_components/Tab';
-import ProductList from '@/like/_components/ProductList';
-import StudioList from '@/like/_components/StudioList';
-
-export default function LikePage() {
-  const [isSelected, setIsSelected] = useState('product');
-  const handleTabSelected = (selected: string) => {
-    setIsSelected(selected);
-    console.log('isSelected', isSelected);
-  };
+export default async function LikeMainPage() {
+  const { products, error } = await getMainLikeProducts();
   return (
     <div className="space-y-4">
-      
-      <Tab isSelected={isSelected} onSelect={handleTabSelected}></Tab>
-      <Filtering />
-      {isSelected === 'product' ? <ProductList /> : <StudioList />}
+      <LikeHome initialLikeProducts={products} initialError={error} />
     </div>
   );
 }
