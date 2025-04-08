@@ -2,11 +2,13 @@
 
 import { getProfile, login } from '@/admin/_services/user';
 import { adminTokenStore } from '@/admin/_stores/adminTokenStore';
+import { studioIdStore } from '@/admin/_stores/studioIdStore';
 import { LoginFormDataType } from '@/admin/_types/login';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
 export const useLogin = () => {
+  const { setStudioId } = studioIdStore();
   const { setToken } = adminTokenStore();
   const router = useRouter();
 
@@ -25,7 +27,8 @@ export const useLogin = () => {
 
       const { data: userData } = await getProfile(loginResponse.token);
       const studioId = userData.data.studioId;
-      const url = studioId ? `/admin/studio?id=${studioId}` : '/admin/studio';
+      setStudioId(studioId);
+      const url = studioId ? `/admin/studio?studioId=${studioId}` : '/admin/studio';
       router.push(url);
     } catch (error) {
       console.error(error);
