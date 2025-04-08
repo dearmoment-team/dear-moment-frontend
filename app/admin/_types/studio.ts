@@ -17,7 +17,7 @@ export interface StudioFormDataType {
   reservationNotice?: string;
   cancellationPolicy?: string;
   partnerShops?: PartnerShopsType[];
-  isCasted: boolean;
+  isCasted: boolean | 'true' | 'false';
 }
 
 export const DEFAULT_STUDIO_DATA: StudioFormDataType = {
