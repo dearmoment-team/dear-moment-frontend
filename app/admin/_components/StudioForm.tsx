@@ -7,7 +7,7 @@ import { useStudio } from '../_hooks/studio/useStudio';
 import { PARTNERSHOPS_CATEGORY } from '../_constants/studio';
 
 const StudioForm = () => {
-  const methods = useStudio();
+  const studioMethods = useStudio();
   const {
     register,
     handleSubmit,
@@ -17,10 +17,10 @@ const StudioForm = () => {
     fields,
     append,
     remove,
-  } = methods;
+  } = studioMethods;
 
   return (
-    <FormProvider {...methods}>
+    <FormProvider {...studioMethods}>
       <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-6 p-6 text-[1.2rem]">
         {/* 상태 */}
         <div>
