@@ -1,11 +1,12 @@
 import { MainLikeProduct } from '@/api/likes/types';
-import { Icon_Heart_Filled, Icon_Calendar, Icon_ChevronRight } from '@/assets/icons';
+import { Icon_Heart_Filled, Icon_Calendar, Icon_ChevronRight, Icon_Heart } from '@/assets/icons';
 import Image from 'next/image';
+import { addOptionLike, removeOptionLike } from '@/api/likes';
+import { useState } from 'react';
 
 interface ProductCardProps {
   likeProducts: MainLikeProduct;
-  loading?: boolean;
-  error?: string | null;
+  onLikeChange?: () => void;
 }
 
 interface LikeItemProps {
@@ -33,15 +34,34 @@ const InfoItem = ({ label, value, unit = '', booleanText }: LikeItemProps) => {
   );
 };
 
-export default function ProductCard({ likeProducts, loading, error }: ProductCardProps) {
-  console.log('likeProducts', likeProducts);
+export default function ProductCard({ likeProducts, onLikeChange }: ProductCardProps) {
+  const [isLiked, setIsLiked] = useState(likeProducts.likeId !== 0);
+
+  const handleLikeClick = async () => {
+    try {
+      if (isLiked) {
+        // 좋아요 취소
+        await removeOptionLike({ likeId: likeProducts.likeId, optionId: likeProducts.productOptionId });
+      } else {
+        // 좋아요 추가
+        await addOptionLike(likeProducts.productOptionId);
+      }
+      setIsLiked(!isLiked);
+      onLikeChange?.();
+    } catch (error) {
+      console.error('좋아요 처리 중 오류 발생:', error);
+    }
+  };
+
   return (
     <div className="w-[32rem] h-[25.6rem] m-[2rem]">
       {/* 사진 */}
       <div className="h-[18.4rem] flex">
         <div className="w-[15.5rem] bg-gray-10 relative">
           <Image src="/author_thumb.png" alt="메인 웨딩 사진" fill className="object-cover" />
-          <Icon_Heart_Filled className="cursor-pointer absolute top-[15.25rem] left-[12.5rem]" />
+          <button className="absolute top-[15.25rem] left-[12.5rem]" onClick={handleLikeClick}>
+            {isLiked ? <Icon_Heart_Filled /> : <Icon_Heart />}
+          </button>
         </div>
         <div className="w-[1rem]"></div>
         <div className="w-[15.5rem] bg-gray-10 py-[1.4rem] px-[1rem] flex flex-col justify-between">
@@ -68,7 +88,7 @@ export default function ProductCard({ likeProducts, loading, error }: ProductCar
             <div className="text-common-100">{likeProducts.price.toLocaleString()}원</div>
           </div>
         </div>
-        <div className=" text-gray-80 text-body3Normal">{likeProducts.name}</div>
+        <div className=" text-gray-80 text-body3Normal">{likeProducts.optionName}</div>
         {/* 날짜 옵션 */}
         <div className=" flex gap-[0.5rem] items-center">
           <Icon_Calendar width={14} height={14} />

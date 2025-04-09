@@ -1,25 +1,33 @@
-import { searchLikeOptionList } from '@/api';
+import { searchLikeOptionList, searchLikeStudioList } from '@/api';
 import { ApiErrorImpl } from '@/api/error';
 
 // 서버 컴포넌트에서 데이터를 가져오는 함수
-export async function getMainLikeProducts(pageNumber: number = 0, size: number = 10) {
+export async function getLikeProductsAndStudios(pageNumber: number = 0, size: number = 10) {
   try {
-    const response = await searchLikeOptionList(pageNumber, size);
-    console.log('getMainLikeProducts >> ', response);
+    const [productsResponse, studiosResponse] = await Promise.all([
+      searchLikeOptionList(pageNumber, size),
+      searchLikeStudioList(pageNumber, size),
+    ]);
+
+    console.log('getMainLikeProducts >> ', productsResponse);
+    console.log('getMainLikeStudios >> ', studiosResponse);
+
     // API 응답 구조 확인 및 데이터 반환
-    if (response.success && response.data) {
+    if (productsResponse.success && productsResponse.data && studiosResponse.success && studiosResponse.data) {
       return {
-        products: response.data.content,
+        products: productsResponse.data.content,
+        studios: studiosResponse.data.content,
         error: null,
       };
     } else {
       return {
         products: [],
-        error: '상품 데이터를 가져오는데 실패했습니다.',
+        studios: [],
+        error: '데이터를 가져오는데 실패했습니다.',
       };
     }
   } catch (error) {
-    console.error('서버 컴포넌트에서 상품 데이터 가져오기 실패dd:', error);
+    console.error('서버 컴포넌트에서 데이터 가져오기 실패:', error);
 
     let errorMessage = '알 수 없는 오류가 발생했습니다.';
 
@@ -27,7 +35,7 @@ export async function getMainLikeProducts(pageNumber: number = 0, size: number =
     if (error instanceof ApiErrorImpl) {
       switch (error.code) {
         case 'NOT_FOUND':
-          errorMessage = '상품 데이터를 찾을 수 없습니다.';
+          errorMessage = '데이터를 찾을 수 없습니다.';
           break;
         case 'UNAUTHORIZED':
           errorMessage = '인증이 필요합니다.';
@@ -39,6 +47,7 @@ export async function getMainLikeProducts(pageNumber: number = 0, size: number =
 
     return {
       products: [],
+      studios: [],
       error: errorMessage,
     };
   }

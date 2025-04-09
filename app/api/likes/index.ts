@@ -1,7 +1,29 @@
 import { API_ENDPOINTS } from '../config';
 import { handleApiError } from '../error';
 import { get, post, del } from '../utils/http';
-import { LikePageProductResponse, AddLikeResponse, RemoveLikeRequest, RemoveLikeResponse } from './types';
+import {
+  LikePageProductResponse,
+  LikePageStudioResponse,
+  AddLikeResponse,
+  RemoveLikeRequest,
+  RemoveLikeResponse,
+} from './types';
+
+/**
+ * 스튜디오 좋아요 목록을 가져오는 API(찜한 스튜디오)
+ * @param page 페이지 번호 (0부터 시작)
+ * @param size 페이지 크기
+ * @returns 페이지네이션된 스튜디오 목록
+ */
+export async function searchLikeStudioList(page: number = 0, size: number = 10): Promise<LikePageStudioResponse> {
+  try {
+    const endpoint = `${API_ENDPOINTS.likes.products}?page=${page}&size=${size}`;
+    return await get<LikePageStudioResponse>(endpoint);
+  } catch (error) {
+    console.error('[MY 찜] 찜한 스튜디오 목록 가져오기 실패 searchLikeStudioList : ', error);
+    throw handleApiError(error);
+  }
+}
 
 /**
  * 상품 좋아요 추가 API

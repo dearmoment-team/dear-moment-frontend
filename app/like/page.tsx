@@ -1,11 +1,16 @@
 import LikeHome from './_components/LikePage';
-import { getMainLikeProducts } from './actions/like';
+import { getLikeProductsAndStudios } from './actions/like';
 
 export default async function LikeMainPage() {
-  const { products, error } = await getMainLikeProducts();
+  const { products, studios, error } = await getLikeProductsAndStudios();
   return (
     <div className="space-y-4">
-      <LikeHome initialLikeProducts={products} initialError={error} />
+      <LikeHome
+        initialLikeProducts={products}
+        initialLikeStudios={studios}
+        initialError={error}
+        initialLoading={false}
+      />
     </div>
   );
 }

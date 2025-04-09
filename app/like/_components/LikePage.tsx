@@ -1,25 +1,33 @@
 'use client';
 
-import { MainLikeProduct } from '../../api/likes/types';
+import { MainLikeProduct, MainLikeStudio } from '@/api/likes/types';
 // import Filtering from '../../(home)/_components/Filtering';
 import ProductList from './ProductList';
 import { useLikeController } from '../controllers/LikeController';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Tab from './Tab';
 import StudioList from './StudioList';
 
 interface ClientFilteringWrapperProps {
   initialLikeProducts: MainLikeProduct[];
+  initialLikeStudios: MainLikeStudio[];
   initialError: string | null;
+  initialLoading: boolean;
 }
 
-export default function ClientFilteringWrapper({ initialLikeProducts, initialError }: ClientFilteringWrapperProps) {
+export default function ClientFilteringWrapper({
+  initialLikeProducts,
+  initialLikeStudios,
+  initialError,
+  initialLoading,
+}: ClientFilteringWrapperProps) {
   const [isSelected, setIsSelected] = useState('product');
-  const { likeProducts, loading, error, setLikeProducts, setLoading, setError, fetchLikeProductList } =
-    useLikeController({
-      initialLikeProducts,
-      initialError,
-    });
+  const { likeProducts, likeStudios, loading, error, fetchLikeProductList, fetchLikeStudioList } = useLikeController({
+    initialLikeProducts,
+    initialLikeStudios,
+    initialError,
+    initialLoading,
+  });
 
   const handleTabSelected = (selected: string) => {
     setIsSelected(selected);
@@ -27,7 +35,7 @@ export default function ClientFilteringWrapper({ initialLikeProducts, initialErr
 
   return (
     <>
-      <Tab isSelected={isSelected} onSelect={handleTabSelected}></Tab>
+      <Tab isSelected={isSelected} onSelect={handleTabSelected} />
       {/* <Filtering
         setMainProducts={setLikeProducts}
         setLoading={setLoading}
@@ -35,9 +43,9 @@ export default function ClientFilteringWrapper({ initialLikeProducts, initialErr
         fetchMainProducts={fetchLikeProductList}
       /> */}
       {isSelected === 'product' ? (
-        <ProductList mainLikeProducts={likeProducts} loading={loading} error={error} />
+        <ProductList likeProducts={likeProducts} loading={loading} error={error} />
       ) : (
-        <StudioList />
+        <StudioList likeStudios={likeStudios} loading={loading} error={error} />
       )}
     </>
   );

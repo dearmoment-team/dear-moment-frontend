@@ -32,13 +32,17 @@ export interface MainLikeProduct {
 // 좋아요 페이지 응답
 export type LikePageProductResponse = ApiResponse<PagedResponse<MainLikeProduct>>;
 
-// // 찜한 상품 옵션 검색 필터 요청 타입
-// export interface LikeProductSearchFilter {
-//   sortBy?: string[];
-//   availableSeasons?: string[];
-//   cameraTypes?: string[];
-//   retouchStyles?: string[];
-//   partnerShopCategories?: string[];
-//   minPrice?: number;
-//   maxPrice?: number;
-// }
+// MY 찜 스튜디오 정의(ProductResponse)
+export interface MainLikeStudio {
+  likeId: number; // 좋아요 ID (0이면 좋아요 X, 0이외의 값이면 좋아요 O)
+  productId: number;
+  name: string;
+  thumbnailUrls: string[];
+  minPrice: number;
+  maxPrice: number;
+  availableSeasons: string[];
+  retouchStyles: string[];
+}
+
+// 좋아요 페이지 응답
+export type LikePageStudioResponse = ApiResponse<PagedResponse<MainLikeStudio>>;
