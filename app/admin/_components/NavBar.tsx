@@ -4,10 +4,12 @@ import { usePathname, useRouter } from 'next/navigation';
 import clsx from 'clsx';
 import { studioIdStore } from '../_stores/studioIdStore';
 import { adminTokenStore } from '../_stores/adminTokenStore';
+import { productIdStore } from '../_stores/productIdStore';
 
 const NavBar = () => {
   const { token } = adminTokenStore();
   const { studioId } = studioIdStore();
+  const { productId } = productIdStore();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -17,7 +19,11 @@ const NavBar = () => {
         <section
           onClick={() => {
             if (studioId) {
-              router.push(`/admin/studio?studioId=${studioId}`);
+              if (productId) {
+                router.push(`/admin/studio?studioId=${studioId}&productId=${productId}`);
+              } else {
+                router.push(`/admin/studio?studioId=${studioId}`);
+              }
             } else {
               router.push('/admin/studio');
             }
@@ -32,9 +38,17 @@ const NavBar = () => {
         <section
           onClick={() => {
             if (token && studioId) {
-              router.push(`/admin/product?studioId=${studioId}`);
+              if (productId) {
+                router.push(`/admin/product?studioId=${studioId}&productId=${productId}`);
+              } else {
+                router.push(`/admin/product?studioId=${studioId}`);
+              }
             } else {
-              alert('로그인 후, 상품 관리가 가능합니다.');
+              if (!token) {
+                alert('로그인 후, 상품 관리가 가능합니다.');
+              } else if (!studioId) {
+                alert('스튜디오 생성 후, 상품 등록이 가능합니다.');
+              }
             }
           }}
           className={clsx(
