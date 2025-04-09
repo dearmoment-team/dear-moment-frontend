@@ -27,9 +27,12 @@ export const useLogin = () => {
 
       const { data: userData } = await getProfile(loginResponse.token);
       const studioId = userData.data.studioId;
-      setStudioId(studioId);
-      const url = studioId ? `/admin/studio?studioId=${studioId}` : '/admin/studio';
-      router.push(url);
+      if (studioId) {
+        setStudioId(studioId);
+        router.push(`/admin/studio?studioId=${studioId}`);
+      } else {
+        router.push('/admin/studio');
+      }
     } catch (error) {
       console.error(error);
     }
