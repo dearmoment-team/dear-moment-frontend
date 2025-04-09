@@ -17,6 +17,23 @@ export const getProduct = async (token: string, productId: string) => {
   return { data };
 };
 
+export const getMineProduct = async (token: string) => {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/products/mine`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('내 상품 정보 조회 실패');
+  }
+
+  const data = await response.json();
+
+  return { data };
+};
+
 export const postProduct = async ({ token, body }: { token: string; body: FormData }) => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/products`, {
     method: 'POST',
