@@ -127,9 +127,23 @@ const ProductForm = () => {
           <header className="mb-[1rem] text-[2.4rem] font-semibold text-[#000000]">상품 옵션</header>
           {optionFields.map((_, index) =>
             watch(`options.${index}.optionType`) === 'SINGLE' ? (
-              <ProductSingleOption key={index} index={index} optionAppend={optionAppend} optionRemove={optionRemove} />
+              <section className="mb-10">
+                <ProductSingleOption
+                  key={index}
+                  index={index}
+                  optionAppend={optionAppend}
+                  optionRemove={optionRemove}
+                />
+              </section>
             ) : (
-              <ProductPackageOption key={index} index={index} optionAppend={optionAppend} optionRemove={optionRemove} />
+              <section className="mb-10">
+                <ProductPackageOption
+                  key={index}
+                  index={index}
+                  optionAppend={optionAppend}
+                  optionRemove={optionRemove}
+                />
+              </section>
             )
           )}
         </section>
