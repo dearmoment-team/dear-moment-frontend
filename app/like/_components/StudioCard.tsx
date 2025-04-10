@@ -5,13 +5,14 @@ import { MainLikeStudio } from '@/api/likes/types';
 import { STYLE_DISPLAY_MAP, SHOOTING_PERIOD_DISPLAY_MAP } from '@/(home)/models/FilteringModel';
 import { RetouchStyle, ShootingPeriod } from '@/(home)/type';
 import { addProductLike, removeProductLike } from '@/api/likes';
-
+import { useRouter } from 'next/navigation';
 interface StudioCardProps {
   likeStudios: MainLikeStudio;
   onLikeChange?: () => void;
 }
 
 export default function StudioCard({ likeStudios, onLikeChange }: StudioCardProps) {
+  const router = useRouter();
   const [isLiked, setIsLiked] = useState(likeStudios.likeId !== 0);
 
   const handleLikeClick = async () => {
@@ -30,8 +31,16 @@ export default function StudioCard({ likeStudios, onLikeChange }: StudioCardProp
     }
   };
 
+  // 상품 페이지로 이동
+  const handlePageProductClick = () => {
+    router.push(`/products/${likeStudios.productId}`);
+  };
+
   return (
-    <div className="w-[32rem] h-[24.7rem] my-[1.4rem] mx-[2rem] flex flex-col space-y-[1.3rem]">
+    <div
+      className="w-[32rem] h-[24.7rem] my-[1.4rem] mx-[2rem] flex flex-col space-y-[1.3rem]"
+      onClick={handlePageProductClick}
+    >
       {/* 작가정보 헤더 */}
       <div className="flex flex-col space-y-[0.8rem]">
         <div>

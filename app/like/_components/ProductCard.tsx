@@ -5,6 +5,7 @@ import { addOptionLike, removeOptionLike } from '@/api/likes';
 import { useState } from 'react';
 import { SHOOTING_PERIOD_DISPLAY_MAP } from '@/(home)/models/FilteringModel';
 import { ShootingPeriod } from '@/(home)/type';
+import { useRouter } from 'next/navigation';
 
 interface ProductCardProps {
   likeProducts: MainLikeProduct;
@@ -37,6 +38,7 @@ const InfoItem = ({ label, value, unit = '', booleanText }: LikeItemProps) => {
 };
 
 export default function ProductCard({ likeProducts, onLikeChange }: ProductCardProps) {
+  const router = useRouter();
   const [isLiked, setIsLiked] = useState(!!likeProducts);
 
   const handleLikeClick = async () => {
@@ -55,10 +57,21 @@ export default function ProductCard({ likeProducts, onLikeChange }: ProductCardP
     }
   };
 
+  // 상품 옵션 설명 페이지로 이동
+  const handlePageProductOptionClick = () => {
+    console.log('likeProducts룰라', likeProducts);
+    router.push(`/options/${likeProducts.productId}/${likeProducts.productOptionId}`);
+  };
+
+  // 상품 페이지로 이동
+  const handlePageProductClick = () => {
+    router.push(`/products/${likeProducts.productId}`);
+  };
+
   return (
     <div className="w-[32rem] h-[25.6rem] m-[2rem]">
       {/* 사진 */}
-      <div className="h-[18.4rem] flex">
+      <div className="h-[18.4rem] flex" onClick={handlePageProductOptionClick}>
         <div className="w-[15.5rem] bg-gray-10 relative">
           <Image src="/author_thumb.png" alt="메인 웨딩 사진" fill className="object-cover" />
           <button className="absolute top-[15.25rem] left-[12.5rem]" onClick={handleLikeClick}>
@@ -79,7 +92,7 @@ export default function ProductCard({ likeProducts, onLikeChange }: ProductCardP
         </div>
       </div>
       <div className="h-[1.1rem]"></div>
-      <div className="w-[32rem] h-[6.1rem] flex flex-col gap-[0.9rem]">
+      <div className="w-[32rem] h-[6.1rem] flex flex-col gap-[0.9rem]" onClick={handlePageProductClick}>
         <div className="h-auto flex justify-between font-bold text-body2Normal">
           <div className="text-gray-90 flex items-center">
             <span>{likeProducts.studioName}</span>
@@ -95,7 +108,7 @@ export default function ProductCard({ likeProducts, onLikeChange }: ProductCardP
         <div className=" flex gap-[0.5rem] items-center">
           <Icon_Calendar width={14} height={14} />
           <div className="flex gap-[0.6rem] items-center">
-                {(likeProducts.shootingSeason as ShootingPeriod[]).map((season, index) => (
+            {(likeProducts.shootingSeason as ShootingPeriod[]).map((season, index) => (
               <span
                 key={index}
                 className="text-label2 font-medium text-gray-80 last:border-l last:border-gray-50 last:pl-[0.6rem]"

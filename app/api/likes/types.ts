@@ -16,6 +16,7 @@ export type RemoveLikeResponse = ApiResponse<null>;
 // MY 찜 상품 옵션 정의
 export interface MainLikeProduct {
   likeId: number; // 좋아요 ID (0이면 좋아요 X, 0이외의 값이면 좋아요 O)
+  productId: number;
   productOptionId: number;
   studioName: string;
   optionName: string;
