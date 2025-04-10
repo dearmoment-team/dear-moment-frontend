@@ -42,6 +42,7 @@ export interface MainLikeStudio {
   thumbnailUrls: string[];
   minPrice: number;
   maxPrice: number;
+  discountRate: number; // 할인율
   shootingSeason: string[];
   retouchStyles: string[];
 }

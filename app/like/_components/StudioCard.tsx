@@ -54,6 +54,7 @@ export default function StudioCard({ likeStudios, onLikeChange }: StudioCardProp
         </div>
         {/* 가격 */}
         <div className="h-[1.4rem] mb-2 text-body2Normal">
+          {<span className="font-bold text-red-40 mr-[0.4rem]">{likeStudios.discountRate}%</span>}
           <span className="text-common-100 font-semibold">
             {likeStudios.minPrice.toLocaleString()}원 ~ {likeStudios.maxPrice.toLocaleString()}원
           </span>
@@ -76,7 +77,7 @@ export default function StudioCard({ likeStudios, onLikeChange }: StudioCardProp
       {/* 썸네일 영역 (3장 가로로) */}
       <div className="flex gap-[0.8rem]">
         {likeStudios.thumbnailUrls.map((url, index) => (
-          <div key={index} className="w-[10.1rem] h-[13.2rem] bg-gray-20">
+          <div key={index} className="w-[10.1rem] h-[13.2rem]">
             <Image src={url} alt={`${likeStudios.name} thumbnail ${index + 1}`} width={161.6} height={211.2} />
           </div>
         ))}

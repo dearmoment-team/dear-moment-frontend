@@ -1,10 +1,9 @@
 'use client';
 
 import { MainLikeProduct, MainLikeStudio } from '@/api/likes/types';
-// import Filtering from '../../(home)/_components/Filtering';
 import ProductList from './ProductList';
 import { useLikeController } from '../controllers/LikeController';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Tab from './Tab';
 import StudioList from './StudioList';
 
@@ -36,12 +35,6 @@ export default function ClientFilteringWrapper({
   return (
     <>
       <Tab isSelected={isSelected} onSelect={handleTabSelected} />
-      {/* <Filtering
-        setMainProducts={setLikeProducts}
-        setLoading={setLoading}
-        setError={setError}
-        fetchMainProducts={fetchLikeProductList}
-      /> */}
       {isSelected === 'product' ? (
         <ProductList likeProducts={likeProducts} loading={loading} error={error} />
       ) : (
