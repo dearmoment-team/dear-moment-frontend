@@ -1,8 +1,10 @@
+import Image from 'next/image';
 import { MainLikeProduct } from '@/api/likes/types';
 import { Icon_Heart_Filled, Icon_Calendar, Icon_ChevronRight, Icon_Heart } from '@/assets/icons';
-import Image from 'next/image';
 import { addOptionLike, removeOptionLike } from '@/api/likes';
 import { useState } from 'react';
+import { SHOOTING_PERIOD_DISPLAY_MAP } from '@/(home)/models/FilteringModel';
+import { ShootingPeriod } from '@/(home)/type';
 
 interface ProductCardProps {
   likeProducts: MainLikeProduct;
@@ -35,7 +37,7 @@ const InfoItem = ({ label, value, unit = '', booleanText }: LikeItemProps) => {
 };
 
 export default function ProductCard({ likeProducts, onLikeChange }: ProductCardProps) {
-  const [isLiked, setIsLiked] = useState(likeProducts.likeId !== 0);
+  const [isLiked, setIsLiked] = useState(!!likeProducts);
 
   const handleLikeClick = async () => {
     try {
@@ -84,7 +86,7 @@ export default function ProductCard({ likeProducts, onLikeChange }: ProductCardP
             <Icon_ChevronRight width={16} height={16} />
           </div>
           <div className="w-[11.2rem] flex justify-end gap-[0.8rem] items-center">
-            <div className="text-red-40">43%</div>
+            <div className="text-red-40">{likeProducts.discountRate}%</div>
             <div className="text-common-100">{likeProducts.price.toLocaleString()}원</div>
           </div>
         </div>
@@ -93,12 +95,14 @@ export default function ProductCard({ likeProducts, onLikeChange }: ProductCardP
         <div className=" flex gap-[0.5rem] items-center">
           <Icon_Calendar width={14} height={14} />
           <div className="flex gap-[0.6rem] items-center">
-            <span className="text-label2 font-medium text-gray-80 last:border-l last:border-gray-50 last:pl-[0.6rem]">
-              25년 상반기
-            </span>
-            <span className="text-label2 font-medium text-gray-80 last:border-l last:border-gray-50 last:pl-[0.6rem]">
-              25년 상반기
-            </span>
+                {(likeProducts.shootingSeason as ShootingPeriod[]).map((season, index) => (
+              <span
+                key={index}
+                className="text-label2 font-medium text-gray-80 last:border-l last:border-gray-50 last:pl-[0.6rem]"
+              >
+                {SHOOTING_PERIOD_DISPLAY_MAP[season]}
+              </span>
+            ))}
           </div>
         </div>
       </div>

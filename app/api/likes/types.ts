@@ -26,7 +26,9 @@ export interface MainLikeProduct {
   shootingLocationCount: number; // 촬영 장소 수(단품인 경우 1 이상)
   costumeCount: number; // 의상 수량(단품인 경우 1 이상)
   retouchedCount: number; // 보정된 사진 수(단품인 경우 1 이상)
-  name: string;
+  discountRate: number; // 할인율
+  shootingSeason: string[];
+  availableSeasons: string[];
 }
 
 // 좋아요 페이지 응답
@@ -40,7 +42,7 @@ export interface MainLikeStudio {
   thumbnailUrls: string[];
   minPrice: number;
   maxPrice: number;
-  availableSeasons: string[];
+  shootingSeason: string[];
   retouchStyles: string[];
 }
 
