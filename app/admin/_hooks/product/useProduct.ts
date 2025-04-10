@@ -91,7 +91,7 @@ export const useProduct = () => {
     const formData = new FormData();
 
     const productInfo = {
-      // TODO : title 임시 값이기 때문에 수정 필요
+      // TODO : 임시 값 수정 필요
       title: 'test',
       shootingPlace: data.shootingPlace,
       contactInfo: 'test contactInfo',
@@ -100,7 +100,6 @@ export const useProduct = () => {
       retouchStyles: data.retouchStyles,
       studioId: studioId,
       cameraTypes: data.cameraTypes,
-      // TODO : description 임시 값이기 때문에 수정 필요
       description: 'test 설명',
       detailedInfo: 'test 상세 설명',
       options: data.options,
