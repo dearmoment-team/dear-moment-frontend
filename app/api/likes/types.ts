@@ -50,3 +50,14 @@ export interface MainLikeStudio {
 
 // 좋아요 페이지 응답
 export type LikePageStudioResponse = ApiResponse<PagedResponse<MainLikeStudio>>;
+
+// 상품 검색 필터 요청 타입
+export interface ProductSearchFilter {
+  sortBy?: string[];
+  availableSeasons?: string[];
+  cameraTypes?: string[];
+  retouchStyles?: string[];
+  partnerShopCategories?: string[];
+  minPrice?: number;
+  maxPrice?: number;
+}

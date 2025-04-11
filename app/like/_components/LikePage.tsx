@@ -6,6 +6,7 @@ import { useLikeController } from '../controllers/LikeController';
 import { useState } from 'react';
 import Tab from './Tab';
 import StudioList from './StudioList';
+import Filtering from '@/like/_components/Filtering/Filtering';
 
 interface ClientFilteringWrapperProps {
   initialLikeProducts: MainLikeProduct[];
@@ -21,7 +22,20 @@ export default function ClientFilteringWrapper({
   initialLoading,
 }: ClientFilteringWrapperProps) {
   const [isSelected, setIsSelected] = useState('product');
-  const { likeProducts, likeStudios, loading, error, fetchLikeProductList, fetchLikeStudioList } = useLikeController({
+  const {
+    likeProducts,
+    likeStudios,
+    error,
+    likeProductLoading,
+    likeStudioLoading,
+    setLikeProducts,
+    setLikeStudios,
+    setLikeProductLoading,
+    setLikeStudioLoading,
+    fetchLikeProductList,
+    fetchLikeStudioList,
+    setError,
+  } = useLikeController({
     initialLikeProducts,
     initialLikeStudios,
     initialError,
@@ -36,9 +50,25 @@ export default function ClientFilteringWrapper({
     <>
       <Tab isSelected={isSelected} onSelect={handleTabSelected} />
       {isSelected === 'product' ? (
-        <ProductList likeProducts={likeProducts} loading={loading} error={error} />
+        <div>
+          <Filtering<MainLikeProduct>
+            setMainProducts={setLikeProducts}
+            setLoading={setLikeProductLoading}
+            setError={setError}
+            fetchMainProducts={fetchLikeProductList}
+          />
+          <ProductList likeProducts={likeProducts} loading={likeProductLoading} error={error} />
+        </div>
       ) : (
-        <StudioList likeStudios={likeStudios} loading={loading} error={error} />
+        <div>
+          <Filtering<MainLikeStudio>
+            setMainProducts={setLikeStudios}
+            setLoading={setLikeStudioLoading}
+            setError={setError}
+            fetchMainProducts={fetchLikeStudioList}
+          />
+          <StudioList likeStudios={likeStudios} loading={likeStudioLoading} error={error} />
+        </div>
       )}
     </>
   );

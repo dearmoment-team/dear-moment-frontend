@@ -44,6 +44,8 @@ export const API_ENDPOINTS = {
   likes: {
     products: '/likes/products',
     options: '/likes/product-options',
+    productsOptions: '/likes/products-options/filter',
+    studiosOptions: '/likes/studios-options/filter',
   },
   // 추후 다른 도메인 엔드포인트 추가
 };

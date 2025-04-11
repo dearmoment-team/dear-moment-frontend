@@ -16,12 +16,18 @@ export function useLikeController({
 }) {
   const [likeProducts, setLikeProducts] = useState<MainLikeProduct[]>(initialLikeProducts);
   const [likeStudios, setLikeStudios] = useState<MainLikeStudio[]>(initialLikeStudios);
-  const [loading, setLoading] = useState<boolean>(initialLoading);
+
+  const [likeProductLoading, setLikeProductLoading] = useState<boolean>(initialLoading);
+  const [likeStudioLoading, setLikeStudioLoading] = useState<boolean>(initialLoading);
+
   const [error, setError] = useState<string | null>(initialError);
+
+  // const [likeProductError, setLikeProductError] = useState<string | null>(initialError);
+  // const [likeStudioError, setLikeStudioError] = useState<string | null>(initialError);
 
   const fetchLikeProductList = async (pageNumber: number = 0) => {
     try {
-      setLoading(true);
+      setLikeProductLoading(true);
       setError(null);
 
       const response = await searchLikeOptionList(pageNumber, 10);
@@ -49,13 +55,13 @@ export function useLikeController({
         setError('알 수 없는 오류가 발생했습니다.');
       }
     } finally {
-      setLoading(false);
+      setLikeProductLoading(false);
     }
   };
 
   const fetchLikeStudioList = async (pageNumber: number = 0) => {
     try {
-      setLoading(true);
+      setLikeStudioLoading(true);
       setError(null);
 
       const response = await searchLikeStudioList(pageNumber, 10);
@@ -82,18 +88,20 @@ export function useLikeController({
         setError('알 수 없는 오류가 발생했습니다.');
       }
     } finally {
-      setLoading(false);
+      setLikeStudioLoading(false);
     }
   };
 
   return {
     likeProducts,
     likeStudios,
-    loading,
+    likeProductLoading,
+    likeStudioLoading,
     error,
     setLikeProducts,
     setLikeStudios,
-    setLoading,
+    setLikeProductLoading,
+    setLikeStudioLoading,
     setError,
     fetchLikeProductList,
     fetchLikeStudioList,
