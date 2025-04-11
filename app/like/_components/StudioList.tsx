@@ -15,12 +15,13 @@ export default function StudioList({ likeStudios = [], loading, error }: StudioL
           <LoadingSpinner />
         </div>
       )}
-      {likeStudios.length === 0 && !loading && !error && (
+      {likeStudios?.length === 0 && !loading && !error && (
         <div className="text-body1Normal font-semibold text-center text-gray-90 py-4 rounded relative">
           찜한 스튜디오가 없습니다.
         </div>
       )}
       {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">{error}</div>}
+
       {!loading &&
         likeStudios.map((studio: MainLikeStudio) => (
           <div key={studio.likeId} className="mb-4">

@@ -8,15 +8,15 @@ interface ProductListProps {
   error: string | null;
 }
 
-export default function ProductList({ likeProducts, loading, error }: ProductListProps) {
+export default function ProductList({ likeProducts = [], loading, error }: ProductListProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div>
       {loading && (
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
           <LoadingSpinner />
         </div>
       )}
-      {likeProducts.length === 0 && !loading && !error && (
+      {likeProducts?.length === 0 && !loading && !error && (
         <div className="text-body1Normal font-semibold text-center text-gray-90 py-4 rounded relative">
           찜한 상품이 없습니다.
         </div>
