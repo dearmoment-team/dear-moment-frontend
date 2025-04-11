@@ -1,24 +1,33 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import LoadingSpinner from '@/components/LoadingSpinner';
 
 export default function LoginSuccessPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
+    // URL에서 accessToken 추출
+    const accessToken = searchParams.get('accessToken');
+    
+    if (accessToken) {
+      // accessToken을 localStorage에 저장
+      localStorage.setItem('accessToken', accessToken);
+    }
+
     // 2초 후 메인 페이지로 리다이렉트
     const timer = setTimeout(() => {
       router.push('/');
     }, 2000);
 
     return () => clearTimeout(timer);
-  }, [router]);
+  }, [router, searchParams]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-common-0">
-      <div className="flex flex-col items-center gap-6">
+      <div className="flex flex-col items-center gap-6 text-center">
         <svg
           className="w-16 h-16 text-green-500"
           fill="none"

@@ -1,8 +1,16 @@
+'use client';
+
 import Image from 'next/image';
 import { Icon_Logo } from '@/assets/icons';
 import KakaoLogin from '@/login/KakaoLogin';
+import { useEffect } from 'react';
 
 export default function LoginPage() {
+  useEffect(() => {
+    // 페이지 로드 시 세션 스토리지 초기화
+    sessionStorage.clear();
+  }, []);
+
   return (
     <div className="relative w-full min-h-screen">
       <Image src="/login.svg" alt="메인 웨딩 사진" fill className="object-cover" priority />
