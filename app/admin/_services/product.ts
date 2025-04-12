@@ -1,5 +1,3 @@
-import { StudioFormDataType } from '@/admin/_types/studio';
-
 export const getProduct = async (token: string, productId: string) => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/products/${productId}`, {
     method: 'GET',
@@ -58,7 +56,7 @@ export const patchProduct = async ({
   productId,
 }: {
   token: string;
-  body: StudioFormDataType;
+  body: FormData;
   productId: string;
 }) => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/products/${productId}`, {
@@ -66,7 +64,7 @@ export const patchProduct = async ({
     headers: {
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ ...body }),
+    body,
   });
 
   if (!response.ok) {
