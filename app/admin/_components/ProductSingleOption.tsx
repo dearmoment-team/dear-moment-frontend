@@ -52,6 +52,7 @@ const ProductSingleOption = ({ index, optionAppend, optionRemove }: ProductSingl
         <button
           onClick={() =>
             optionAppend({
+              optionId: null,
               name: '',
               optionType: 'SINGLE',
               discountAvailable: false,

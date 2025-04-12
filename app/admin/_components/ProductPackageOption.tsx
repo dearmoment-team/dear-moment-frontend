@@ -63,6 +63,7 @@ const ProductPackageOption = ({ index, optionAppend, optionRemove }: ProductSing
         <button
           onClick={() =>
             optionAppend({
+              optionId: null,
               name: '',
               optionType: 'PACKAGE',
               discountAvailable: false,
