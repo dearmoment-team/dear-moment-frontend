@@ -10,7 +10,7 @@ interface PartnerShopType {
 }
 
 interface ProductOptionType {
-  optionId?: number;
+  optionId: number | null;
   productId?: number;
   name: string;
   optionType: 'SINGLE' | 'PACKAGE';
