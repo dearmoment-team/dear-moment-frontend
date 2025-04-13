@@ -1,6 +1,9 @@
 export interface ImageType {
-  imageId: number;
+  imageId?: number | null;
   url: string;
+  action?: 'KEEP' | 'DELETE' | 'UPLOAD';
+  deletedImageId?: number | null;
+  deletedIndex?: number | null;
 }
 
 interface PartnerShopType {

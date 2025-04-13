@@ -10,7 +10,7 @@ const MAX_IMAGE_COUNT = 4;
 const ImageUploader = () => {
   const { watch, setValue } = useFormContext();
 
-  const mainImage = (watch('mainImage') ?? { imageId: undefined, url: '' }) as ImageType;
+  const mainImage = (watch('mainImage') ?? { imageId: undefined, url: '', action: 'KEEP' }) as ImageType;
   const subImages: ImageType[] = watch('subImages') || [];
   const subImageFiles: File[] = watch('subImageFiles') || [];
   const additionalImages: ImageType[] = watch('additionalImages') || [];
@@ -30,8 +30,7 @@ const ImageUploader = () => {
 
     const previewUrl = URL.createObjectURL(file);
     setValue('mainImageFile', file);
-    setValue('mainImage', { imageId: undefined, url: previewUrl });
-
+    setValue('mainImage', { imageId: null, url: previewUrl, action: 'UPLOAD' });
     e.target.value = '';
   };
 
@@ -39,21 +38,44 @@ const ImageUploader = () => {
     const files = Array.from(e.target.files || []);
     if (!files.length) return;
 
-    const remaining = MAX_IMAGE_COUNT - subImageFiles.length;
-    if (remaining <= 0) {
-      showLimitAlert();
-      e.target.value = '';
-      return;
+    const updatedSubImages = [...subImages];
+    const updatedSubImageFiles = [...subImageFiles];
+
+    for (let i = 0; i < updatedSubImages.length; i++) {
+      const current = updatedSubImages[i];
+
+      if (current?.action === 'DELETE') {
+        const file = files.shift();
+        if (!file) break;
+
+        updatedSubImages[i] = {
+          imageId: null,
+          url: URL.createObjectURL(file),
+          action: 'UPLOAD',
+          deletedImageId: current.imageId,
+          deletedIndex: i,
+        };
+
+        updatedSubImageFiles.push(file);
+      }
     }
 
-    const filesToAdd = files.slice(0, remaining);
-    const previews = filesToAdd.map(file => ({
-      imageId: undefined,
-      url: URL.createObjectURL(file),
-    }));
+    for (let i = 0; i < MAX_IMAGE_COUNT; i++) {
+      if (updatedSubImages[i] === undefined && files.length > 0) {
+        const file = files.shift();
+        if (!file) break;
 
-    setValue('subImageFiles', [...subImageFiles, ...filesToAdd]);
-    setValue('subImages', [...subImages, ...previews]);
+        updatedSubImages[i] = {
+          imageId: null,
+          url: URL.createObjectURL(file),
+          action: 'UPLOAD',
+        };
+        updatedSubImageFiles.push(file);
+      }
+    }
+
+    setValue('subImages', updatedSubImages);
+    setValue('subImageFiles', updatedSubImageFiles);
     e.target.value = '';
   };
 
@@ -72,6 +94,7 @@ const ImageUploader = () => {
     const previews = filesToAdd.map(file => ({
       imageId: undefined,
       url: URL.createObjectURL(file),
+      action: 'UPLOAD',
     }));
 
     setValue('additionalImageFiles', [...additionalImageFiles, ...filesToAdd]);
@@ -85,114 +108,106 @@ const ImageUploader = () => {
         URL.revokeObjectURL(mainImage.url);
       }
       setValue('mainImageFile', undefined);
-      setValue('mainImage', { imageId: undefined, url: '' });
+      setValue('mainImage', { imageId: mainImage.imageId, url: '', action: 'DELETE' });
     } else if (type === 'sub' && typeof index === 'number') {
-      const removedUrl = subImages[index]?.url;
-      if (removedUrl?.startsWith('blob:')) {
-        URL.revokeObjectURL(removedUrl);
+      const removed = subImages[index];
+      if (removed?.url?.startsWith('blob:')) {
+        URL.revokeObjectURL(removed.url);
+        setValue(
+          'subImageFiles',
+          subImageFiles.filter((_, i) => i !== index)
+        );
       }
-
-      setValue(
-        'subImageFiles',
-        subImageFiles.filter((_, i) => i !== index)
-      );
       setValue(
         'subImages',
-        subImages.filter((_, i) => i !== index)
+        subImages.map((img, i) => (i === index ? { ...img, action: 'DELETE', imageId: img.imageId, url: '' } : img))
       );
     } else if (type === 'add' && typeof index === 'number') {
-      const removedUrl = additionalImages[index]?.url;
-      if (removedUrl?.startsWith('blob:')) {
-        URL.revokeObjectURL(removedUrl);
+      const removed = additionalImages[index];
+      if (removed?.url?.startsWith('blob:')) {
+        URL.revokeObjectURL(removed.url);
+        setValue(
+          'additionalImageFiles',
+          additionalImageFiles.filter((_, i) => i !== index)
+        );
       }
-
-      setValue(
-        'additionalImageFiles',
-        additionalImageFiles.filter((_, i) => i !== index)
-      );
       setValue(
         'additionalImages',
-        additionalImages.filter((_, i) => i !== index)
+        additionalImages.map((img, i) => (i === index ? { ...img, action: 'DELETE', imageId: img.imageId } : img))
       );
     }
   };
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        {/* 대표 이미지 */}
-        <div>
-          <label className="mb-1 block">
-            대표 이미지 <span className="text-[#FF0000]">*</span>
-          </label>
-          <input type="file" onChange={handleMainImageChange} ref={mainInputRef} className="hidden" accept="image/*" />
-          <label
-            onClick={() => mainInputRef.current?.click()}
-            className="block w-full cursor-pointer rounded-md border border-dashed border-black py-6 text-center"
-          >
-            파일 추가
-          </label>
-          {mainImage?.url && mainImage.url !== '' && (
-            <div className="relative mt-2 h-32 w-32">
-              <Image src={mainImage.url} alt="Main Image" fill sizes="128px" style={{ objectFit: 'cover' }} />
-              <button
-                type="button"
-                className="absolute right-0 top-0 h-6 w-6 rounded-full bg-red-600 text-xs text-white"
-                onClick={() => handleRemoveImage('main')}
-              >
-                ×
-              </button>
-            </div>
-          )}
-        </div>
-
-        {/* 서브 이미지 */}
-        <div>
-          <label className="mb-1 block">
-            서브 이미지 <span className="text-[#FF0000]">*</span>
-          </label>
-          <input
-            type="file"
-            multiple
-            ref={subInputRef}
-            className="hidden"
-            accept="image/*"
-            onChange={handleSubImagesChange}
-          />
-          <label
-            onClick={() => subInputRef.current?.click()}
-            className="block w-full cursor-pointer rounded-md border border-dashed border-black py-6 text-center"
-          >
-            파일 추가
-          </label>
-          <div className="mt-2 flex flex-wrap gap-2">
-            {subImages.map(
-              (img, index) =>
-                img.url && (
-                  <div key={index} className="relative h-24 w-24">
-                    <Image
-                      src={img.url}
-                      alt={`Sub Image ${index + 1}`}
-                      fill
-                      sizes="96px"
-                      style={{ objectFit: 'cover' }}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveImage('sub', index)}
-                      className="absolute right-0 top-0 h-5 w-5 rounded-full bg-red-600 text-xs text-white"
-                    >
-                      ×
-                    </button>
-                  </div>
-                )
-            )}
+      {/* 대표 이미지 */}
+      <div className="mb-6">
+        <label className="mb-1 block">대표 이미지 *</label>
+        <input type="file" onChange={handleMainImageChange} ref={mainInputRef} className="hidden" accept="image/*" />
+        <label
+          onClick={() => mainInputRef.current?.click()}
+          className="block w-full cursor-pointer rounded-md border border-dashed border-black py-6 text-center"
+        >
+          파일 추가
+        </label>
+        {mainImage?.url && (
+          <div className="relative mt-2 h-32 w-32">
+            <Image src={mainImage.url} alt="Main Image" fill sizes="128px" style={{ objectFit: 'cover' }} />
+            <button
+              type="button"
+              className="absolute right-0 top-0 h-6 w-6 rounded-full bg-red-600 text-xs text-white"
+              onClick={() => handleRemoveImage('main')}
+            >
+              ×
+            </button>
           </div>
+        )}
+      </div>
+
+      {/* 서브 이미지 */}
+      <div className="mb-6">
+        <label className="mb-1 block">서브 이미지 *</label>
+        <input
+          type="file"
+          multiple
+          ref={subInputRef}
+          className="hidden"
+          accept="image/*"
+          onChange={handleSubImagesChange}
+        />
+        <label
+          onClick={() => subInputRef.current?.click()}
+          className="block w-full cursor-pointer rounded-md border border-dashed border-black py-6 text-center"
+        >
+          파일 추가
+        </label>
+        <div className="mt-2 flex flex-wrap gap-2">
+          {subImages.map(
+            (img, index) =>
+              img.action !== 'DELETE' && (
+                <div key={index} className="relative h-24 w-24">
+                  <Image
+                    src={img.url}
+                    alt={`Sub Image ${index + 1}`}
+                    fill
+                    sizes="96px"
+                    style={{ objectFit: 'cover' }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveImage('sub', index)}
+                    className="absolute right-0 top-0 h-5 w-5 rounded-full bg-red-600 text-xs text-white"
+                  >
+                    ×
+                  </button>
+                </div>
+              )
+          )}
         </div>
       </div>
 
       {/* 추가 이미지 */}
-      <div className="mt-6">
+      <div className="mb-6">
         <label className="mb-1 block">추가 이미지</label>
         <input
           type="file"
@@ -211,7 +226,7 @@ const ImageUploader = () => {
         <div className="mt-2 flex flex-wrap gap-2">
           {additionalImages.map(
             (img, index) =>
-              img.url && (
+              img.action !== 'DELETE' && (
                 <div key={index} className="relative h-24 w-24">
                   <Image
                     src={img.url}
