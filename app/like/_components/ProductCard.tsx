@@ -103,7 +103,7 @@ export default function ProductCard({ likeProducts, onLikeChange }: ProductCardP
             <div className="text-common-100">{likeProducts.price.toLocaleString()}원</div>
           </div>
         </div>
-        <div className=" text-gray-80 text-body3Normal">{likeProducts.optionName}</div>
+        <div className=" text-gray-80 text-body3Normal font-medium tracking-[-0.04em]">{likeProducts.optionName}</div>
         {/* 날짜 옵션 */}
         <div className=" flex gap-[0.5rem] items-center">
           <Icon_Calendar width={14} height={14} />
