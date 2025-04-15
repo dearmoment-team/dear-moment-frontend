@@ -86,8 +86,8 @@ export default function StudioCard({ likeStudios, onLikeChange }: StudioCardProp
       {/* 썸네일 영역 (3장 가로로) */}
       <div className="flex gap-[0.8rem]">
         {likeStudios.thumbnailUrls.map((url, index) => (
-          <div key={index} className="w-[10.1rem] h-[13.2rem]">
-            <Image src={url} alt={`${likeStudios.name} thumbnail ${index + 1}`} width={161.6} height={211.2} />
+          <div key={index} className="w-[10.1rem] h-[13.2rem] relative overflow-hidden">
+            <Image src={url} alt={`${likeStudios.name} thumbnail ${index + 1}`} fill className="object-cover" />
           </div>
         ))}
       </div>
