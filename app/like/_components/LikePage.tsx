@@ -21,7 +21,7 @@ export default function ClientFilteringWrapper({
   initialLoading,
 }: ClientFilteringWrapperProps) {
   const [isSelected, setIsSelected] = useState('product');
-  const { likeProducts, likeStudios, loading, error, fetchLikeProductList, fetchLikeStudioList } = useLikeController({
+  const { likeProducts, likeStudios, loading, error } = useLikeController({
     initialLikeProducts,
     initialLikeStudios,
     initialError,
