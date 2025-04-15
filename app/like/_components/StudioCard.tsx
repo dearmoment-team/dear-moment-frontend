@@ -72,12 +72,12 @@ export default function StudioCard({ likeStudios, onLikeChange }: StudioCardProp
         <div className="flex gap-[0.5rem] items-center">
           <Icon_Calendar width={14} height={14} />
           <div className="flex gap-[0.6rem] items-center">
-            {(likeStudios.availableSeasons as ShootingPeriod[]).map((season, index) => (
+            {likeStudios.availableSeasons?.map((season, index) => (
               <span
                 key={index}
                 className="text-label2 font-medium text-gray-80 last:border-l last:border-gray-50 last:pl-[0.6rem]"
               >
-                {SHOOTING_PERIOD_DISPLAY_MAP[season]}
+                {SHOOTING_PERIOD_DISPLAY_MAP[season as ShootingPeriod]}
               </span>
             ))}
           </div>
