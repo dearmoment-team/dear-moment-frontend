@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { MainLikeProduct } from '@/api/likes/types';
-import { Icon_Heart_Filled, Icon_Calendar, Icon_ChevronRight, Icon_Heart } from '@/assets/icons';
+import { Icon_Heart_Filled, Icon_Calendar, Icon_ChevronDown, Icon_Heart } from '@/assets/icons';
 import { addOptionLike, removeOptionLike } from '@/api/likes';
 import { useState } from 'react';
 import { SHOOTING_PERIOD_DISPLAY_MAP } from '@/(home)/models/FilteringModel';
@@ -96,7 +96,7 @@ export default function ProductCard({ likeProducts, onLikeChange }: ProductCardP
         <div className="h-auto flex justify-between font-bold text-body2Normal">
           <div className="text-gray-90 flex items-center">
             <span>{likeProducts.studioName}</span>
-            <Icon_ChevronRight width={16} height={16} />
+            <Icon_ChevronDown width={16} height={16} className="rotate-[270deg]" />
           </div>
           <div className="w-[11.2rem] flex justify-end gap-[0.8rem] items-center">
             <div className="text-red-40">{likeProducts.discountRate}%</div>
