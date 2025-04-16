@@ -11,7 +11,6 @@ export default function MyReportAuthorErrorPage() {
   const [inquiryStudios, setInquiryStudios] = useState<InquiryStudio[]>([]);
 
   useEffect(() => {
-    // TODO: 실제 API 호출은 여기에 추가
     const getInquiryStudios = async () => {
       try {
         const response = await fetchInquiryStudios();

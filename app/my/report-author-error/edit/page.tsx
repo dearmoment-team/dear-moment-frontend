@@ -81,8 +81,6 @@ export default function MyReportAuthorErrorEditPage() {
     setModalType('success');
     setIsModalOpen(true);
 
-    // TODO: 실제 API 호출은 여기에 추가
-    // submitReport({ title, email, content });
     try {
       const res = await postInquiryStudio({ title, email, content });
       console.log('====res: ', res);
@@ -130,8 +128,8 @@ export default function MyReportAuthorErrorEditPage() {
             onBlur={handleEmailBlur}
             value={email}
             className={!isEmailValid ? 'border-red-500' : ''}
+            errorMessage={emailErrorMessage}
           />
-          {!isEmailValid && <p className="text-red-500 text-sm mt-1">{emailErrorMessage}</p>}
         </div>
         <div className="mt-[4.6rem]">
           <p className="text-body2Normal font-bold text-gray-90">안내사항</p>

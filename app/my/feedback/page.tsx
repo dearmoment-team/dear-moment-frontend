@@ -121,8 +121,8 @@ export default function MyFeedbackPage() {
             onBlur={handleEmailBlur}
             value={email}
             className={!isEmailValid ? 'border-red-500' : ''}
+            errorMessage={emailErrorMessage}
           />
-          {!isEmailValid && <p className="text-red-500 text-sm mt-1">{emailErrorMessage}</p>}
         </div>
       </main>
       <div className="mx-[2rem]">
