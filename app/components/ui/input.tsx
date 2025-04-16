@@ -3,12 +3,13 @@ import { forwardRef, useMemo, useState } from 'react';
 
 interface InputProps extends React.ComponentProps<'input'> {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  value?: string;
+  value?: string | number;
   errorMessage?: string; // 부모 컴포넌트에서 전달받는 에러 메시지
+  showLength?: boolean;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type = 'text', value = '', maxLength = 15, onChange, errorMessage, ...props }, ref) => {
+  ({ className, type = 'text', value = '', maxLength = 15, onChange, errorMessage, showLength, ...props }, ref) => {
     // type별 크기 설정
     const sizeClasses = {
       text: 'h-[5.2rem]',
@@ -67,19 +68,25 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
         {/* 경고문구 및 글자수 표시 */}
         <div className="flex justify-between h-[1.7rem] text-gray-50">
-          <span className={((maxLengthOver && isFocused) || errorMessage) ? 'text-red-50' : ''}>
+          <span className={(maxLengthOver && isFocused) || errorMessage ? 'text-red-50' : ''}>
             {errorMessage || (maxLengthOver && isFocused ? warningMessage : '')}
           </span>
-          <span>
-            <span
-              className={
-                (maxLengthOver && isFocused) || errorMessage ? 'text-red-50' : value.length > 0 ? 'text-gray-90' : 'text-gray-50'
-              }
-            >
-              {value.length}
+          {showLength && typeof value !== 'number' && (
+            <span>
+              <span
+                className={
+                  (maxLengthOver && isFocused) || errorMessage
+                    ? 'text-red-50'
+                    : value.length > 0
+                    ? 'text-gray-90'
+                    : 'text-gray-50'
+                }
+              >
+                {value.length}
+              </span>
+              <span className={maxLengthOver || errorMessage ? 'text-gray-90' : 'text-gray-50'}> / {maxLength}</span>
             </span>
-            <span className={maxLengthOver || errorMessage ? 'text-gray-90' : 'text-gray-50'}> / {maxLength}</span>
-          </span>
+          )}
         </div>
       </div>
     );

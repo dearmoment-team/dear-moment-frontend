@@ -4,15 +4,14 @@ import {
   INITIAL_FILTER_STATE,
   PACKAGE_DISPLAY_MAP,
   PACKAGE_OPTIONS,
-  PRICE_RANGE_MAP,
   SHOOTING_PERIOD_DISPLAY_MAP,
   SHOOTING_PERIOD_OPTIONS,
   SORT_DISPLAY_MAP,
   SORT_OPTIONS,
   STYLE_DISPLAY_MAP,
-  STYLE_OPTIONS,
+  STYLE_OPTIONS
 } from '../models/FilteringModel';
-import { CameraType, FilterType, FilterValue, PackageType, PriceRange, RetouchStyle, ShootingPeriod, SortOption } from '../type';
+import { CameraType, FilterType, FilterValue, PackageType, RetouchStyle, ShootingPeriod, SortOption } from '../type';
 
 // 실제 서비스에서는 API 호출로 대체될 부분
 export class FilteringService {
@@ -102,30 +101,5 @@ export class FilteringService {
    */
   static getPackageDisplayMap(): Record<PackageType, string> {
     return PACKAGE_DISPLAY_MAP;
-  }
-
-  /**
-   * 가격 범위 옵션 반환
-   * @returns 가격 범위 옵션 배열
-   */
-  static getPriceRangeOptions(): string[] {
-    return Object.keys(PRICE_RANGE_MAP);
-  }
-
-  /**
-   * 가격 범위를 나타내는 문자열을 가격 범위 객체로 반환
-   * @param value 가격 범위를 나타내는 문자열
-   * @returns 가격 범위를 나타내는 객체 { min: number, max: number }
-   */
-  static getPriceRangeFromValue(value: string): PriceRange {
-    return PRICE_RANGE_MAP[value] || { min: undefined, max: undefined };
-  }
-
-  /**
-   * 가격 범위 매핑 반환
-   * @returns 가격 범위 매핑
-   */
-  static getPriceRangeMap() {
-    return PRICE_RANGE_MAP;
   }
 }
