@@ -126,7 +126,7 @@ export const FilteringItems = ({
           초기화
         </button>
         <button
-          className="w-[22.1rem] bg-red-40 text-body1Normal font-semibold rounded-[0.4rem] text-gray-10 h-[56px]"
+          className="w-full bg-red-40 text-body1Normal font-semibold rounded-[0.4rem] text-gray-10 h-[56px]"
           onClick={handleApply}
         >
           적용

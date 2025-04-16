@@ -1,5 +1,5 @@
-import { useState, useMemo, forwardRef } from 'react';
 import { cn } from '@/lib/utils';
+import { forwardRef, useMemo, useState } from 'react';
 
 interface InputProps extends React.ComponentProps<'input'> {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -37,7 +37,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     };
 
     return (
-      <div className="w-[32rem] text-[1.2rem] text-base font-normal">
+      <div className="w-full text-[1.2rem] text-base font-normal">
         <input
           type={type}
           className={cn(

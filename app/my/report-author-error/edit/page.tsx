@@ -142,13 +142,15 @@ export default function MyReportAuthorErrorEditPage() {
           </ul>
         </div>
       </main>
-      <button
-        className="w-[32rem] h-[5.6rem] bg-red-40 text-body1Normal font-semibold text-gray-10 mx-auto mb-[1.2rem] rounded-[0.4rem] disabled:bg-gray-80 disabled:text-gray-50"
-        disabled={!isEmailValid || !email.trim() || !title.trim() || !content.trim()}
-        onClick={handleSubmit}
-      >
-        접수하기
-      </button>
+      <div className='mx-[2rem]'>
+        <button
+          className="w-full h-[5.6rem] bg-red-40 text-body1Normal font-semibold text-gray-10 mx-auto mb-[1.2rem] rounded-[0.4rem] disabled:bg-gray-80 disabled:text-gray-50"
+          disabled={!isEmailValid || !email.trim() || !title.trim() || !content.trim()}
+          onClick={handleSubmit}
+        >
+          접수하기
+        </button>
+      </div>
 
       {/* 모달 */}
       <Modal
