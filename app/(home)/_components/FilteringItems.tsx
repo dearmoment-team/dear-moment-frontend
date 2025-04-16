@@ -124,7 +124,7 @@ export const FilteringItems = ({
               id="max-price"
               type="number"
               value={max || ''}
-              placeholder="200"
+              placeholder="최대금액 입력"
               className="w-[10rem]"
               onChange={e => {
                 const value = e.target.value ? parseInt(e.target.value, 10) : 0;
