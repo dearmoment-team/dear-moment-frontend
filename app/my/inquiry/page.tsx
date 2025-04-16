@@ -37,7 +37,7 @@ export default function MyInquiryPage() {
   };
 
   return (
-    <div className="container min-h-screen flex flex-col">
+    <div className="container min-h-[100dvh] flex flex-col">
       <Appbar
         leftIcon={
           <Link href="/my">
