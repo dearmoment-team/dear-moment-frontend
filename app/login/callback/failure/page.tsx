@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 // https://dear-moment.kro.kr/login/callback/failure?kakao=fail&error=DB_SIGNUP_FAILED
 // 백엔드에서 전달하는 카카오 로그인 실패 에러 종류 :
@@ -13,8 +13,6 @@ import Link from 'next/link';
 
 export default function LoginFailurePage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const error = searchParams.get('error');
 
   useEffect(() => {
     // 세션 스토리지 초기화
