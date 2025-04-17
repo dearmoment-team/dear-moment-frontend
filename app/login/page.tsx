@@ -1,8 +1,8 @@
 'use client';
 
-import Image from 'next/image';
 import { Icon_Logo } from '@/assets/icons';
 import KakaoLogin from '@/login/KakaoLogin';
+import Image from 'next/image';
 import { useEffect } from 'react';
 
 export default function LoginPage() {
@@ -13,7 +13,7 @@ export default function LoginPage() {
 
   return (
     <div className="relative w-full min-h-screen">
-      <Image src="/login.svg" alt="메인 웨딩 사진" fill className="object-cover" priority />
+      <Image src="/login.webp" alt="메인 웨딩 사진" fill className="object-cover" priority />
       <div className="absolute flex flex-col z-10 gap-[1.44rem] px-[2.3rem] pt-[19.2rem]">
         <Icon_Logo width={142} height={23} />
         <div className="w-[19.3rem] text-title2 font-bold text-common-0 z-10">딱 맞는 웨딩스냅 찾는 가장 쉬운 방법</div>
