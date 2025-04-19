@@ -1,8 +1,8 @@
 import { ImageType } from './../../_types/product';
 import { getMineProduct, getProduct, patchProduct, postProduct } from '@/admin/_services/product';
-import { adminTokenStore } from '@/admin/_stores/adminTokenStore';
 import { productIdStore } from '@/admin/_stores/productIdStore';
 import { ProductFormDataType } from '@/admin/_types/product';
+import { getStorage } from '@/utils/localStorage';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
@@ -12,7 +12,7 @@ export const useProduct = () => {
   const studioId = searchParams.get('studioId');
   const productId = searchParams.get('productId') || undefined;
 
-  const { token } = adminTokenStore();
+  const token = getStorage('adminAccessToken') || '';
   const { setProductId } = productIdStore();
   const router = useRouter();
 

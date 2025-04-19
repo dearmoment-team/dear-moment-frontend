@@ -3,11 +3,11 @@
 import { usePathname, useRouter } from 'next/navigation';
 import clsx from 'clsx';
 import { studioIdStore } from '../_stores/studioIdStore';
-import { adminTokenStore } from '../_stores/adminTokenStore';
 import { productIdStore } from '../_stores/productIdStore';
+import { getStorage } from '@/utils/localStorage';
 
 const NavBar = () => {
-  const { token } = adminTokenStore();
+  const token = getStorage('adminAccessToken');
   const { studioId } = studioIdStore();
   const { productId } = productIdStore();
   const pathname = usePathname();

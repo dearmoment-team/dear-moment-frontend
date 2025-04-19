@@ -1,15 +1,14 @@
 'use client';
 
 import { getProfile, login } from '@/admin/_services/user';
-import { adminTokenStore } from '@/admin/_stores/adminTokenStore';
 import { studioIdStore } from '@/admin/_stores/studioIdStore';
 import { LoginFormDataType } from '@/admin/_types/login';
+import { setStorage } from '@/utils/localStorage';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
 export const useLogin = () => {
   const { setStudioId } = studioIdStore();
-  const { setToken } = adminTokenStore();
   const router = useRouter();
 
   const methods = useForm<LoginFormDataType>({
@@ -23,7 +22,7 @@ export const useLogin = () => {
   const onSubmit = async (data: LoginFormDataType) => {
     try {
       const loginResponse = await login(data);
-      setToken(loginResponse.token);
+      setStorage('adminAccessToken', loginResponse.token);
 
       const { data: userData } = await getProfile(loginResponse.token);
       const studioId = userData.data.studioId;
