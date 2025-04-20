@@ -142,7 +142,9 @@ const ImageUploader = () => {
     <>
       {/* 대표 이미지 */}
       <div className="mb-6">
-        <label className="mb-1 block">대표 이미지 *</label>
+        <label className="mb-1 block">
+          대표 이미지 <span className="text-[#FF0000]">*</span>
+        </label>
         <input type="file" onChange={handleMainImageChange} ref={mainInputRef} className="hidden" accept="image/*" />
         <label
           onClick={() => mainInputRef.current?.click()}
@@ -166,7 +168,9 @@ const ImageUploader = () => {
 
       {/* 서브 이미지 */}
       <div className="mb-6">
-        <label className="mb-1 block">서브 이미지 *</label>
+        <label className="mb-1 block">
+          서브 이미지 <span className="text-[#FF0000]">*</span>
+        </label>
         <input
           type="file"
           multiple
