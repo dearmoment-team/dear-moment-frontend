@@ -1,6 +1,6 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import clsx from 'clsx';
 import { studioIdStore } from '../_stores/studioIdStore';
 import { productIdStore } from '../_stores/productIdStore';
@@ -8,7 +8,9 @@ import { getStorage } from '@/utils/localStorage';
 
 const NavBar = () => {
   const token = getStorage('adminAccessToken');
-  const { studioId } = studioIdStore();
+  const { id } = studioIdStore();
+  const params = useSearchParams();
+  const studioId = id || params.get('studioId');
   const { productId } = productIdStore();
   const pathname = usePathname();
   const router = useRouter();
