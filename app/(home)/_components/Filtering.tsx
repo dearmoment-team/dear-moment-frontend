@@ -3,6 +3,7 @@
 import { Chip } from '@/components/ui/Chip';
 import { Dispatch, SetStateAction } from 'react';
 import { MainPageProduct } from '../../api/products/types';
+import { MainLikeProduct, MainLikeStudio } from '../../api/likes/types';
 import { useFilteringController } from '../controllers/FilteringController';
 import {
   CAMERA_DISPLAY_MAP,
@@ -15,19 +16,21 @@ import { CameraType, PackageType, PriceRange, RetouchStyle, ShootingPeriod, Sort
 import FilteringModal from './FilteringModal';
 
 interface FilteringProps {
-  setMainProducts: Dispatch<SetStateAction<MainPageProduct[]>>;
+  setMainProducts: (products: MainPageProduct[] | MainLikeProduct[] | MainLikeStudio[]) => void;
   setLoading: Dispatch<SetStateAction<boolean>>;
   setError: Dispatch<SetStateAction<string | null>>;
   fetchMainProducts?: () => Promise<void>;
+  type: 'main' | 'likeProduct' | 'likeStudio';
 }
 
-export default function Filtering({ setMainProducts, setLoading, setError, fetchMainProducts }: FilteringProps) {
+export default function Filtering({ setMainProducts, setLoading, setError, fetchMainProducts, type }: FilteringProps) {
   const { open, filterType, selectedFilters, handleFilterClick, setOpen, setSelectedFilters, applyFiltersAndSearch } =
     useFilteringController({
       setMainProducts,
       setLoading,
       setError,
       fetchMainProducts,
+      type,
     });
 
   const { sortBy, shootingPeriod, cameraType, retouchStyle, packageType, priceRange } = selectedFilters;

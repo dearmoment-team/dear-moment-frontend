@@ -6,6 +6,7 @@ import { useLikeController } from '../controllers/LikeController';
 import { useState } from 'react';
 import Tab from './Tab';
 import StudioList from './StudioList';
+import Filtering from '@/(home)/_components/Filtering';
 
 interface ClientFilteringWrapperProps {
   initialLikeProducts: MainLikeProduct[];
@@ -21,7 +22,18 @@ export default function ClientFilteringWrapper({
   initialLoading,
 }: ClientFilteringWrapperProps) {
   const [isSelected, setIsSelected] = useState('product');
-  const { likeProducts, likeStudios, loading, error } = useLikeController({
+  const {
+    likeProducts,
+    likeStudios,
+    loading,
+    error,
+    setLikeProducts,
+    setLikeStudios,
+    fetchLikeProductList,
+    fetchLikeStudioList,
+    setLoading,
+    setError,
+  } = useLikeController({
     initialLikeProducts,
     initialLikeStudios,
     initialError,
@@ -36,9 +48,27 @@ export default function ClientFilteringWrapper({
     <>
       <Tab isSelected={isSelected} onSelect={handleTabSelected} />
       {isSelected === 'product' ? (
-        <ProductList likeProducts={likeProducts} loading={loading} error={error} />
+        <>
+          <Filtering
+            type={'likeProduct'}
+            setMainProducts={products => setLikeProducts(products as MainLikeProduct[])}
+            setLoading={setLoading}
+            setError={setError}
+            fetchMainProducts={fetchLikeProductList}
+          />
+          <ProductList likeProducts={likeProducts} loading={loading} error={error} />
+        </>
       ) : (
-        <StudioList likeStudios={likeStudios} loading={loading} error={error} />
+        <>
+          <Filtering
+            type={'likeStudio'}
+            setMainProducts={products => setLikeStudios(products as MainLikeStudio[])}
+            setLoading={setLoading}
+            setError={setError}
+            fetchMainProducts={fetchLikeStudioList}
+          />
+          <StudioList likeStudios={likeStudios} loading={loading} error={error} />
+        </>
       )}
     </>
   );
