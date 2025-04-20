@@ -45,13 +45,19 @@ export const useProduct = () => {
           shootingMinutes: 0,
           retouchedCount: 0,
           originalProvided: false,
-          partnerShops: [],
+          partnerShops: [
+            {
+              category: 'WEDDING_SHOP',
+              name: '',
+              link: '',
+            },
+          ],
         },
       ],
     },
   });
 
-  const { reset, control } = methods;
+  const { reset, control, trigger, handleSubmit, watch } = methods;
 
   const fetchProduct = async () => {
     if (!productId) {
@@ -211,9 +217,26 @@ export const useProduct = () => {
     }
   };
 
+  const handleSubmitWrapper = async () => {
+    const isValid = await trigger();
+    const subImageArray = watch('subImages') || [];
+
+    if (subImageArray.length !== 4) {
+      alert('서브 이미지 등록은 4장이 필수입니다.');
+      return;
+    }
+
+    if (!isValid) {
+      alert('필수 항목을 모두 입력해주세요.');
+      return;
+    }
+
+    handleSubmit(onSubmit)();
+  };
+
   return {
     ...methods,
-    onSubmit,
+    handleSubmitWrapper,
     optionFields,
     optionAppend,
     optionRemove,

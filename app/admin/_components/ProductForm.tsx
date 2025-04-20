@@ -11,18 +11,22 @@ const ProductForm = () => {
   const methods = useProduct();
   const {
     register,
-    handleSubmit,
-    onSubmit,
     watch,
     formState: { errors },
     optionFields,
     optionAppend,
     optionRemove,
+    handleSubmitWrapper,
   } = methods;
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+          handleSubmitWrapper();
+        }}
+      >
         <section className="mx-auto w-full space-y-10 rounded-md border p-6 text-[1.2rem] font-semibold text-[#000000]">
           {/* 상품 유형 + 촬영 장소 */}
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
