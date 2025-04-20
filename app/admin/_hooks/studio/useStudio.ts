@@ -18,7 +18,7 @@ export const useStudio = () => {
   const methods = useForm<StudioFormDataType>({
     defaultValues: {
       status: 'ACTIVE',
-      isCasted: true,
+      isCasted: 'true',
       name: '',
       contact: '',
       studioIntro: '',

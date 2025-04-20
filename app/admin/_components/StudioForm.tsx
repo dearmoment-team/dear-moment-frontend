@@ -50,7 +50,7 @@ const StudioForm = () => {
               <input
                 type="radio"
                 value="true"
-                {...register('isCasted', { required: true, setValueAs: v => (v === true ? 'true' : 'false') })}
+                {...register('isCasted', { required: true, setValueAs: v => (v === 'true' ? true : false) })}
               />
               <span>해당</span>
             </label>
@@ -58,7 +58,7 @@ const StudioForm = () => {
               <input
                 type="radio"
                 value="false"
-                {...register('isCasted', { required: true, setValueAs: v => (v === true ? 'true' : 'false') })}
+                {...register('isCasted', { required: true, setValueAs: v => (v === 'true' ? true : false) })}
               />
               <span>비해당</span>
             </label>
