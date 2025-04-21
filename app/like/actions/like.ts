@@ -9,9 +9,6 @@ export async function getLikeProductsAndStudios(pageNumber: number = 0, size: nu
       searchLikeStudioList(pageNumber, size),
     ]);
 
-    console.log('getMainLikeProducts >> ', productsResponse);
-    console.log('getMainLikeStudios >> ', studiosResponse);
-
     // API 응답 구조 확인 및 데이터 반환
     if (productsResponse.success && productsResponse.data && studiosResponse.success && studiosResponse.data) {
       return {

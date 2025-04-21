@@ -1,12 +1,12 @@
 'use client';
 
-import { MainLikeProduct, MainLikeStudio } from '@/api/likes/types';
-import ProductList from './ProductList';
-import { useLikeController } from '../controllers/LikeController';
-import { useState } from 'react';
-import Tab from './Tab';
-import StudioList from './StudioList';
 import Filtering from '@/(home)/_components/Filtering';
+import { MainLikeProduct, MainLikeStudio } from '@/api/likes/types';
+import { useState } from 'react';
+import { useLikeController } from '../controllers/LikeController';
+import ProductList from './ProductList';
+import StudioList from './StudioList';
+import Tab from './Tab';
 
 interface ClientFilteringWrapperProps {
   initialLikeProducts: MainLikeProduct[];

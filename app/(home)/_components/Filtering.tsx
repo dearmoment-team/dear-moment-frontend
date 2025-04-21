@@ -2,8 +2,8 @@
 
 import { Chip } from '@/components/ui/Chip';
 import { Dispatch, SetStateAction } from 'react';
-import { MainPageProduct } from '../../api/products/types';
 import { MainLikeProduct, MainLikeStudio } from '../../api/likes/types';
+import { MainPageProduct } from '../../api/products/types';
 import { useFilteringController } from '../controllers/FilteringController';
 import {
   CAMERA_DISPLAY_MAP,
@@ -50,7 +50,6 @@ export default function Filtering({ setMainProducts, setLoading, setError, fetch
     return `${priceRange.min}만원 - ${priceRange.max}만원`;
   };
 
-  console.log('priceRange', priceRange);
   // 보정 스타일 리스트 및 표시 텍스트 생성
   const retouchStyleList = retouchStyle as RetouchStyle[];
   const retouchStyleText =

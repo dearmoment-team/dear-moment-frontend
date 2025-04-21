@@ -1,6 +1,6 @@
-import ProductCard from './ProductCard';
 import { MainLikeProduct } from '@/api/likes/types';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import ProductCard from './ProductCard';
 
 interface ProductListProps {
   likeProducts: MainLikeProduct[];
@@ -26,7 +26,7 @@ export default function ProductList({ likeProducts = [], loading, error }: Produ
       {!loading &&
         likeProducts.map((product: MainLikeProduct) => (
           <div key={product.likeId} className="mb-4">
-            <ProductCard likeProducts={product} />
+            <ProductCard likeProduct={product} />
           </div>
         ))}
     </div>

@@ -1,11 +1,11 @@
-import { Icon_Heart_Filled, Icon_Calendar, Icon_Heart } from '@/assets/icons';
-import { useState } from 'react';
-import Image from 'next/image';
-import { MainLikeStudio } from '@/api/likes/types';
-import { STYLE_DISPLAY_MAP, SHOOTING_PERIOD_DISPLAY_MAP } from '@/(home)/models/FilteringModel';
+import { SHOOTING_PERIOD_DISPLAY_MAP, STYLE_DISPLAY_MAP } from '@/(home)/models/FilteringModel';
 import { RetouchStyle, ShootingPeriod } from '@/(home)/type';
 import { addProductLike, removeProductLike } from '@/api/likes';
+import { MainLikeStudio } from '@/api/likes/types';
+import { Icon_Calendar, Icon_Heart, Icon_Heart_Filled } from '@/assets/icons';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 interface StudioCardProps {
   likeStudios: MainLikeStudio;
   onLikeChange?: () => void;
@@ -37,10 +37,7 @@ export default function StudioCard({ likeStudios, onLikeChange }: StudioCardProp
   };
 
   return (
-    <div
-      className="w-[32rem] h-[24.7rem] my-[1.4rem] mx-[2rem] flex flex-col space-y-[1.3rem]"
-      onClick={handlePageProductClick}
-    >
+    <div className="h-[24.7rem] my-[1.4rem] mx-[2rem] flex flex-col space-y-[1.3rem]" onClick={handlePageProductClick}>
       {/* 작가정보 헤더 */}
       <div className="flex flex-col space-y-[0.8rem]">
         <div>
@@ -86,7 +83,7 @@ export default function StudioCard({ likeStudios, onLikeChange }: StudioCardProp
       {/* 썸네일 영역 (3장 가로로) */}
       <div className="flex gap-[0.8rem]">
         {likeStudios.thumbnailUrls.map((url, index) => (
-          <div key={index} className="w-[10.1rem] h-[13.2rem] relative overflow-hidden">
+          <div key={index} className="min-w-[10.1rem] w-full h-[13.2rem] relative overflow-hidden">
             <Image src={url} alt={`${likeStudios.name} thumbnail ${index + 1}`} fill className="object-cover" />
           </div>
         ))}
