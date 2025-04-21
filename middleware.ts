@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const protectedPages = ['/my/:path*', '/like/:path*'];
-const adminProtectedPages = ['/admin/studio/:path*', '/admin/product/:path*'];
+const protectedPages = ['/my', '/like'];
+const adminProtectedPages = ['/admin/studio', '/admin/product'];
 
-const notProtectedPage = '/login/:path*';
+const notProtectedPage = '/login';
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get('accessToken');
@@ -39,5 +39,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/my/:path*', '/like/:path*', '/login/:path*', '/admin/studio/:path*', '/admin/product/:path*'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|fonts|images).*)'],
 };
