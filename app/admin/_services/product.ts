@@ -1,5 +1,5 @@
 export const getProduct = async (token: string, productId: string) => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/products/${productId}`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/products/${productId}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -16,7 +16,7 @@ export const getProduct = async (token: string, productId: string) => {
 };
 
 export const getMineProduct = async (token: string) => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/products/mine`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/products/mine`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -33,7 +33,7 @@ export const getMineProduct = async (token: string) => {
 };
 
 export const postProduct = async ({ token, body }: { token: string; body: FormData }) => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/products`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/products`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -59,7 +59,7 @@ export const patchProduct = async ({
   body: FormData;
   productId: string;
 }) => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/products/${productId}`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/products/${productId}`, {
     method: 'PATCH',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -77,7 +77,7 @@ export const patchProduct = async ({
 };
 
 export const deleteProduct = async (token: string, productId: string) => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/products/${productId}`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/products/${productId}`, {
     method: 'DELETE',
     headers: {
       Authorization: `Bearer ${token}`,

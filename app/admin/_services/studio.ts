@@ -1,7 +1,7 @@
 import { StudioFormDataType } from '@/admin/_types/studio';
 
 export const postStudio = async ({ token, body }: { token: string; body: StudioFormDataType }) => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/studios`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/studios`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ export const patchStudio = async ({
   body: StudioFormDataType;
   studioId: string;
 }) => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/studios/${studioId}`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/studios/${studioId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ export const patchStudio = async ({
 };
 
 export const getStudio = async (token: string, studioId: string) => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/studios/${studioId}`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/studios/${studioId}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

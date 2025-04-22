@@ -1,7 +1,7 @@
 import { LoginFormDataType } from '../_types/login';
 
 export const login = async ({ loginId, password }: LoginFormDataType) => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/users/login`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/users/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ export const login = async ({ loginId, password }: LoginFormDataType) => {
 };
 
 export const getProfile = async (token: string) => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/users`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/users`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
