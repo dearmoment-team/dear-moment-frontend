@@ -7,8 +7,13 @@ import ProductPackageOption from '@/admin/_components/ProductPackageOption';
 import ProductSingleOption from '@/admin/_components/ProductSingleOption';
 import ImageUploader from './ImageUploader';
 
-const ProductForm = () => {
-  const methods = useProduct();
+interface ProductFormProps {
+  studioId: string | null;
+  productId: string | undefined;
+}
+
+const ProductForm = ({ studioId, productId }: ProductFormProps) => {
+  const methods = useProduct(studioId, productId);
   const {
     register,
     watch,

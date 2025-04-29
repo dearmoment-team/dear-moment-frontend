@@ -1,20 +1,24 @@
+'use client';
+
 import { ImageType } from './../../_types/product';
 import { getMineProduct, getProduct, patchProduct, postProduct } from '@/admin/_services/product';
 import { productIdStore } from '@/admin/_stores/productIdStore';
 import { ProductFormDataType } from '@/admin/_types/product';
 import { getStorage } from '@/utils/localStorage';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 
-export const useProduct = () => {
-  const searchParams = useSearchParams();
-  const studioId = searchParams.get('studioId');
-  const productId = searchParams.get('productId') || undefined;
-
-  const token = getStorage('adminAccessToken') || '';
+export const useProduct = (studioId: string | null, productId: string | undefined) => {
   const { setProductId } = productIdStore();
   const router = useRouter();
+
+  const [token, setToken] = useState<string>('');
+
+  useEffect(() => {
+    const storedToken = getStorage('adminAccessToken') || '';
+    setToken(storedToken);
+  }, []);
 
   const methods = useForm<ProductFormDataType>({
     defaultValues: {
@@ -59,7 +63,9 @@ export const useProduct = () => {
 
   const { reset, control, trigger, handleSubmit, watch } = methods;
 
-  const fetchProduct = async () => {
+  const fetchProduct = useCallback(async () => {
+    if (!token) return; // token이 없으면 중단
+
     if (!productId) {
       const { data: responseMineData } = await getMineProduct(token);
       if (responseMineData.length === 0) return;
@@ -86,12 +92,11 @@ export const useProduct = () => {
         console.error('상품 불러오기 실패:', error);
       }
     }
-  };
+  }, [productId, reset, token, setProductId, router, studioId]);
 
   useEffect(() => {
     fetchProduct();
-  }, [productId, reset, token]);
-
+  }, [fetchProduct]);
   const {
     fields: optionFields,
     append: optionAppend,

@@ -6,8 +6,12 @@ import { FormProvider } from 'react-hook-form';
 import { useStudio } from '../_hooks/studio/useStudio';
 import { PARTNERSHOPS_CATEGORY } from '../_constants/studio';
 
-const StudioForm = () => {
-  const studioMethods = useStudio();
+interface StudioFormProps {
+  studioId: string | null;
+}
+
+const StudioForm = ({ studioId }: StudioFormProps) => {
+  const studioMethods = useStudio(studioId);
   const {
     register,
     handleSubmit,

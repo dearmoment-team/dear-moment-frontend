@@ -4,16 +4,20 @@ import { getStudio, patchStudio, postStudio } from '@/admin/_services/studio';
 import { studioIdStore } from '@/admin/_stores/studioIdStore';
 import { StudioFormDataType } from '@/admin/_types/studio';
 import { getStorage } from '@/utils/localStorage';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 
-export const useStudio = () => {
+export const useStudio = (studioId: string | null) => {
   const { setStudioId } = studioIdStore();
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const studioId = searchParams.get('studioId');
-  const token = getStorage('adminAccessToken') || '';
+
+  const [token, setToken] = useState<string>('');
+
+  useEffect(() => {
+    const storedToken = getStorage('adminAccessToken') || '';
+    setToken(storedToken);
+  }, []);
 
   const methods = useForm<StudioFormDataType>({
     defaultValues: {
@@ -44,19 +48,22 @@ export const useStudio = () => {
     name: 'partnerShops',
   });
 
-  const fetchStudio = async () => {
-    if (!studioId) return;
+  const fetchStudio = useCallback(async () => {
+    if (!studioId || !token) return;
     try {
       const { data: responseData } = await getStudio(token, studioId);
-      reset({ ...responseData.data, isCasted: responseData.data.isCasted === true ? 'true' : 'false' });
+      reset({
+        ...responseData.data,
+        isCasted: responseData.data.isCasted === true ? 'true' : 'false',
+      });
     } catch (error) {
       console.error('스튜디오 불러오기 실패:', error);
     }
-  };
+  }, [studioId, token, reset]);
 
   useEffect(() => {
     fetchStudio();
-  }, [studioId, reset, token]);
+  }, [fetchStudio]);
 
   const onSubmit = async (data: StudioFormDataType) => {
     if (!studioId) {
