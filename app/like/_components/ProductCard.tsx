@@ -41,7 +41,8 @@ export default function ProductCard({ likeProduct, onLikeChange }: ProductCardPr
   const router = useRouter();
   const [isLiked, setIsLiked] = useState(!!likeProduct);
 
-  const handleLikeClick = async () => {
+  const handleLikeClick = async (e: React.MouseEvent) => {
+    e.stopPropagation(); // 이벤트 버블링 방지
     try {
       if (isLiked) {
         // 좋아요 취소
