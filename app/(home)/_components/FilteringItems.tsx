@@ -126,7 +126,7 @@ export const FilteringItems = ({
                     type="number"
                     value={max || ''}
                     placeholder="최대금액 입력"
-                    className="w-[10rem]"
+                    className="w-[12rem]"
                     onChange={e => {
                       const value = e.target.value ? parseInt(e.target.value, 10) : 0;
                       handlePriceRangeChange(value, 'max');
