@@ -56,7 +56,6 @@ export const useStudio = (studioId: string | null) => {
         ...responseData.data,
         isCasted: responseData.data.isCasted === true ? 'true' : 'false',
       });
-      console.log('스튜디오 불러오기 성공:', responseData.data);
     } catch (error) {
       console.error('스튜디오 불러오기 실패:', error);
     }
