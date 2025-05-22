@@ -9,24 +9,24 @@
       "type": "image/svg+xml"
     },
     {
-      "src": "/logo_72.png",
+      "src": "/logo_72.svg",
       "sizes": "72x72",
-      "type": "image/png"
+      "type": "image/svg+xml"
     },
     {
-      "src": "/logo_96.png",
+      "src": "/logo_96.svg",
       "sizes": "96x96",
-      "type": "image/png"
+      "type": "image/svg+xml"
     },
     {
-      "src": "/logo_128.png",
+      "src": "/logo_128.svg",
       "sizes": "128x128",
-      "type": "image/png"
+      "type": "image/svg+xml"
     },
     {
-      "src": "/logo_144.png",
+      "src": "/logo_144.svg",
       "sizes": "144x144",
-      "type": "image/png"
+      "type": "image/svg+xml"
     },
     {
       "src": "/web-app-manifest-192x192.png",
