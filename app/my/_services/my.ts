@@ -7,6 +7,7 @@ export interface userInfo {
   studioId: number | null;
   birthDate: string | null;
   sex: string | null;
+  addInfoIsSkip: boolean; // 추가 정보 입력을 건너뛰었는지 여부
   createdAt: string;
   updatedAt: string | null;
 }
