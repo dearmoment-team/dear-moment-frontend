@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import { setStorage } from '@/utils/localStorage';
 
 export default function LoginSuccessPageUI() {
   const router = useRouter();
@@ -14,8 +15,7 @@ export default function LoginSuccessPageUI() {
 
     if (accessToken) {
       // accessToken을 localStorage에 저장
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('isLoggedIn', 'true'); // 로그인 성공 여부 저장
+      setStorage('accessToken', accessToken);
 
       // accessToken을 쿠키에 저장
       // path=/: 쿠키가 전체 사이트에서 접근 가능하도록 설정
