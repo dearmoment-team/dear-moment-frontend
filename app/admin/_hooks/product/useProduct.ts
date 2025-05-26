@@ -51,7 +51,7 @@ export const useProduct = (studioId: string | null, productId: string | undefine
           originalProvided: false,
           partnerShops: [
             {
-              category: 'WEDDING_SHOP',
+              category: undefined,
               name: '',
               link: '',
             },
