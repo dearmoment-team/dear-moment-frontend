@@ -36,7 +36,7 @@ const StudioForm = ({ studioId }: StudioFormProps) => {
       <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-6 p-6 text-[1.2rem]">
         {/* 상태 */}
         <div>
-          <label className="mb-1 block font-medium">
+          <label className="mb-1 inline-block rounded-md bg-yellow-300 p-1 font-medium">
             상태 <span className="text-[#FF0000]">*</span>
           </label>
           <div className="flex items-center gap-4">
@@ -54,7 +54,7 @@ const StudioForm = ({ studioId }: StudioFormProps) => {
 
         {/* 영업 스튜디오 */}
         <div>
-          <label className="mb-1 block font-medium">
+          <label className="mb-1 inline-block rounded-md bg-yellow-300 p-1 font-medium">
             영업 스튜디오 <span className="text-[#FF0000]">*</span>
           </label>
           <div className="flex items-center gap-4">
@@ -81,7 +81,7 @@ const StudioForm = ({ studioId }: StudioFormProps) => {
         {/* 스튜디오명 & 연락처 */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
-            <label className="mb-1 block font-medium">
+            <label className="mb-1 inline-block rounded-md bg-yellow-300 p-1 font-medium">
               스튜디오명 <span className="text-[#FF0000]">*</span>
             </label>
             <input
@@ -97,7 +97,7 @@ const StudioForm = ({ studioId }: StudioFormProps) => {
             rules={{ required: '필수 입력' }}
             render={({ field }) => (
               <div>
-                <label className="mb-1 block font-medium">
+                <label className="mb-1 inline-block rounded-md bg-yellow-300 p-1 font-medium">
                   연락처 (휴대전화) <span className="text-[#FF0000]">*</span>
                 </label>
                 <input
@@ -117,7 +117,7 @@ const StudioForm = ({ studioId }: StudioFormProps) => {
 
         {/* 소개글 */}
         <div>
-          <label className="mb-1 block font-medium">
+          <label className="mb-1 inline-block rounded-md bg-yellow-300 p-1 font-medium">
             스튜디오 소개글 <span className="text-[#FF0000]">*</span>
           </label>
           <textarea
@@ -127,7 +127,7 @@ const StudioForm = ({ studioId }: StudioFormProps) => {
           {errors.studioIntro && <p className="text-red-500">필수 작성</p>}
         </div>
         <div>
-          <label className="mb-1 block font-medium">
+          <label className="mb-1 inline-block rounded-md bg-yellow-300 p-1 font-medium">
             소속 작가 소개글 <span className="text-[#FF0000]">*</span>
           </label>
           <textarea
@@ -140,7 +140,7 @@ const StudioForm = ({ studioId }: StudioFormProps) => {
         {/* 링크 */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
-            <label className="mb-1 block font-medium">
+            <label className="mb-1 inline-block rounded-md bg-yellow-300 p-1 font-medium">
               인스타그램 링크 <span className="text-[#FF0000]">*</span>
             </label>
             <input
@@ -151,7 +151,7 @@ const StudioForm = ({ studioId }: StudioFormProps) => {
             {errors.instagramUrl && <p className="text-red-500">필수 작성</p>}
           </div>
           <div>
-            <label className="mb-1 block font-medium">
+            <label className="mb-1 inline-block rounded-md bg-yellow-300 p-1 font-medium">
               카카오톡 채널 링크 <span className="text-[#FF0000]">*</span>
             </label>
             <input

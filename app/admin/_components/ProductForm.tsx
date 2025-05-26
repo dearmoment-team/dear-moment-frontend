@@ -36,7 +36,7 @@ const ProductForm = ({ studioId, productId }: ProductFormProps) => {
           {/* 상품 유형 + 촬영 장소 */}
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
-              <label className="mb-1 block">
+              <label className="mb-1 inline-block rounded-md bg-yellow-300 p-1 font-medium">
                 상품 유형 <span className="text-[#FF0000]">*</span>
               </label>
               <select
@@ -47,7 +47,7 @@ const ProductForm = ({ studioId, productId }: ProductFormProps) => {
               </select>
             </div>
             <div>
-              <label className="mb-1 block">
+              <label className="mb-1 inline-block rounded-md bg-yellow-300 p-1 font-medium">
                 촬영 장소 <span className="text-[#FF0000]">*</span>
               </label>
               <select
@@ -61,7 +61,7 @@ const ProductForm = ({ studioId, productId }: ProductFormProps) => {
 
           {/* 촬영 가능 시기 */}
           <div>
-            <label className="mb-1 block">
+            <label className="mb-1 inline-block rounded-md bg-yellow-300 p-1 font-medium">
               촬영 가능 시기 <span className="text-[#FF0000]">*</span>
             </label>
             <div className="flex flex-wrap gap-4">
@@ -84,7 +84,7 @@ const ProductForm = ({ studioId, productId }: ProductFormProps) => {
 
           {/* 카메라 종류 */}
           <div>
-            <label className="mb-1 block">
+            <label className="mb-1 inline-block rounded-md bg-yellow-300 p-1 font-medium">
               카메라 종류 <span className="text-[#FF0000]">*</span>
             </label>
             <div className="flex gap-4">
@@ -107,7 +107,7 @@ const ProductForm = ({ studioId, productId }: ProductFormProps) => {
 
           {/* 보정 스타일 */}
           <div>
-            <label className="mb-1 block">
+            <label className="mb-1 inline-block rounded-md bg-yellow-300 p-1 font-medium">
               보정 스타일 <span className="text-[#FF0000]">*</span>
             </label>
             <div className="grid grid-cols-4 gap-2 md:grid-cols-5">

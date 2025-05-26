@@ -92,7 +92,7 @@ const ProductSingleOption = ({ index, optionAppend, optionRemove }: ProductSingl
       {/* 옵션 종류 + 옵션명 */}
       <div className="grid grid-cols-3 items-center gap-4">
         <div className="flex items-center gap-4">
-          <label className="font-medium">
+          <label className="mb-1 inline-block rounded-md bg-yellow-300 p-1 font-medium">
             옵션 종류 <span className="text-[#FF0000]">*</span>
           </label>
           <label className="inline-flex items-center gap-1">
@@ -105,7 +105,7 @@ const ProductSingleOption = ({ index, optionAppend, optionRemove }: ProductSingl
           </label>
         </div>
         <div className="flex items-center gap-4">
-          <label className="w-24 shrink-0 font-medium">
+          <label className="mb-1 inline-block shrink-0 rounded-md bg-yellow-300 p-1 font-medium">
             옵션명 <span className="text-[#FF0000]">*</span>
           </label>
           <input
@@ -118,7 +118,7 @@ const ProductSingleOption = ({ index, optionAppend, optionRemove }: ProductSingl
 
       {/* 할인 여부 */}
       <div className="flex items-center gap-4">
-        <label className="font-medium">
+        <label className="mb-1 inline-block rounded-md bg-yellow-300 p-1 font-medium">
           할인 여부 <span className="text-[#FF0000]">*</span>
         </label>
         <label className="inline-flex items-center gap-1">
@@ -134,7 +134,7 @@ const ProductSingleOption = ({ index, optionAppend, optionRemove }: ProductSingl
       {/* 가격 정보 */}
       <div className="grid grid-cols-3 items-center gap-4">
         <div>
-          <label className="font-medium">
+          <label className="mb-1 inline-block rounded-md bg-yellow-300 p-1 font-medium">
             원 판매가 <span className="text-[#FF0000]">*</span>
           </label>
           <div className="flex items-center gap-1">
@@ -163,7 +163,7 @@ const ProductSingleOption = ({ index, optionAppend, optionRemove }: ProductSingl
       {/* 촬영 장소 / 시간 */}
       <div className="grid grid-cols-3 items-center gap-4">
         <div>
-          <label className="font-medium">
+          <label className="mb-1 inline-block rounded-md bg-yellow-300 p-1 font-medium">
             촬영 장소 수 <span className="text-[#FF0000]">*</span>
           </label>
           <input
@@ -173,7 +173,7 @@ const ProductSingleOption = ({ index, optionAppend, optionRemove }: ProductSingl
           />
         </div>
         <div>
-          <label className="font-medium">
+          <label className="mb-1 inline-block rounded-md bg-yellow-300 p-1 font-medium">
             촬영 시간 <span className="text-[#FF0000]">*</span>
           </label>
           <div className="flex gap-2">
@@ -196,7 +196,7 @@ const ProductSingleOption = ({ index, optionAppend, optionRemove }: ProductSingl
       {/* 원본 / 보정본 */}
       <div className="grid grid-cols-3 items-center gap-4">
         <div className="flex gap-4">
-          <label className="font-medium">
+          <label className="mb-1 inline-block rounded-md bg-yellow-300 p-1 font-medium">
             원본 제공 <span className="text-[#FF0000]">*</span>
           </label>
           <div className="flex gap-4">
@@ -217,7 +217,7 @@ const ProductSingleOption = ({ index, optionAppend, optionRemove }: ProductSingl
           </div>
         </div>
         <div>
-          <label className="font-medium">
+          <label className="mb-1 inline-block rounded-md bg-yellow-300 p-1 font-medium">
             보정본 <span className="text-[#FF0000]">*</span>
           </label>
           <div className="flex items-center gap-1">
@@ -234,7 +234,7 @@ const ProductSingleOption = ({ index, optionAppend, optionRemove }: ProductSingl
       {/* 의상 수 */}
       <div className="grid grid-cols-3 items-center gap-4">
         <div>
-          <label className="font-medium">
+          <label className="mb-1 inline-block rounded-md bg-yellow-300 p-1 font-medium">
             의상 수 <span className="text-[#FF0000]">*</span>
           </label>
           <div className="flex items-center gap-1">

@@ -154,7 +154,7 @@ const ImageUploader = () => {
     <>
       {/* 대표 이미지 */}
       <div className="mb-6">
-        <label className="mb-1 block">
+        <label className="mb-1 inline-block rounded-md bg-yellow-300 p-1 font-medium">
           대표 이미지 <span className="text-[#FF0000]">*</span>
         </label>
         <input type="file" onChange={handleMainImageChange} ref={mainInputRef} className="hidden" accept="image/*" />
@@ -180,7 +180,7 @@ const ImageUploader = () => {
 
       {/* 서브 이미지 */}
       <div className="mb-6">
-        <label className="mb-1 block">
+        <label className="mb-1 inline-block rounded-md bg-yellow-300 p-1 font-medium">
           서브 이미지 <span className="text-[#FF0000]">*</span>
         </label>
         <input
