@@ -1,4 +1,4 @@
-import { cookies } from 'next/headers';
+import { getStorage } from '@/utils/localStorage';
 
 export interface userInfo {
   id: string;
@@ -7,14 +7,15 @@ export interface userInfo {
   studioId: number | null;
   birthDate: string | null;
   sex: string | null;
-  addInfoIsSkip: boolean; // 추가 정보 입력을 건너뛰었는지 여부
   createdAt: string;
   updatedAt: string | null;
 }
 
 export const getMyInfo = async (): Promise<{ data: userInfo }> => {
-  const cookiesStore = await cookies();
-  const token = cookiesStore.get('accessToken')?.value || '';
+  // const cookiesStore = await cookies();
+  // const token = cookiesStore.get('accessToken')?.value || '';
+
+  const token = getStorage('accessToken') || '';
 
   if (!token) {
     throw new Error('토큰이 없습니다.');
