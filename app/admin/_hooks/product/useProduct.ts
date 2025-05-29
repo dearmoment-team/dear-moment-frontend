@@ -1,9 +1,8 @@
 'use client';
 
-import { ImageType, ProductOptionType } from '@/admin/_types/product';
+import { ImageType, ProductOptionType, ProductFormDataType } from '@/admin/_types/product';
 import { getMineProduct, getProduct, patchProduct, postProduct } from '@/admin/_services/product';
 import { productIdStore } from '@/admin/_stores/productIdStore';
-import { ProductFormDataType } from '@/admin/_types/product';
 import { getStorage } from '@/utils/localStorage';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
