@@ -9,6 +9,7 @@ export interface userInfo {
   sex: string | null;
   createdAt: string;
   updatedAt: string | null;
+  addInfoIsSkip: boolean;
 }
 
 export const getMyInfo = async (): Promise<{ data: userInfo }> => {
