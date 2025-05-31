@@ -59,19 +59,11 @@ const StudioForm = ({ studioId }: StudioFormProps) => {
           </label>
           <div className="flex items-center gap-4">
             <label className="flex items-center gap-1">
-              <input
-                type="radio"
-                value="true"
-                {...register('isCasted', { required: true, setValueAs: v => (v === 'true' ? true : false) })}
-              />
+              <input type="radio" value="true" {...register('isCasted', { required: true })} />
               <span>해당</span>
             </label>
             <label className="flex items-center gap-1">
-              <input
-                type="radio"
-                value="false"
-                {...register('isCasted', { required: true, setValueAs: v => (v === 'true' ? true : false) })}
-              />
+              <input type="radio" value="false" {...register('isCasted', { required: true })} />
               <span>비해당</span>
             </label>
           </div>
