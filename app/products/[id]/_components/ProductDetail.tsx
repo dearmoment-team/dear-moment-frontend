@@ -98,7 +98,7 @@ export default function ProductDetail({ initProduct, initialError }: ProductDeta
               {product?.availableSeasons.map((season, index) => (
                 <span
                   key={index}
-                  className="text-label2 font-medium text-gray-80 last:border-l last:border-gray-50 last:pl-[0.6rem]"
+                  className="border-r border-gray-50 pr-[0.6rem] text-label2 font-medium text-gray-80 last:border-r-0 last:pr-0"
                 >
                   {season.replace('YEAR_', '').replace('_FIRST_HALF', '년 상반기').replace('_SECOND_HALF', '년 하반기')}
                 </span>
@@ -111,7 +111,7 @@ export default function ProductDetail({ initProduct, initialError }: ProductDeta
               {product?.cameraTypes.map((cameraType, index) => (
                 <span
                   key={index}
-                  className="text-label2 font-medium text-gray-80 last:border-l last:border-gray-50 last:pl-[0.6rem]"
+                  className="border-r border-gray-50 pr-[0.6rem] text-label2 font-medium text-gray-80 last:border-r-0 last:pr-0"
                 >
                   {CAMERA_DISPLAY_MAP[cameraType as CameraType]}
                 </span>
