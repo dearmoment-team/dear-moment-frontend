@@ -13,7 +13,7 @@ interface ProductSingleOptionProps {
 }
 
 const ProductPackageOption = ({ index, optionAppend, optionRemove }: ProductSingleOptionProps) => {
-  const { register, control } = useFormContext();
+  const { register, control, getValues } = useFormContext();
   const [discount, setDiscount] = useState(0);
 
   const originalPrice = useWatch({
@@ -130,7 +130,10 @@ const ProductPackageOption = ({ index, optionAppend, optionRemove }: ProductSing
         </label>
 
         {partnerShopFields.map((field, partnerShopIndex) => (
-          <div key={`${index}${partnerShopIndex}`} className="mb-2 grid grid-cols-4 items-center gap-2">
+          <div
+            key={`${index}${partnerShopIndex}${getValues(`options.${index}.partnerShops.${partnerShopIndex}.name`)}`}
+            className="mb-2 grid grid-cols-4 items-center gap-2"
+          >
             <select
               {...register(`options.${index}.partnerShops.${partnerShopIndex}.category`, { required: true })}
               className="w-full rounded-md border border-solid border-[#D8DDE3] p-2 focus:outline-none focus:ring-2 focus:ring-[#D8DDE3]"
