@@ -249,7 +249,7 @@ const ProductPackageOption = ({ index, optionAppend, optionRemove }: ProductSing
       <div className="grid grid-cols-3 items-center gap-4">
         <div className="flex gap-4">
           <RequirdField>원본 제공</RequirdField>
-          <div className="flex gap-4">
+          <div className="flex items-center gap-4">
             <input
               {...register(`options.${index}.originalProvided`, { required: true })}
               value="true"
