@@ -47,6 +47,7 @@ export const useProduct = (studioId: string | null, productId: string | undefine
       retouchStyles: [],
       mainImage: {},
       subImages: [],
+      title: '',
       additionalImages: [],
       createdAt: '',
       updatedAt: '',
@@ -145,12 +146,9 @@ export const useProduct = (studioId: string | null, productId: string | undefine
         availableSeasons: data.availableSeasons,
         productType: data.productType,
         retouchStyles: data.retouchStyles,
-        // contactInfo: 'test contactInfo',
         studioId: Number(studioId),
         cameraTypes: data.cameraTypes,
-        title: 'test',
-        // description: 'test 설명',
-        // detailedInfo: 'test 상세 설명',
+        title: data.title,
         options: data.options.map(option => ({
           ...option,
           discountAvailable: option.discountAvailable === 'true' ? true : false,
@@ -167,6 +165,8 @@ export const useProduct = (studioId: string | null, productId: string | undefine
       formData.append('mainImageFile', data.mainImageFile!);
       data.subImageFiles?.forEach(file => formData.append('subImageFiles', file));
       data.additionalImageFiles?.forEach(file => formData.append('additionalImageFiles', file));
+
+      console.log(data);
 
       try {
         const { data: productData } = await postProduct({ token, body: formData });
@@ -231,13 +231,10 @@ export const useProduct = (studioId: string | null, productId: string | undefine
         studioId: Number(studioId),
         productType: data.productType,
         shootingPlace: data.shootingPlace,
-        // title: 'test',
-        // description: 'test 설명',
-        // detailedInfo: 'test 상세 설명',
+        title: data.title,
         availableSeasons: data.availableSeasons,
         cameraTypes: data.cameraTypes,
         retouchStyles: data.retouchStyles,
-        // contactInfo: '010-1234-5678',
         subImagesFinal,
         additionalImagesFinal,
       };
