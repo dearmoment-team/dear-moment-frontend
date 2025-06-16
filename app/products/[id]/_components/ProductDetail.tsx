@@ -3,7 +3,7 @@
 import { CAMERA_DISPLAY_MAP, STYLE_DISPLAY_MAP } from '@/(home)/models/FilteringModel';
 import { CameraType, RetouchStyle } from '@/(home)/type';
 import { Product } from '@/api/products/types';
-import { Icon_Calendar, Icon_Heart, Icon_Heart_Filled } from '@/assets/icons';
+import { Icon_Calendar, Icon_Heart, Icon_Heart_Filled, Icon_Studio } from '@/assets/icons';
 import Icon_Camera from '@/assets/icons/Icon_Camera';
 import LoginConfirmModal from '@/auth/LoginConfirmModal';
 import Image from 'next/image';
@@ -71,7 +71,8 @@ export default function ProductDetail({ initProduct, initialError }: ProductDeta
         {/* 작가정보 헤더 */}
         <div className="p-[2rem]">
           <div className="flex items-center gap-[1rem]">
-            <div className="h-[5.7rem] w-[5.7rem] rounded-full bg-gray-40" />
+            {/* <div className="h-[5.7rem] w-[5.7rem] rounded-full bg-gray-40" /> */}
+            <Icon_Studio size={57} />
             <div className="space-y-[0.8rem] py-[0.7rem]">
               <span className="text-subtitle2 font-bold text-gray-90">{studio?.name}</span>
               <div className="flex gap-[0.5rem]">
