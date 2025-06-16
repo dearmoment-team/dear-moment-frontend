@@ -79,8 +79,7 @@ export default function QuitPage() {
         });
 
         // 로컬 스토리지 정리
-        setStorage('accessToken', '');
-        setStorage('isLoggedIn', 'false');
+        localStorage.clear(); // 로컬 스토리지 정리
         sessionStorage.clear(); // 세션 스토리지 정리
 
         // 쿠키 삭제
