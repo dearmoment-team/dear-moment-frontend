@@ -67,6 +67,7 @@ export const useProduct = (studioId: string | null, productId: string | undefine
           shootingMinutes: 0,
           retouchedCount: 0,
           originalProvided: false,
+          additionalInfo: '',
           partnerShops: [
             {
               category: 'WEDDING_SHOP',

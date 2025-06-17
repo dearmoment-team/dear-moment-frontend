@@ -307,7 +307,7 @@ const ProductPackageOption = ({ index, optionAppend, optionRemove }: ProductSing
       <div>
         <label className="mb-1 block font-medium">선택 추가사항</label>
         <textarea
-          {...register(`options.${index}.optionalAdditionalDetails`)}
+          {...register(`options.${index}.additionalInfo`)}
           className="w-full rounded-md border border-solid border-[#D8DDE3] p-2 focus:outline-none focus:ring-2 focus:ring-[#D8DDE3]"
         />
       </div>
