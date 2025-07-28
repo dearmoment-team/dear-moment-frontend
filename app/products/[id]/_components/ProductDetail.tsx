@@ -163,12 +163,18 @@ export default function ProductDetail({ initProduct, initialError }: ProductDeta
           >
             {isLiked ? <Icon_Heart_Filled /> : <Icon_Heart className="stroke-red-40" />}
           </button>
-          <button
-            className="h-full w-full rounded-[0.4rem] bg-red-40 text-body1Normal font-semibold text-gray-10"
-            onClick={() => handleLoginComfirm('inquiry')}
-          >
-            문의하기
-          </button>
+
+          <div className="relative h-full w-full">
+            <button
+              className="h-full w-full rounded-[0.4rem] bg-red-40 text-body1Normal font-semibold text-gray-10"
+              onClick={() => handleLoginComfirm('inquiry')}
+            >
+              문의하기
+            </button>
+            <div className="absolute left-[50%] top-[-3.5rem] -translate-x-1/2 whitespace-nowrap rounded-md bg-gray-95 px-2 py-2.5 text-center text-label1Normal text-gray-10 after:absolute after:bottom-[-15px] after:left-1/2 after:-translate-x-1/2 after:border-[1rem] after:border-transparent after:border-t-gray-95">
+              디어모먼트 보고 연락드려요! 라고 말씀해주세요
+            </div>
+          </div>
         </div>
       </div>
 
