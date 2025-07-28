@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { useProductDetailController } from '../controllers/productDetailController';
 import { ImageViewerModal } from './ImageViewerModal';
 import { InquiryBottomSheet } from './InquiryBottomSheet';
+import { MainImageViewerModal } from './MainImageViewerModal';
 import ProductTabs from './ProductTabs';
 
 interface ProductDetailProps {
@@ -31,7 +32,10 @@ export default function ProductDetail({ initProduct, initialError }: ProductDeta
     onResetImage,
   } = useProductDetailController({ initProduct });
 
-  const portfolioImages = product?.subImages.map(img => img.url).concat(product.additionalImages.map(img => img.url)) ?? [];
+  const [showMainImageModal, setShowMainImageModal] = useState(false);
+
+  const portfolioImages =
+    product?.subImages.map(img => img.url).concat(product.additionalImages.map(img => img.url)) ?? [];
 
   const studio = product?.studio;
 
@@ -62,7 +66,7 @@ export default function ProductDetail({ initProduct, initialError }: ProductDeta
   return (
     <div className="mx-auto w-full max-w-screen-md">
       {/* 대표 이미지 */}
-      <div className="relative h-[286px] w-full">
+      <div className="relative h-[286px] w-full cursor-pointer" onClick={() => setShowMainImageModal(true)}>
         <Image src={product?.mainImage.url ?? ''} alt="main_image" fill className="object-contain" loading="lazy" />
       </div>
 
@@ -186,6 +190,12 @@ export default function ProductDetail({ initProduct, initialError }: ProductDeta
         onClose={onResetImage}
         images={portfolioImages ?? []}
         initialImageIndex={selectedImageIndex || 0}
+      />
+
+      <MainImageViewerModal
+        isOpen={showMainImageModal}
+        onClose={() => setShowMainImageModal(false)}
+        images={product?.mainImage.url ?? ''}
       />
     </div>
   );

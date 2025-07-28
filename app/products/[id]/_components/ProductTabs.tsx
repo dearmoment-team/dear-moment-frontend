@@ -45,8 +45,6 @@ export default function ProductTabs({ productOptions, product }: ProductTabsProp
     }
   };
 
-  console.log('===studio: ', studio);
-
   return (
     <section className="mt-[4.5rem]">
       <div className="sticky top-[-1px] z-10 flex h-[3.7rem] w-full border-b border-gray-20 bg-common-0 p-0">
