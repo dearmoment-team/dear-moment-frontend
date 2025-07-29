@@ -1,5 +1,6 @@
 import { addInquiryOption } from '@/api/inquiries';
 import { addOptionLike, removeOptionLike } from '@/api/likes';
+import { handleInquiryError, handleLikeError } from '@/api/error';
 import { Product, ProductOption } from '@/api/products/types';
 import { useState } from 'react';
 import { toast } from 'sonner';
@@ -37,6 +38,7 @@ export function useProductOptionController({
       }
     } catch (error) {
       console.error('옵션 좋아요 액션 실패:', error);
+      await handleLikeError(error);
     }
   };
 
@@ -55,6 +57,7 @@ export function useProductOptionController({
       alert('문의가 성공적으로 등록되었습니다.');
     } catch (error) {
       console.error('옵션 문의 액션 실패:', error);
+      await handleInquiryError(error);
     }
   };
 
