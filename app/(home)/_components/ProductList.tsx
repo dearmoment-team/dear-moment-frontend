@@ -2,6 +2,7 @@ import { searchMainPageProducts } from '@/api/products';
 import { MainPageProduct, ProductSearchFilter } from '@/api/products/types';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { useEffect, useRef, useState } from 'react';
+import { useScroll } from '../hooks/useScroll';
 import { FilterType, FilterValue, PriceRange } from '../type';
 import ProductCard from './ProductCard';
 
@@ -50,6 +51,8 @@ export default function ProductList({ mainProducts = [], loading, error, filterO
           : 1000000, // 기본값 100만원
     };
   };
+
+  useScroll({ scrollContainerRef, filterOptions });
 
   // 초기 상품 목록이 변경되면 상태 업데이트
   useEffect(() => {
