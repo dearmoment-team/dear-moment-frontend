@@ -31,7 +31,9 @@ export function useProducts({ initialData = [], filters = {}, pageSize = 10 }: U
     initialData:
       initialData.length > 0
         ? {
-            pages: [{ content: initialData, last: false, totalElements: initialData.length }],
+            pages: [
+              { content: initialData, totalElements: initialData.length, page: 0, size: pageSize, totalPages: 1 },
+            ],
             pageParams: [0],
           }
         : undefined,

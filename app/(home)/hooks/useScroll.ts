@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import { FilterType, FilterValue } from '../type';
 
 interface UseScrollProps {
@@ -84,7 +84,7 @@ export const useScroll = ({ scrollContainerRef, filterOptions }: UseScrollProps)
     };
   }, [handleScroll]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // 초기 마운트 시에만 스크롤 위치 복원 시도
     if (isInitialMount.current) {
       console.log('Initial mount, attempting to restore scroll position...');
