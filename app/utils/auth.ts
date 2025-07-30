@@ -5,12 +5,10 @@ import { setStorage } from './localStorage';
  */
 export const getCookieToken = (): string | null => {
   if (typeof document === 'undefined') return null;
-  
+
   const cookies = document.cookie.split(';');
-  const accessTokenCookie = cookies.find(cookie => 
-    cookie.trim().startsWith('accessToken=')
-  );
-  
+  const accessTokenCookie = cookies.find(cookie => cookie.trim().startsWith('accessToken='));
+
   return accessTokenCookie ? accessTokenCookie.split('=')[1] : null;
 };
 
@@ -19,13 +17,13 @@ export const getCookieToken = (): string | null => {
  */
 export const isTokenExpired = (): boolean => {
   if (typeof window === 'undefined') return true;
-  
+
   const expirationTime = localStorage.getItem('tokenExpiration');
   if (!expirationTime) return true;
-  
+
   const now = Date.now();
   const expiration = parseInt(expirationTime, 10);
-  
+
   return now >= expiration;
 };
 
@@ -34,16 +32,16 @@ export const isTokenExpired = (): boolean => {
  */
 export const checkTokenExpiration = (): void => {
   if (typeof window === 'undefined') return;
-  
+
   const cookieToken = getCookieToken();
   const localStorageToken = localStorage.getItem('accessToken');
   const isExpired = isTokenExpired();
-  
+
   // 쿠키에 토큰이 없거나, localStorage에 토큰이 없거나, 만료 시간이 지났으면 초기화
   if ((!cookieToken && localStorageToken) || isExpired) {
     console.log('토큰이 만료되어 localStorage를 초기화합니다.');
     clearUserData();
-    alert('로그인 유효시간이 만료되어 로그인 페이지로 이동합니다.')
+    alert('로그인 유효시간이 만료되어 로그인 페이지로 이동합니다.');
     // 로그인 페이지로 리다이렉트
     if (window.location.pathname !== '/login') {
       window.location.href = '/login';
@@ -78,8 +76,8 @@ export const clearUserData = (): void => {
  */
 export const saveToken = (token: string): void => {
   // 24시간 후 만료 시간 계산
-  const expirationTime = Date.now() + (24 * 60 * 60 * 1000); // 24시간
-  
+  const expirationTime = Date.now() + 24 * 60 * 60 * 1000; // 24시간
+
   // localStorage에 저장
   setStorage('accessToken', token);
   setStorage('isLoggedIn', 'true');
@@ -87,11 +85,14 @@ export const saveToken = (token: string): void => {
 
   // 쿠키에 저장 (24시간)
   document.cookie = `accessToken=${token}; path=/; max-age=86400; secure; samesite=strict`;
-  
+
   // 토큰 만료 감지 타이머 설정 (24시간 후)
-  setTimeout(() => {
-    checkTokenExpiration();
-  }, 24 * 60 * 60 * 1000); // 24시간을 밀리초로 변환
+  setTimeout(
+    () => {
+      checkTokenExpiration();
+    },
+    24 * 60 * 60 * 1000
+  ); // 24시간을 밀리초로 변환
 };
 
 /**
@@ -99,16 +100,16 @@ export const saveToken = (token: string): void => {
  */
 export const initializeTokenExpirationCheck = (): void => {
   if (typeof window === 'undefined') return;
-  
+
   // 페이지 로드 시 즉시 체크
   checkTokenExpiration();
-  
+
   // 주기적으로 체크 (5분마다)
   setInterval(checkTokenExpiration, 5 * 60 * 1000);
-  
+
   // 페이지 포커스 시 체크
   window.addEventListener('focus', checkTokenExpiration);
-  
+
   // 페이지 가시성 변경 시 체크
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden) {
