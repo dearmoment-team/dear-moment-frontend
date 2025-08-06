@@ -2,7 +2,7 @@
 
 import { Icon_ChevronDown } from '@/assets/icons';
 import { useSwipe } from '@/hooks/useSwipe';
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 
 interface ImageViewerModalProps {
   isOpen: boolean;
@@ -13,20 +13,54 @@ interface ImageViewerModalProps {
 
 export function ImageViewerModal({ isOpen, onClose, images, initialImageIndex }: ImageViewerModalProps) {
   const [currentIndex, setCurrentIndex] = useState(initialImageIndex);
+  const [isTransitionEnabled, setIsTransitionEnabled] = useState(false);
 
-  // initialImageIndex가 변경될 때 currentIndex를 업데이트
-  useEffect(() => {
-    setCurrentIndex(initialImageIndex);
+  const carouselImages = useMemo(() => {
+    // 첫 번째 이미지와 마지막 이미지를 하나 더 추가
+    return [images[images.length - 1], ...images, images[0]];
+  }, [images]);
+
+  const getCarouselStyle = () => {
+    return {
+      transform: `translateX(-${currentIndex * 100}%)`,
+      transition: isTransitionEnabled ? 'transform 0.5s ease-in-out' : '',
+    };
+  };
+
+  // 외부에서 사용자가 선택한 이미지 인덱스가 변경될 때
+  useLayoutEffect(() => {
+    // 기존 이미지 앞에 추가된 이미지 때문에 +1
+    setCurrentIndex(initialImageIndex + 1);
   }, [initialImageIndex]);
+
+  // currentIndex가 변경될 때마다 실행
+  useEffect(() => {
+    let timerId: NodeJS.Timeout;
+    // 마지막 슬라이드에서 첫 번째 슬라이드로 이동할 때 transition 없이 이동
+    if (currentIndex === 0) {
+      timerId = setTimeout(() => {
+        setCurrentIndex(carouselImages.length - 2);
+        setIsTransitionEnabled(false);
+      }, 500);
+    } else if (currentIndex === carouselImages.length - 1) {
+      timerId = setTimeout(() => {
+        setCurrentIndex(1);
+        setIsTransitionEnabled(false);
+      }, 500);
+    }
+    return () => clearTimeout(timerId);
+  }, [currentIndex, carouselImages.length]);
 
   // 이전 이미지로 이동
   const handlePrevious = () => {
-    setCurrentIndex(prev => (prev > 0 ? prev - 1 : images.length - 1));
+    setIsTransitionEnabled(true);
+    setCurrentIndex(prev => prev - 1);
   };
 
   // 다음 이미지로 이동
   const handleNext = () => {
-    setCurrentIndex(prev => (prev < images.length - 1 ? prev + 1 : 0));
+    setIsTransitionEnabled(true);
+    setCurrentIndex(prev => prev + 1);
   };
 
   // useSwipe 훅 사용
@@ -53,16 +87,17 @@ export function ImageViewerModal({ isOpen, onClose, images, initialImageIndex }:
         >
           <Icon_ChevronDown className="-translate-x-[0.1rem] rotate-90 fill-white" />
         </button>
-        <div className="relative h-full w-full">
-          <img
-            src={images[currentIndex]}
-            alt="포트폴리오 이미지"
-            className="h-full w-full object-cover"
-            draggable={false} // 이미지 드래그 방지
-          />
+        <div className="relative h-full w-full overflow-hidden">
+          <div style={getCarouselStyle()} className="flex h-full w-full">
+            {carouselImages.map((img, index) => (
+              <div key={`${img}-${index}`} className="flex h-full w-full flex-shrink-0">
+                <img src={img} alt={`포트폴리오 이미지 ${index + 1}`} className="object-contain" />
+              </div>
+            ))}
+          </div>
           {/* 이미지 카운터 */}
           <div className="absolute bottom-[3rem] left-1/2 -translate-x-1/2 transform text-white">
-            {currentIndex + 1} / {images.length}
+            {currentIndex} / {images.length}
           </div>
         </div>
         {/* 다음 버튼 */}
