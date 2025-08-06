@@ -69,8 +69,6 @@ export function ImageViewerModal({ isOpen, onClose, images, initialImageIndex }:
     onSwipeRight: handlePrevious,
   });
 
-  if (!isOpen) return null;
-
   return (
     // 모달 오버레이
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-95">
