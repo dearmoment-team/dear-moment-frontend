@@ -5,25 +5,33 @@ import { useSwipe } from '@/hooks/useSwipe';
 import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 
 interface ImageViewerModalProps {
-  isOpen: boolean;
   onClose: () => void;
   images: string[]; // 이미지 URL 배열
   initialImageIndex: number; // 처음 보여줄 이미지 인덱스
 }
 
-export function ImageViewerModal({ isOpen, onClose, images, initialImageIndex }: ImageViewerModalProps) {
+export function ImageViewerModal({ onClose, images, initialImageIndex }: ImageViewerModalProps) {
   const [currentIndex, setCurrentIndex] = useState(initialImageIndex);
   const [isTransitionEnabled, setIsTransitionEnabled] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const controlTime = 300;
 
   const carouselImages = useMemo(() => {
     // 첫 번째 이미지와 마지막 이미지를 하나 더 추가
     return [images[images.length - 1], ...images, images[0]];
   }, [images]);
 
+  // 실제 사용자에게 보여질 인덱스를 계산하는 함수
+  const getDisplayIndex = (index: number) => {
+    if (index === 0) return images.length; // 첫 번째 가상 이미지는 실제로는 마지막 이미지
+    if (index === carouselImages.length - 1) return 1; // 마지막 가진 이미지는 실제로는 첫 번째 이미지
+    return index; // 나머지는 그대로 반환
+  };
+
   const getCarouselStyle = () => {
     return {
       transform: `translateX(-${currentIndex * 100}%)`,
-      transition: isTransitionEnabled ? 'transform 0.5s ease-in-out' : '',
+      transition: isTransitionEnabled ? `transform ${controlTime / 1000}s ease-in-out` : '',
     };
   };
 
@@ -36,29 +44,48 @@ export function ImageViewerModal({ isOpen, onClose, images, initialImageIndex }:
   // currentIndex가 변경될 때마다 실행
   useEffect(() => {
     let timerId: NodeJS.Timeout;
+
+    // 트랜지션 시작
+    setIsTransitioning(true);
+
     // 마지막 슬라이드에서 첫 번째 슬라이드로 이동할 때 transition 없이 이동
     if (currentIndex === 0) {
       timerId = setTimeout(() => {
         setCurrentIndex(carouselImages.length - 2);
         setIsTransitionEnabled(false);
-      }, 500);
+        setIsTransitioning(false);
+      }, controlTime);
     } else if (currentIndex === carouselImages.length - 1) {
       timerId = setTimeout(() => {
         setCurrentIndex(1);
         setIsTransitionEnabled(false);
-      }, 500);
+        setIsTransitioning(false);
+      }, controlTime);
+    } else {
+      // 일반적인 슬라이드 이동 시에는 애니메이션이 끝나면 transitioning 상태 해제
+      const transitionTimer = setTimeout(() => {
+        setIsTransitioning(false);
+      }, controlTime);
+
+      return () => {
+        clearTimeout(timerId);
+        clearTimeout(transitionTimer);
+      };
     }
+
     return () => clearTimeout(timerId);
   }, [currentIndex, carouselImages.length]);
 
   // 이전 이미지로 이동
   const handlePrevious = () => {
+    if (isTransitioning) return;
     setIsTransitionEnabled(true);
     setCurrentIndex(prev => prev - 1);
   };
 
   // 다음 이미지로 이동
   const handleNext = () => {
+    if (isTransitioning) return;
     setIsTransitionEnabled(true);
     setCurrentIndex(prev => prev + 1);
   };
@@ -95,7 +122,7 @@ export function ImageViewerModal({ isOpen, onClose, images, initialImageIndex }:
           </div>
           {/* 이미지 카운터 */}
           <div className="absolute bottom-[3rem] left-1/2 -translate-x-1/2 transform text-white">
-            {currentIndex} / {images.length}
+            {getDisplayIndex(currentIndex)} / {images.length}
           </div>
         </div>
         {/* 다음 버튼 */}
