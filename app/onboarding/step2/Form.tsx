@@ -3,7 +3,7 @@
 import { postUserInfo, skipUserInfo } from '@/api/users';
 import { Sex } from '@/api/users/types';
 import { BaseItem, Dropbox } from '@/components/molecule/Dropbox';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
 interface Props {
@@ -12,6 +12,7 @@ interface Props {
 }
 
 export default function OnboardingStep2Form({ setModalType, setIsModalOpen }: Props) {
+  const router = useRouter();
   const params = useSearchParams();
   const nickname = params.get('nickname');
 
@@ -54,11 +55,13 @@ export default function OnboardingStep2Form({ setModalType, setIsModalOpen }: Pr
 
   const handleSkipClick = async () => {
     try {
-      await skipUserInfo();
-    } catch {
-      setModalType('error');
+      const res = await skipUserInfo();
+      if (res.code === 204) {
+        router.push('/');
+      }
+    } catch (error) {
+      console.error('프로필 정보 스킵 실패:', error);
     }
-    setIsModalOpen(true);
   };
   return (
     <div className="mt-[1.5rem]">
