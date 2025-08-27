@@ -86,11 +86,16 @@ export async function post<T>(endpoint: string, data: unknown, options?: Request
       signal: controller.signal,
     });
 
-    console.log('====Res:', response);
     if (!response.ok) {
       return await handleHttpError(response);
     }
 
+    // 204 No Content 응답인 경우 빈 객체 반환
+    if (response.status === 204) {
+      return { success: true, code: 204, data: null } as T;
+    }
+
+    // 그 외의 경우에만 JSON 파싱
     return await response.json();
   } catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError') {
