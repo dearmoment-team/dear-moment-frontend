@@ -86,6 +86,7 @@ export async function post<T>(endpoint: string, data: unknown, options?: Request
       signal: controller.signal,
     });
 
+    console.log('====Res:', response);
     if (!response.ok) {
       return await handleHttpError(response);
     }

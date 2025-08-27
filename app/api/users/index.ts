@@ -56,7 +56,7 @@ export async function skipUserInfo(): Promise<ApiResponse<null>> {
     const endpoint = `${API_ENDPOINTS.users}/add-info/skip`;
     return await post<ApiResponse<null>>(endpoint, {});
   } catch (error) {
-    console.error('사용자 정보 수정 실패:', error);
+    console.error('프로필 정보 스킵 실패:', error);
     throw handleApiError(error);
   }
 }
