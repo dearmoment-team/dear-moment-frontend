@@ -54,10 +54,7 @@ export default function OnboardingStep2Form({ setModalType, setIsModalOpen }: Pr
 
   const handleSkipClick = async () => {
     try {
-      const response = await skipUserInfo();
-      if (response.success) {
-        setModalType('success');
-      }
+      await skipUserInfo();
     } catch {
       setModalType('error');
     }
