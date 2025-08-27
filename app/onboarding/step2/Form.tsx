@@ -1,6 +1,6 @@
 'use client';
 
-import { patchUser } from '@/api/users';
+import { postUserInfo, skipUserInfo } from '@/api/users';
 import { Sex } from '@/api/users/types';
 import { BaseItem, Dropbox } from '@/components/molecule/Dropbox';
 import { useSearchParams } from 'next/navigation';
@@ -38,12 +38,11 @@ export default function OnboardingStep2Form({ setModalType, setIsModalOpen }: Pr
     try {
       const data = {
         name: nickname!,
-        isStudio: false,
         birthDate: `${selectedItem.value.toString()}-01-01`,
         sex: (gender === '남' ? 'MALE' : 'FEMALE') as Sex,
-        addInfoIsSkip: false,
+        addInfoIsSkip: true as const,
       };
-      const response = await patchUser(data);
+      const response = await postUserInfo(data);
       if (response.success) {
         setModalType('success');
       }
@@ -55,14 +54,7 @@ export default function OnboardingStep2Form({ setModalType, setIsModalOpen }: Pr
 
   const handleSkipClick = async () => {
     try {
-      const data = {
-        name: nickname!,
-        isStudio: false,
-        birthDate: `1940-01-01`,
-        sex: (gender === '남' ? 'MALE' : 'FEMALE') as Sex,
-        addInfoIsSkip: true,
-      };
-      const response = await patchUser(data);
+      const response = await skipUserInfo();
       if (response.success) {
         setModalType('success');
       }

@@ -18,3 +18,10 @@ export interface UserRes {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface PostUserInfoReq {
+  name: string;
+  birthDate: string;
+  sex: Sex;
+  addInfoIsSkip: true;
+}
