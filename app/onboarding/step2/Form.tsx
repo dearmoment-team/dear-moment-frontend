@@ -56,10 +56,12 @@ export default function OnboardingStep2Form({ setModalType, setIsModalOpen }: Pr
   const handleSkipClick = async () => {
     try {
       const res = await skipUserInfo();
-      if (res.code === 204) {
+      if (res.success) {
         router.push('/');
       }
     } catch (error) {
+      setModalType('error');
+      setIsModalOpen(true);
       console.error('프로필 정보 스킵 실패:', error);
     }
   };
